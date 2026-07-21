@@ -1,0 +1,524 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Sudoku</title>
+<style>
+  :root {
+    --bg: #121213;
+    --text: #ffffff;
+    --muted: #818384;
+    --border: #3a3a3c;
+    --card: #1a1a1b;
+    --correct: #538d4e;
+    --present: #b59f3b;
+    --wrong: #b03a2e;
+  }
+
+  * { box-sizing: border-box; }
+
+  html, body {
+    margin: 0;
+    min-height: 100%;
+    background: var(--bg);
+    color: var(--text);
+    font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+  }
+
+  body {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 40px 20px 64px;
+  }
+
+  header { text-align: center; margin-bottom: 22px; }
+
+  header h1 {
+    margin: 0;
+    font-size: 36px;
+    font-weight: 700;
+    letter-spacing: 6px;
+    text-transform: uppercase;
+  }
+
+  header p {
+    margin: 8px 0 0;
+    color: var(--muted);
+    font-size: 14px;
+  }
+
+  .back {
+    position: fixed;
+    top: 16px;
+    left: 16px;
+    color: var(--muted);
+    text-decoration: none;
+    font-size: 13px;
+    letter-spacing: 1px;
+  }
+  .back:hover { color: var(--text); }
+
+  /* Size selector */
+  .sizes {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 24px;
+  }
+  .sizes button {
+    padding: 8px 16px;
+    font-size: 13px;
+    font-weight: 700;
+    letter-spacing: 1px;
+    background: transparent;
+    color: var(--text);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    cursor: pointer;
+  }
+  .sizes button:hover { border-color: var(--muted); }
+  .sizes button.active { background: var(--correct); border-color: var(--correct); }
+
+  .board {
+    display: grid;
+    gap: 0;
+    background: var(--border);
+    border: 3px solid var(--border);
+    border-radius: 10px;
+    overflow: hidden;
+  }
+
+  .cell {
+    width: var(--cell, 64px);
+    height: var(--cell, 64px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: calc(var(--cell, 64px) * 0.44);
+    font-weight: 700;
+    background: var(--card);
+    color: var(--text);
+    cursor: pointer;
+    user-select: none;
+    border: 1px solid #2a2a2b;
+    transition: background 0.1s ease;
+  }
+
+  .cell.box-left { border-left: 2px solid var(--border); }
+  .cell.box-top  { border-top: 2px solid var(--border); }
+
+  .cell.given { color: var(--muted); cursor: default; }
+  .cell.selected { background: #2c3d55; }
+  .cell.peer { background: #1f2733; }
+  .cell.wrong { color: var(--wrong); }
+  .cell:not(.given):hover { background: #232324; }
+
+  .pad {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 8px;
+    margin-top: 20px;
+    max-width: 420px;
+  }
+
+  .pad button {
+    width: 48px;
+    height: 48px;
+    font-size: 20px;
+    font-weight: 700;
+    background: var(--card);
+    color: var(--text);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    cursor: pointer;
+    transition: transform 0.1s ease, border-color 0.1s ease;
+  }
+  .pad button:hover { transform: translateY(-2px); border-color: var(--muted); }
+  .pad button.erase { width: auto; padding: 0 16px; font-size: 14px; letter-spacing: 1px; }
+  .pad button:disabled {
+    opacity: 0.28;
+    cursor: default;
+    color: var(--muted);
+  }
+  .pad button:disabled:hover { transform: none; border-color: var(--border); }
+
+  .controls {
+    display: flex;
+    gap: 12px;
+    margin-top: 22px;
+  }
+
+  .controls button {
+    padding: 10px 18px;
+    font-size: 13px;
+    font-weight: 700;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    background: transparent;
+    color: var(--text);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    cursor: pointer;
+  }
+  .controls button:hover { border-color: var(--muted); }
+
+  .status {
+    margin-top: 22px;
+    min-height: 22px;
+    font-size: 16px;
+    font-weight: 700;
+    letter-spacing: 1px;
+    text-align: center;
+  }
+  .status.win { color: var(--correct); }
+  .status.err { color: var(--present); }
+
+  footer {
+    margin-top: 40px;
+    color: var(--muted);
+    font-size: 13px;
+    text-align: center;
+  }
+</style>
+</head>
+<body>
+  <a class="back" href="index.html">&larr; Games</a>
+
+  <header>
+    <h1>Sudoku</h1>
+    <p>Fill the grid so every row, column and box holds each digit once.</p>
+  </header>
+
+  <div class="sizes" id="sizes"></div>
+
+  <div class="board" id="board"></div>
+
+  <div class="pad" id="pad"></div>
+
+  <div class="controls">
+    <button id="check">Check</button>
+    <button id="new">New puzzle</button>
+  </div>
+
+  <div class="status" id="status"></div>
+
+  <footer>Built for GitHub Pages &middot; no dependencies, no build step.</footer>
+
+<script>
+(function () {
+  "use strict";
+
+  // Each variant: grid side N, box dimensions, target clue floor, cell px.
+  var VARIANTS = {
+    4: { N: 4, boxRows: 2, boxCols: 2, minClues: 6,  cell: 64 },
+    6: { N: 6, boxRows: 2, boxCols: 3, minClues: 14, cell: 52 },
+    9: { N: 9, boxRows: 3, boxCols: 3, minClues: 32, cell: 44 }
+  };
+
+  var boardEl = document.getElementById("board");
+  var padEl = document.getElementById("pad");
+  var sizesEl = document.getElementById("sizes");
+  var statusEl = document.getElementById("status");
+
+  var cfg;           // active variant config
+  var solution = []; // full solved grid
+  var given = [];    // booleans: clue cells
+  var values = [];   // current player grid (0 = empty)
+  var selected = -1;
+
+  // --- Generation ----------------------------------------------------------
+
+  function shuffle(arr) {
+    for (var i = arr.length - 1; i > 0; i--) {
+      var j = Math.floor(Math.random() * (i + 1));
+      var t = arr[i]; arr[i] = arr[j]; arr[j] = t;
+    }
+    return arr;
+  }
+
+  function range(n) {
+    var a = [];
+    for (var i = 0; i < n; i++) a.push(i);
+    return a;
+  }
+
+  function canPlace(grid, idx, val) {
+    var N = cfg.N;
+    var r = Math.floor(idx / N), c = idx % N;
+    for (var i = 0; i < N; i++) {
+      if (grid[r * N + i] === val) return false;
+      if (grid[i * N + c] === val) return false;
+    }
+    var br = Math.floor(r / cfg.boxRows) * cfg.boxRows;
+    var bc = Math.floor(c / cfg.boxCols) * cfg.boxCols;
+    for (var dr = 0; dr < cfg.boxRows; dr++) {
+      for (var dc = 0; dc < cfg.boxCols; dc++) {
+        if (grid[(br + dr) * N + (bc + dc)] === val) return false;
+      }
+    }
+    return true;
+  }
+
+  // Randomised backtracking fill to build a full solved grid.
+  function fillGrid(grid, idx) {
+    var N = cfg.N;
+    if (idx === N * N) return true;
+    if (grid[idx] !== 0) return fillGrid(grid, idx + 1);
+    var nums = shuffle(range(N).map(function (x) { return x + 1; }));
+    for (var k = 0; k < nums.length; k++) {
+      if (canPlace(grid, idx, nums[k])) {
+        grid[idx] = nums[k];
+        if (fillGrid(grid, idx + 1)) return true;
+        grid[idx] = 0;
+      }
+    }
+    return false;
+  }
+
+  // Pick the empty cell with the fewest candidates (MRV) to keep the
+  // uniqueness solver fast even at 9x9.
+  function bestCell(grid) {
+    var N = cfg.N, best = -1, bestCands = null;
+    for (var i = 0; i < N * N; i++) {
+      if (grid[i] !== 0) continue;
+      var cands = [];
+      for (var v = 1; v <= N; v++) if (canPlace(grid, i, v)) cands.push(v);
+      if (bestCands === null || cands.length < bestCands.length) {
+        best = i; bestCands = cands;
+        if (cands.length <= 1) break;
+      }
+    }
+    return best === -1 ? null : { idx: best, cands: bestCands };
+  }
+
+  // Count solutions, short-circuiting once `cap` is reached.
+  function countSolutions(grid, cap) {
+    var pick = bestCell(grid);
+    if (pick === null) return 1;          // grid full => one solution
+    if (pick.cands.length === 0) return 0; // dead end
+    var total = 0;
+    for (var k = 0; k < pick.cands.length; k++) {
+      grid[pick.idx] = pick.cands[k];
+      total += countSolutions(grid, cap);
+      grid[pick.idx] = 0;
+      if (total >= cap) break;
+    }
+    return total;
+  }
+
+  function newPuzzle() {
+    var N = cfg.N;
+    solution = new Array(N * N).fill(0);
+    fillGrid(solution, 0);
+
+    // Remove clues greedily while the solution stays unique.
+    var puzzle = solution.slice();
+    var order = shuffle(range(N * N));
+    var clues = N * N;
+    for (var i = 0; i < order.length && clues > cfg.minClues; i++) {
+      var pos = order[i];
+      var backup = puzzle[pos];
+      puzzle[pos] = 0;
+      if (countSolutions(puzzle.slice(), 2) === 1) {
+        clues--;
+      } else {
+        puzzle[pos] = backup;
+      }
+    }
+
+    given = puzzle.map(function (v) { return v !== 0; });
+    values = puzzle.slice();
+    selected = -1;
+    render();
+    setStatus("", "");
+  }
+
+  // --- Rendering -----------------------------------------------------------
+
+  function samePeer(a, b) {
+    var N = cfg.N;
+    var ra = Math.floor(a / N), ca = a % N;
+    var rb = Math.floor(b / N), cb = b % N;
+    if (ra === rb || ca === cb) return true;
+    var sameBoxR = Math.floor(ra / cfg.boxRows) === Math.floor(rb / cfg.boxRows);
+    var sameBoxC = Math.floor(ca / cfg.boxCols) === Math.floor(cb / cfg.boxCols);
+    return sameBoxR && sameBoxC;
+  }
+
+  function render() {
+    var N = cfg.N;
+    boardEl.style.setProperty("--cell", cfg.cell + "px");
+    boardEl.style.gridTemplateColumns = "repeat(" + N + ", 1fr)";
+    boardEl.innerHTML = "";
+    for (var i = 0; i < N * N; i++) {
+      var r = Math.floor(i / N), c = i % N;
+      var cell = document.createElement("div");
+      var cls = "cell";
+      if (given[i]) cls += " given";
+      if (i === selected) cls += " selected";
+      else if (selected >= 0 && samePeer(i, selected)) cls += " peer";
+      if (c % cfg.boxCols === 0 && c !== 0) cls += " box-left";
+      if (r % cfg.boxRows === 0 && r !== 0) cls += " box-top";
+      cell.className = cls;
+      cell.textContent = values[i] === 0 ? "" : values[i];
+      cell.dataset.idx = i;
+      boardEl.appendChild(cell);
+    }
+    updatePad();
+  }
+
+  // How many of digit `d` are currently on the board.
+  function digitCount(d) {
+    var n = 0;
+    for (var i = 0; i < values.length; i++) if (values[i] === d) n++;
+    return n;
+  }
+
+  // Grey out a digit once all N of it have been placed.
+  function updatePad() {
+    Array.prototype.forEach.call(padEl.children, function (b) {
+      var v = Number(b.dataset.val);
+      if (v === 0) return; // erase stays enabled
+      b.disabled = digitCount(v) >= cfg.N;
+    });
+  }
+
+  function buildPad() {
+    padEl.innerHTML = "";
+    for (var v = 1; v <= cfg.N; v++) {
+      var b = document.createElement("button");
+      b.textContent = v;
+      b.dataset.val = v;
+      padEl.appendChild(b);
+    }
+    var erase = document.createElement("button");
+    erase.textContent = "Erase";
+    erase.className = "erase";
+    erase.dataset.val = 0;
+    padEl.appendChild(erase);
+  }
+
+  function buildSizes() {
+    sizesEl.innerHTML = "";
+    ["4", "6", "9"].forEach(function (key) {
+      var b = document.createElement("button");
+      b.textContent = key + "×" + key;
+      b.dataset.size = key;
+      sizesEl.appendChild(b);
+    });
+  }
+
+  function markActiveSize(key) {
+    Array.prototype.forEach.call(sizesEl.children, function (b) {
+      b.classList.toggle("active", b.dataset.size === String(key));
+    });
+  }
+
+  function setStatus(msg, kind) {
+    statusEl.textContent = msg;
+    statusEl.className = "status" + (kind ? " " + kind : "");
+  }
+
+  // --- Interaction ---------------------------------------------------------
+
+  function placeValue(val) {
+    if (selected < 0 || given[selected]) return;
+    // Block adding a digit that's already fully placed (keyboard path).
+    if (val !== 0 && values[selected] !== val && digitCount(val) >= cfg.N) return;
+    values[selected] = val;
+    render();
+    setStatus("", "");
+    if (val !== 0) checkWin(false);
+  }
+
+  function isComplete() {
+    return values.every(function (v) { return v !== 0; });
+  }
+
+  function checkWin(announce) {
+    if (!isComplete()) {
+      if (announce) setStatus("Keep going — grid not full yet.", "err");
+      return;
+    }
+    var solved = values.every(function (v, i) { return v === solution[i]; });
+    if (solved) {
+      setStatus("Solved! 🎉", "win");
+    } else if (announce) {
+      highlightWrong();
+      setStatus("Not quite — check the highlighted cells.", "err");
+    }
+  }
+
+  function highlightWrong() {
+    var cells = boardEl.children;
+    for (var i = 0; i < cells.length; i++) {
+      cells[i].classList.remove("wrong");
+      if (!given[i] && values[i] !== 0 && values[i] !== solution[i]) {
+        cells[i].classList.add("wrong");
+      }
+    }
+  }
+
+  function startSize(key) {
+    cfg = VARIANTS[key];
+    markActiveSize(key);
+    buildPad();
+    newPuzzle();
+  }
+
+  boardEl.addEventListener("click", function (e) {
+    var cell = e.target.closest(".cell");
+    if (!cell) return;
+    var idx = Number(cell.dataset.idx);
+    if (given[idx]) return;
+    selected = idx;
+    render();
+  });
+
+  padEl.addEventListener("click", function (e) {
+    var btn = e.target.closest("button");
+    if (!btn) return;
+    placeValue(Number(btn.dataset.val));
+  });
+
+  sizesEl.addEventListener("click", function (e) {
+    var btn = e.target.closest("button");
+    if (!btn) return;
+    startSize(btn.dataset.size);
+  });
+
+  document.addEventListener("keydown", function (e) {
+    if (selected < 0) return;
+    var N = cfg.N;
+    if (e.key >= "1" && e.key <= "9") {
+      var d = Number(e.key);
+      if (d >= 1 && d <= N) placeValue(d);
+    } else if (e.key === "Backspace" || e.key === "Delete" || e.key === "0") {
+      placeValue(0);
+    } else if (e.key.indexOf("Arrow") === 0) {
+      var r = Math.floor(selected / N), c = selected % N;
+      if (e.key === "ArrowUp") r = (r + N - 1) % N;
+      if (e.key === "ArrowDown") r = (r + 1) % N;
+      if (e.key === "ArrowLeft") c = (c + N - 1) % N;
+      if (e.key === "ArrowRight") c = (c + 1) % N;
+      selected = r * N + c;
+      render();
+      e.preventDefault();
+    }
+  });
+
+  document.getElementById("check").addEventListener("click", function () {
+    checkWin(true);
+  });
+  document.getElementById("new").addEventListener("click", newPuzzle);
+
+  // --- Boot ----------------------------------------------------------------
+
+  buildSizes();
+  startSize("4");
+})();
+</script>
+</body>
+</html>

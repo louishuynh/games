@@ -95,7 +95,7 @@
   .bar-fill {
     height: 100%;
     width: 0;
-    background: var(--present);
+    background: var(--correct);
     transition: width 0.25s ease, background 0.25s ease;
   }
   .tiers { margin-top: 6px; font-size: 11px; color: var(--muted); text-align: center; letter-spacing: 0.5px; }
@@ -154,8 +154,8 @@
 
   .msg { min-height: 20px; font-size: 14px; font-weight: 700; letter-spacing: 1px; margin-bottom: 14px; }
   .msg.ok { color: var(--correct); }
-  .msg.err { color: var(--present); }
-  .msg.big { color: var(--present); font-size: 16px; }
+  .msg.err { color: var(--wrong); }
+  .msg.big { color: var(--correct); font-size: 16px; }
 
   /* Action buttons under entry */
   .actions { display: flex; gap: 10px; margin-bottom: 24px; }
@@ -194,7 +194,7 @@
     min-height: 24px;
   }
   .found span { font-size: 15px; }
-  .found span.pangram { color: var(--present); font-weight: 700; }
+  .found span.pangram { color: var(--correct); font-weight: 700; }
   .found span.missed { color: var(--wrong); }
 
   .controls { display: flex; gap: 12px; margin-top: 26px; }
@@ -211,6 +211,28 @@
     cursor: pointer;
   }
   .controls button:hover { border-color: var(--muted); }
+
+  /* How-to-play note */
+  .notes {
+    width: 100%;
+    max-width: 460px;
+    margin-top: 36px;
+    padding-top: 16px;
+    border-top: 1px solid var(--border);
+    color: var(--muted);
+    font-size: 13px;
+    line-height: 1.6;
+  }
+  .notes h3 {
+    margin: 0 0 8px;
+    font-size: 12px;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    color: var(--text);
+  }
+  .notes ul { margin: 0; padding-left: 18px; }
+  .notes li { margin-bottom: 5px; }
+  .notes b { color: var(--text); }
 
   footer { margin-top: 40px; color: var(--muted); font-size: 13px; text-align: center; }
 </style>
@@ -253,7 +275,16 @@
     <button id="reveal">Give up</button>
   </div>
 
-  <footer>Built for GitHub Pages &middot; no dependencies, no build step.</footer>
+  <div class="notes">
+    <h3>How to play</h3>
+    <ul>
+      <li>Every word must be <b>4 letters or longer</b> and use the <b>centre letter</b>.</li>
+      <li>Use each letter <b>no more than it appears</b> in the grid &mdash; letters generally can't be repeated.</li>
+      <li>There is always at least one word that uses <b>all nine letters</b>.</li>
+      <li>No plurals or verb forms ending in <b>S</b>.</li>
+      <li>Pick <b>Easy</b>, <b>Medium</b> or <b>Hard</b>; ranks climb Good &rarr; Very good &rarr; Excellent.</li>
+    </ul>
+  </div>
 
 <script>
 (function () {
@@ -378,7 +409,7 @@
     rankNameEl.textContent = r.name;
     rankCountEl.textContent = found.length + " / " + puzzle.words.length + " words";
     barFillEl.style.width = Math.round(r.frac * 100) + "%";
-    barFillEl.style.background = r.frac >= 1 ? "var(--correct)" : "var(--present)";
+    barFillEl.style.background = "var(--correct)";
     var t = puzzle.tiers;
     tiersEl.textContent = "Good " + t.good + "  ·  Very good " + t.great +
                           "  ·  Excellent " + t.excellent;

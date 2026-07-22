@@ -221,7 +221,7 @@
 
   <div class="board" id="board"></div>
 
-  <div class="word placeholder" id="word">tap touching letters to trace a word</div>
+  <div class="word placeholder" id="word">tap or swipe across touching letters</div>
   <div class="msg" id="msg"></div>
 
   <div class="actions">
@@ -240,9 +240,9 @@
   <div class="notes">
     <h3>How to play</h3>
     <ul>
-      <li>Build words of <b>3+ letters</b> by tapping <b>touching</b> tiles (including diagonals).</li>
+      <li>Build words of <b>3+ letters</b> by tapping or <b>swiping</b> across <b>touching</b> tiles (including diagonals).</li>
       <li>Tiles connect in a chain &mdash; you <b>can't reuse a tile</b> within one word.</li>
-      <li>Tap the last tile again (or press <b>Enter</b>) to submit; <b>Clear</b> or <b>Esc</b> starts over.</li>
+      <li>Lift your finger after a swipe, tap the last tile again, or press <b>Enter</b> to submit; <b>Clear</b> or <b>Esc</b> starts over.</li>
       <li>Scoring: 3&ndash;4 letters = 1, 5 = 2, 6 = 3, 7 = 5, 8+ = 11. The <b>Qu</b> tile counts as two letters.</li>
     </ul>
   </div>
@@ -285,6 +285,7 @@
   var revealed = false;
   var timeLeft = TIME;
   var timer = null;
+  var dragging = false, dragged = false, justDragged = false, dragStart = -1;
 
   function scoreOf(w) {
     var n = w.length;
@@ -342,7 +343,7 @@
     var w = currentWord();
     if (w === "") {
       wordEl.className = "word placeholder";
-      wordEl.textContent = "tap touching letters to trace a word";
+      wordEl.textContent = "tap or swipe across touching letters";
     } else {
       wordEl.className = "word";
       wordEl.textContent = w;
@@ -450,10 +451,54 @@
 
   // --- Events --------------------------------------------------------------
 
+  // Tap-to-trace: a plain click extends the path (ignored right after a drag).
   boardEl.addEventListener("click", function (e) {
+    if (justDragged) { justDragged = false; return; }
     var cell = e.target.closest(".cell");
     if (cell) clickCell(Number(cell.dataset.i));
   });
+
+  // Swipe / drag-to-trace via pointer events (mouse and touch).
+  function cellIndexAt(x, y) {
+    var el = document.elementFromPoint(x, y);
+    var cell = el && el.closest ? el.closest(".cell") : null;
+    return (cell && cell.parentElement === boardEl) ? Number(cell.dataset.i) : -1;
+  }
+
+  boardEl.addEventListener("pointerdown", function (e) {
+    if (revealed) return;
+    var cell = e.target.closest(".cell");
+    if (!cell) return;
+    dragging = true;
+    dragged = false;
+    justDragged = false;
+    dragStart = Number(cell.dataset.i);
+  });
+
+  document.addEventListener("pointermove", function (e) {
+    if (!dragging || revealed) return;
+    var i = cellIndexAt(e.clientX, e.clientY);
+    if (i === -1) return;
+    if (!dragged) {
+      if (i === dragStart) return;   // still on the starting tile — not a drag yet
+      path = [dragStart];            // begin the drag trace
+      dragged = true;
+      renderPath();
+    }
+    var tip = path[path.length - 1];
+    if (i === tip) return;
+    if (path.length >= 2 && i === path[path.length - 2]) { path.pop(); renderPath(); return; }
+    if (path.indexOf(i) !== -1) return;                 // tile already used
+    if (NEIGH[tip].indexOf(i) !== -1) { path.push(i); renderPath(); } // must be adjacent
+  });
+
+  document.addEventListener("pointerup", function () {
+    if (!dragging) return;
+    dragging = false;
+    if (dragged) { justDragged = true; submit(); }
+  });
+
+  document.addEventListener("pointercancel", function () { dragging = false; });
 
   document.getElementById("clear").addEventListener("click", clearPath);
   document.getElementById("submit").addEventListener("click", submit);

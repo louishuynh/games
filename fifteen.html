@@ -1,0 +1,426 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>15 Puzzle</title>
+<style>
+  :root {
+    --bg: #121213;
+    --text: #ffffff;
+    --muted: #818384;
+    --border: #3a3a3c;
+    --card: #1a1a1b;
+    --correct: #538d4e;
+    --present: #b59f3b;
+    --wrong: #b03a2e;
+  }
+
+  * { box-sizing: border-box; }
+
+  html, body {
+    margin: 0;
+    min-height: 100%;
+    background: var(--bg);
+    color: var(--text);
+    font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+  }
+
+  body {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 40px 20px 64px;
+  }
+
+  .back {
+    position: fixed;
+    top: 16px;
+    left: 16px;
+    color: var(--muted);
+    text-decoration: none;
+    font-size: 13px;
+    letter-spacing: 1px;
+  }
+  .back:hover { color: var(--text); }
+
+  header { text-align: center; margin-bottom: 18px; }
+  header h1 {
+    margin: 0;
+    font-size: 34px;
+    font-weight: 700;
+    letter-spacing: 4px;
+    text-transform: uppercase;
+  }
+  header p { margin: 8px 0 0; color: var(--muted); font-size: 14px; }
+
+  .sizes { display: flex; gap: 8px; margin-bottom: 18px; }
+  .sizes button {
+    padding: 7px 14px;
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    background: transparent;
+    color: var(--text);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    cursor: pointer;
+  }
+  .sizes button:hover { border-color: var(--muted); }
+  .sizes button.active { background: var(--correct); border-color: var(--correct); }
+
+  .scores {
+    display: flex;
+    gap: 12px;
+    margin-bottom: 20px;
+    width: 320px;
+    max-width: 100%;
+  }
+  .score-box {
+    flex: 1;
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 8px 14px;
+    text-align: center;
+  }
+  .score-box .label {
+    font-size: 11px;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    color: var(--muted);
+  }
+  .score-box .val { font-size: 22px; font-weight: 700; }
+
+  .board {
+    display: grid;
+    gap: 8px;
+    background: #1c1c1d;
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 8px;
+    margin-bottom: 8px;
+    touch-action: none;
+  }
+  .tile {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 26px;
+    font-weight: 700;
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    cursor: pointer;
+    user-select: none;
+    transition: background 0.08s ease, transform 0.06s ease;
+  }
+  .tile:hover { border-color: var(--muted); }
+  .tile.blank { background: transparent; border-color: transparent; cursor: default; }
+  .tile.home { color: var(--correct); }
+
+  .msg { min-height: 24px; font-size: 16px; font-weight: 700; letter-spacing: 1px; margin: 18px 0 6px; }
+  .msg.win { color: var(--correct); }
+
+  .controls { display: flex; gap: 12px; margin-top: 12px; }
+  .controls button {
+    padding: 10px 18px;
+    font-size: 13px;
+    font-weight: 700;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    background: transparent;
+    color: var(--text);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    cursor: pointer;
+  }
+  .controls button:hover { border-color: var(--muted); }
+
+  .notes {
+    width: 320px;
+    max-width: 100%;
+    margin-top: 34px;
+    padding-top: 16px;
+    border-top: 1px solid var(--border);
+    color: var(--muted);
+    font-size: 13px;
+    line-height: 1.6;
+  }
+  .notes h3 {
+    margin: 0 0 8px;
+    font-size: 12px;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    color: var(--text);
+  }
+  .notes ul { margin: 0; padding-left: 18px; }
+  .notes li { margin-bottom: 5px; }
+  .notes b { color: var(--text); }
+</style>
+</head>
+<body>
+  <a class="back" href="index.html">&larr; Games</a>
+
+  <header>
+    <h1>15 Puzzle</h1>
+    <p>Slide the tiles until the numbers run in order.</p>
+  </header>
+
+  <div class="sizes" id="sizes"></div>
+
+  <div class="scores">
+    <div class="score-box"><div class="label">Moves</div><div class="val" id="moves">0</div></div>
+    <div class="score-box"><div class="label">Time</div><div class="val" id="time">0:00</div></div>
+  </div>
+
+  <div class="board" id="board"></div>
+
+  <div class="msg" id="msg"></div>
+
+  <div class="controls">
+    <button id="new">New puzzle</button>
+  </div>
+
+  <div class="notes">
+    <h3>How to play</h3>
+    <ul>
+      <li>Slide a tile into the empty space by <b>clicking</b> it (any tile in the blank's row or column shifts along).</li>
+      <li>Use the <b>arrow keys</b> or <b>swipe</b> to slide tiles into the gap.</li>
+      <li>Arrange the numbers in order, <b>1 to 15</b>, with the blank in the bottom-right.</li>
+      <li>Every scramble is <b>guaranteed solvable</b>. Tiles already home show green.</li>
+    </ul>
+  </div>
+
+<script>
+(function () {
+  "use strict";
+
+  var SIZES = [3, 4];
+
+  var sizesEl = document.getElementById("sizes");
+  var boardEl = document.getElementById("board");
+  var msgEl = document.getElementById("msg");
+  var movesEl = document.getElementById("moves");
+  var timeEl = document.getElementById("time");
+
+  var N;
+  var tiles;        // array length N*N; value 0 = blank
+  var blank;        // index of blank
+  var moves = 0;
+  var solved = false;
+  var started = false;
+  var seconds = 0, timer = null;
+
+  // --- Setup ---------------------------------------------------------------
+
+  function solvedArr() {
+    var a = [];
+    for (var i = 1; i < N * N; i++) a.push(i);
+    a.push(0);
+    return a;
+  }
+
+  function neighbours(i) {
+    var r = Math.floor(i / N), c = i % N, out = [];
+    if (r > 0) out.push(i - N);
+    if (r < N - 1) out.push(i + N);
+    if (c > 0) out.push(i - 1);
+    if (c < N - 1) out.push(i + 1);
+    return out;
+  }
+
+  function scramble() {
+    tiles = solvedArr();
+    blank = tiles.length - 1;
+    // Random legal moves keep the puzzle solvable.
+    var steps = N * N * 60;
+    var last = -1;
+    for (var s = 0; s < steps; s++) {
+      var nb = neighbours(blank).filter(function (x) { return x !== last; });
+      var pick = nb[Math.floor(Math.random() * nb.length)];
+      last = blank;
+      tiles[blank] = tiles[pick];
+      tiles[pick] = 0;
+      blank = pick;
+    }
+    // Ensure it isn't already solved.
+    if (isSolved()) scramble();
+  }
+
+  function newPuzzle() {
+    scramble();
+    moves = 0;
+    solved = false;
+    started = false;
+    seconds = 0;
+    stopTimer();
+    renderTime();
+    render();
+    setMsg("");
+  }
+
+  function isSolved() {
+    for (var i = 0; i < N * N - 1; i++) if (tiles[i] !== i + 1) return false;
+    return tiles[N * N - 1] === 0;
+  }
+
+  // --- Render --------------------------------------------------------------
+
+  function render() {
+    boardEl.style.gridTemplateColumns = "repeat(" + N + ", 1fr)";
+    var px = N === 3 ? 84 : 70;
+    boardEl.innerHTML = "";
+    for (var i = 0; i < tiles.length; i++) {
+      var d = document.createElement("div");
+      var v = tiles[i];
+      d.style.width = px + "px";
+      d.style.height = px + "px";
+      if (v === 0) {
+        d.className = "tile blank";
+      } else {
+        d.className = "tile" + (v === i + 1 ? " home" : "");
+        d.textContent = v;
+        d.dataset.i = i;
+      }
+      boardEl.appendChild(d);
+    }
+    movesEl.textContent = moves;
+  }
+
+  function setMsg(text) {
+    msgEl.textContent = text;
+    msgEl.className = "msg" + (text ? " win" : "");
+  }
+
+  function markActive() {
+    Array.prototype.forEach.call(sizesEl.children, function (b) {
+      b.classList.toggle("active", b.dataset.n === String(N));
+    });
+  }
+
+  // --- Timer ---------------------------------------------------------------
+
+  function startTimerIfNeeded() {
+    if (started) return;
+    started = true;
+    timer = setInterval(function () { seconds++; renderTime(); }, 1000);
+  }
+  function stopTimer() { if (timer) { clearInterval(timer); timer = null; } }
+  function renderTime() {
+    var m = Math.floor(seconds / 60), s = seconds % 60;
+    timeEl.textContent = m + ":" + (s < 10 ? "0" + s : s);
+  }
+
+  // --- Play ----------------------------------------------------------------
+
+  // Slide the tile at index i (must share a row/column with the blank).
+  function slideAt(i) {
+    if (solved || tiles[i] === 0) return;
+    var r = Math.floor(i / N), c = i % N;
+    var br = Math.floor(blank / N), bc = blank % N;
+    if (r !== br && c !== bc) return; // not aligned with the blank
+
+    startTimerIfNeeded();
+    if (r === br) {
+      var step = c < bc ? 1 : -1;
+      for (var cc = bc; cc !== c; cc -= step) {
+        tiles[r * N + cc] = tiles[r * N + cc - step];
+      }
+    } else {
+      var vstep = r < br ? 1 : -1;
+      for (var rr = br; rr !== r; rr -= vstep) {
+        tiles[rr * N + c] = tiles[(rr - vstep) * N + c];
+      }
+    }
+    tiles[i] = 0;
+    blank = i;
+    moves++;
+    finishMove();
+  }
+
+  // Move the blank in a direction (arrow keys / swipe): the tile that fills
+  // the blank comes from the opposite side.
+  function moveBlank(dir) {
+    if (solved) return;
+    var br = Math.floor(blank / N), bc = blank % N, src = -1;
+    if (dir === "left" && bc < N - 1) src = blank + 1;     // tile to the right slides left
+    else if (dir === "right" && bc > 0) src = blank - 1;
+    else if (dir === "up" && br < N - 1) src = blank + N;
+    else if (dir === "down" && br > 0) src = blank - N;
+    if (src === -1) return;
+    startTimerIfNeeded();
+    tiles[blank] = tiles[src];
+    tiles[src] = 0;
+    blank = src;
+    moves++;
+    finishMove();
+  }
+
+  function finishMove() {
+    render();
+    if (isSolved()) {
+      solved = true;
+      stopTimer();
+      setMsg("Solved in " + moves + " moves · " + timeEl.textContent + " 🎉");
+    }
+  }
+
+  // --- Events --------------------------------------------------------------
+
+  function buildSizes() {
+    sizesEl.innerHTML = "";
+    SIZES.forEach(function (n) {
+      var b = document.createElement("button");
+      b.textContent = (n * n - 1) + " (" + n + "×" + n + ")";
+      b.dataset.n = n;
+      sizesEl.appendChild(b);
+    });
+  }
+
+  sizesEl.addEventListener("click", function (e) {
+    var b = e.target.closest("button");
+    if (!b) return;
+    N = Number(b.dataset.n);
+    markActive();
+    newPuzzle();
+  });
+
+  boardEl.addEventListener("click", function (e) {
+    var d = e.target.closest(".tile");
+    if (d && d.dataset.i !== undefined) slideAt(Number(d.dataset.i));
+  });
+
+  var KEYS = { ArrowLeft: "left", ArrowRight: "right", ArrowUp: "up", ArrowDown: "down" };
+  document.addEventListener("keydown", function (e) {
+    var dir = KEYS[e.key];
+    if (!dir) return;
+    e.preventDefault();
+    moveBlank(dir);
+  });
+
+  var tsx = 0, tsy = 0;
+  boardEl.addEventListener("touchstart", function (e) {
+    tsx = e.touches[0].clientX; tsy = e.touches[0].clientY;
+  }, { passive: true });
+  boardEl.addEventListener("touchend", function (e) {
+    var dx = e.changedTouches[0].clientX - tsx;
+    var dy = e.changedTouches[0].clientY - tsy;
+    if (Math.abs(dx) < 24 && Math.abs(dy) < 24) return;
+    if (Math.abs(dx) > Math.abs(dy)) moveBlank(dx > 0 ? "right" : "left");
+    else moveBlank(dy > 0 ? "down" : "up");
+  });
+
+  document.getElementById("new").addEventListener("click", newPuzzle);
+
+  // --- Boot ----------------------------------------------------------------
+
+  buildSizes();
+  N = 4;
+  markActive();
+  newPuzzle();
+})();
+</script>
+</body>
+</html>

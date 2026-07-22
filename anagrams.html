@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 <title>Anagrams</title>
 <style>
   :root {
@@ -73,7 +73,7 @@
   .scores {
     display: flex;
     gap: 12px;
-    margin-bottom: 20px;
+    margin-bottom: 22px;
     width: 340px;
     max-width: 100%;
   }
@@ -94,49 +94,68 @@
   .score-box .val { font-size: 22px; font-weight: 700; }
   .score-box .val.low { color: var(--wrong); }
 
-  /* Scrambled letters */
-  .scramble {
+  /* Answer row + letter tray */
+  .answer, .tray {
     display: flex;
     gap: 8px;
-    margin-bottom: 22px;
+    flex-wrap: wrap;
+    justify-content: center;
     min-height: 62px;
+    width: 100%;
+    max-width: 420px;
   }
-  .letter {
-    width: 54px;
-    height: 62px;
+  .answer {
+    margin-bottom: 14px;
+    padding-bottom: 14px;
+    border-bottom: 1px dashed var(--border);
+  }
+  .tray { margin-bottom: 8px; }
+
+  .tile {
+    width: 50px;
+    height: 58px;
     display: flex;
     align-items: center;
     justify-content: center;
-    font-size: 30px;
+    font-size: 28px;
     font-weight: 700;
     text-transform: uppercase;
     background: var(--card);
     border: 1px solid var(--border);
     border-radius: 8px;
+    cursor: grab;
     user-select: none;
+    touch-action: none;
+    transition: transform 0.06s ease, border-color 0.08s ease;
+  }
+  .tile:hover { border-color: var(--muted); }
+  .tile.in-answer { border-color: var(--correct); }
+  .tile.dragging { opacity: 0.25; }
+
+  .slot {
+    width: 50px;
+    height: 58px;
+    border: 2px dashed var(--border);
+    border-radius: 8px;
   }
 
-  .entry {
-    min-height: 40px;
+  .ghost {
+    position: fixed;
+    z-index: 100;
+    pointer-events: none;
+    width: 50px;
+    height: 58px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
     font-size: 28px;
     font-weight: 700;
-    letter-spacing: 4px;
     text-transform: uppercase;
-    margin-bottom: 4px;
-    min-width: 200px;
-    text-align: center;
+    background: var(--card);
+    border: 1px solid var(--present);
+    border-radius: 8px;
+    box-shadow: 0 6px 18px rgba(0,0,0,0.5);
   }
-  .entry .caret {
-    display: inline-block;
-    width: 2px;
-    height: 26px;
-    background: var(--muted);
-    margin-left: 2px;
-    vertical-align: middle;
-    animation: blink 1s step-start infinite;
-  }
-  .entry.placeholder { color: var(--border); font-size: 15px; letter-spacing: 1px; font-weight: 400; text-transform: none; }
-  @keyframes blink { 50% { opacity: 0; } }
 
   .msg { min-height: 20px; font-size: 14px; font-weight: 700; letter-spacing: 1px; margin-bottom: 14px; }
   .msg.ok { color: var(--correct); }
@@ -211,9 +230,9 @@
     <div class="score-box"><div class="label">Streak</div><div class="val" id="streak">0</div></div>
   </div>
 
-  <div class="scramble" id="scramble"></div>
+  <div class="answer" id="answer"></div>
+  <div class="tray" id="tray"></div>
 
-  <div class="entry placeholder" id="entry">type your answer</div>
   <div class="msg" id="msg"></div>
 
   <div class="actions">
@@ -230,10 +249,10 @@
   <div class="notes">
     <h3>How to play</h3>
     <ul>
-      <li>Rearrange the scrambled letters into a <b>real word</b> using all of them.</li>
-      <li>Some scrambles have <b>more than one</b> answer &mdash; any valid word counts.</li>
-      <li>Type your guess and press <b>Enter</b>. <b>Shuffle</b> re-jumbles the letters to help you see it.</li>
-      <li>Each solve scores points (longer words score more) and builds your <b>streak</b>. Beat the clock!</li>
+      <li><b>Tap</b> a letter to move it between the tray and your answer, or <b>drag</b> letters to rearrange them.</li>
+      <li>You can also use a keyboard: <b>type</b> letters, <b>Backspace</b> to take one back, <b>Enter</b> to submit.</li>
+      <li>Use <b>all</b> the letters to spell a real word. Some jumbles have more than one answer.</li>
+      <li>Each solve scores points and builds your <b>streak</b> &mdash; beat the clock!</li>
     </ul>
   </div>
 
@@ -245,8 +264,8 @@
   var TIME = 90;
 
   var sizesEl = document.getElementById("sizes");
-  var scrambleEl = document.getElementById("scramble");
-  var entryEl = document.getElementById("entry");
+  var answerEl = document.getElementById("answer");
+  var trayEl = document.getElementById("tray");
   var msgEl = document.getElementById("msg");
   var scoreEl = document.getElementById("score");
   var streakEl = document.getElementById("streak");
@@ -254,14 +273,16 @@
 
   var len;          // active word length
   var pool;         // puzzles for this length
-  var order;        // shuffled index order through the pool
-  var orderPos;
+  var order, orderPos;
   var puzzle;       // { word, answers }
   var answerSet;    // {answer:true}
-  var scrambled;    // current display letters
-  var entry = "";
+
+  // Tiles carry a stable id so duplicate letters stay distinct.
+  var tray = [];    // array of {id, ch}
+  var answer = [];  // array of {id, ch}
+  var nextId = 0;
+
   var score = 0, streak = 0;
-  var solvedWords;  // Set of answers already used this puzzle isn't needed; single answer ends puzzle
   var timeLeft = TIME, timer = null, over = false;
 
   // --- Helpers -------------------------------------------------------------
@@ -274,11 +295,9 @@
     return a;
   }
 
-  function scrambleWord(w) {
-    var arr;
-    do {
-      arr = shuffle(w.split(""));
-    } while (arr.join("") === w && w.length > 1);
+  function makeTiles(word) {
+    var arr = word.split("").map(function (ch) { return { id: nextId++, ch: ch }; });
+    do { shuffle(arr); } while (arr.map(function (t) { return t.ch; }).join("") === word && word.length > 1);
     return arr;
   }
 
@@ -304,36 +323,38 @@
   }
 
   function nextPuzzle() {
-    if (orderPos >= order.length) order = shuffle(order); // wrap around, reshuffled
+    if (orderPos >= order.length) order = shuffle(order);
     puzzle = pool[order[orderPos % order.length]];
     orderPos++;
     answerSet = {};
     puzzle.answers.forEach(function (a) { answerSet[a] = true; });
-    scrambled = scrambleWord(puzzle.word);
-    entry = "";
-    renderScramble();
-    renderEntry();
+    tray = makeTiles(puzzle.word);
+    answer = [];
+    render();
     setMsg("", "");
   }
 
-  function renderScramble() {
-    scrambleEl.innerHTML = "";
-    scrambled.forEach(function (ch) {
-      var d = document.createElement("div");
-      d.className = "letter";
-      d.textContent = ch;
-      scrambleEl.appendChild(d);
-    });
+  // --- Render --------------------------------------------------------------
+
+  function tileEl(tile, inAnswer) {
+    var d = document.createElement("div");
+    d.className = "tile" + (inAnswer ? " in-answer" : "");
+    d.textContent = tile.ch;
+    d.dataset.id = tile.id;
+    return d;
   }
 
-  function renderEntry() {
-    if (entry === "") {
-      entryEl.className = "entry placeholder";
-      entryEl.textContent = "type your answer";
-    } else {
-      entryEl.className = "entry";
-      entryEl.innerHTML = entry + '<span class="caret"></span>';
+  function render() {
+    answerEl.innerHTML = "";
+    answer.forEach(function (t) { answerEl.appendChild(tileEl(t, true)); });
+    // Empty slots so the answer row keeps a visible shape.
+    for (var i = answer.length; i < len; i++) {
+      var s = document.createElement("div");
+      s.className = "slot";
+      answerEl.appendChild(s);
     }
+    trayEl.innerHTML = "";
+    tray.forEach(function (t) { trayEl.appendChild(tileEl(t, false)); });
   }
 
   function updateScores() {
@@ -350,6 +371,38 @@
     Array.prototype.forEach.call(sizesEl.children, function (b) {
       b.classList.toggle("active", b.dataset.len === String(len));
     });
+  }
+
+  // --- Tile movement -------------------------------------------------------
+
+  function findTile(id) {
+    var i;
+    for (i = 0; i < tray.length; i++) if (tray[i].id === id) return { list: tray, idx: i, tile: tray[i] };
+    for (i = 0; i < answer.length; i++) if (answer[i].id === id) return { list: answer, idx: i, tile: answer[i] };
+    return null;
+  }
+
+  // Move a tile to a target row ("answer"/"tray") at a given index.
+  function moveTile(id, targetName, targetIdx) {
+    var found = findTile(id);
+    if (!found) return;
+    var target = targetName === "answer" ? answer : tray;
+    // Removing from the same list before an index shifts the target left by 1.
+    if (found.list === target && found.idx < targetIdx) targetIdx--;
+    found.list.splice(found.idx, 1);
+    if (targetIdx < 0) targetIdx = 0;
+    if (targetIdx > target.length) targetIdx = target.length;
+    target.splice(targetIdx, 0, found.tile);
+    render();
+    setMsg("", "");
+  }
+
+  // Tap toggles a tile between rows (append to the other row).
+  function toggleTile(id) {
+    var found = findTile(id);
+    if (!found) return;
+    if (found.list === tray) moveTile(id, "answer", answer.length);
+    else moveTile(id, "tray", tray.length);
   }
 
   // --- Timer ---------------------------------------------------------------
@@ -373,38 +426,52 @@
 
   function endGame() {
     over = true;
-    entry = "";
-    renderEntry();
+    render();
     setMsg("Time! Final score " + score + ".", "big");
   }
 
   // --- Play ----------------------------------------------------------------
 
-  function addLetter(ch) {
-    if (over) return;
-    if (entry.length >= len) return;
-    entry += ch;
-    renderEntry();
-    setMsg("", "");
+  function currentWord() {
+    return answer.map(function (t) { return t.ch; }).join("");
   }
 
-  function delLetter() {
+  // Keyboard: place the first tray tile matching ch into the answer.
+  function typeLetter(ch) {
     if (over) return;
-    entry = entry.slice(0, -1);
-    renderEntry();
+    for (var i = 0; i < tray.length; i++) {
+      if (tray[i].ch === ch) { moveTile(tray[i].id, "answer", answer.length); return; }
+    }
+  }
+
+  function backspace() {
+    if (over || answer.length === 0) return;
+    var last = answer[answer.length - 1];
+    moveTile(last.id, "tray", tray.length);
+  }
+
+  function clearAnswer() {
+    if (over) return;
+    while (answer.length) moveTile(answer[0].id, "tray", tray.length);
+  }
+
+  function shuffleTray() {
+    if (over) return;
+    shuffle(tray);
+    render();
   }
 
   function submit() {
     if (over) return;
-    var w = entry.toLowerCase();
+    var w = currentWord().toLowerCase();
     if (w.length === 0) return;
     if (w.length !== len) return fail("Use all " + len + " letters");
     if (!answerSet[w]) return fail("Not a valid word");
 
-    var gain = len; // 1 point per letter
+    var gain = len;
     score += gain;
     streak++;
-    if (streak > 0 && streak % 5 === 0) { score += 5; } // streak bonus
+    if (streak > 0 && streak % 5 === 0) score += 5;
     updateScores();
     setMsg("+" + gain + (streak % 5 === 0 ? "  Streak +5! 🔥" : "  Nice!"), "big");
     setTimeout(function () { if (!over) nextPuzzle(); }, 550);
@@ -420,7 +487,91 @@
     setTimeout(function () { if (!over) nextPuzzle(); }, 700);
   }
 
-  // --- Events --------------------------------------------------------------
+  // --- Tap + drag input ----------------------------------------------------
+
+  var drag = null; // { id, ghost, moved, startX, startY }
+
+  function rowOf(el) {
+    if (answerEl.contains(el)) return "answer";
+    if (trayEl.contains(el)) return "tray";
+    return null;
+  }
+
+  // Insertion index within a row based on pointer x over its tiles.
+  function indexInRow(rowName, x) {
+    var container = rowName === "answer" ? answerEl : trayEl;
+    var tiles = container.querySelectorAll(".tile");
+    for (var i = 0; i < tiles.length; i++) {
+      var r = tiles[i].getBoundingClientRect();
+      if (x < r.left + r.width / 2) return i; // insert before this tile
+    }
+    return tiles.length;
+  }
+
+  function onDown(e) {
+    if (over) return;
+    var tile = e.target.closest(".tile");
+    if (!tile) return;
+    drag = {
+      id: Number(tile.dataset.id),
+      el: tile,
+      ghost: null,
+      moved: false,
+      startX: e.clientX,
+      startY: e.clientY
+    };
+    tile.setPointerCapture && tile.setPointerCapture(e.pointerId);
+  }
+
+  function onMove(e) {
+    if (!drag) return;
+    var dx = e.clientX - drag.startX, dy = e.clientY - drag.startY;
+    if (!drag.moved && Math.abs(dx) + Math.abs(dy) < 6) return; // below threshold: still a tap
+    if (!drag.moved) {
+      drag.moved = true;
+      drag.el.classList.add("dragging");
+      var g = document.createElement("div");
+      g.className = "ghost";
+      g.textContent = drag.el.textContent;
+      document.body.appendChild(g);
+      drag.ghost = g;
+    }
+    drag.ghost.style.left = (e.clientX - 25) + "px";
+    drag.ghost.style.top = (e.clientY - 29) + "px";
+  }
+
+  function onUp(e) {
+    if (!drag) return;
+    var d = drag;
+    drag = null;
+    if (d.ghost) d.ghost.remove();
+    d.el.classList.remove("dragging");
+
+    if (!d.moved) { toggleTile(d.id); return; } // tap
+
+    // Drop: figure out which row the pointer is over.
+    var target = document.elementFromPoint(e.clientX, e.clientY);
+    var rowName = target ? rowOf(target) : null;
+    if (!rowName) {
+      // Released outside either row: default to the row it didn't come from.
+      var found = findTile(d.id);
+      rowName = (found && found.list === answer) ? "answer" : "tray";
+    }
+    var idx = indexInRow(rowName, e.clientX);
+    moveTile(d.id, rowName, idx);
+  }
+
+  answerEl.addEventListener("pointerdown", onDown);
+  trayEl.addEventListener("pointerdown", onDown);
+  document.addEventListener("pointermove", onMove);
+  document.addEventListener("pointerup", onUp);
+  document.addEventListener("pointercancel", function () {
+    if (drag && drag.ghost) drag.ghost.remove();
+    if (drag) drag.el.classList.remove("dragging");
+    drag = null;
+  });
+
+  // --- Buttons + keyboard --------------------------------------------------
 
   function buildSizes() {
     sizesEl.innerHTML = "";
@@ -437,22 +588,16 @@
     if (b) startLen(Number(b.dataset.len));
   });
 
-  document.getElementById("shuffle").addEventListener("click", function () {
-    if (over) return;
-    scrambled = scrambleWord(puzzle.word);
-    renderScramble();
-  });
-  document.getElementById("clear").addEventListener("click", function () {
-    if (over) return; entry = ""; renderEntry();
-  });
+  document.getElementById("shuffle").addEventListener("click", shuffleTray);
+  document.getElementById("clear").addEventListener("click", clearAnswer);
   document.getElementById("submit").addEventListener("click", submit);
   document.getElementById("skip").addEventListener("click", skip);
   document.getElementById("new").addEventListener("click", newGame);
 
   document.addEventListener("keydown", function (e) {
     if (e.key === "Enter") { submit(); e.preventDefault(); }
-    else if (e.key === "Backspace") { delLetter(); e.preventDefault(); }
-    else if (/^[a-zA-Z]$/.test(e.key)) { addLetter(e.key.toLowerCase()); }
+    else if (e.key === "Backspace") { backspace(); e.preventDefault(); }
+    else if (/^[a-zA-Z]$/.test(e.key)) { typeLetter(e.key.toLowerCase()); }
   });
 
   // --- Boot ----------------------------------------------------------------

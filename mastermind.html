@@ -1,0 +1,485 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Mastermind</title>
+<style>
+  :root {
+    --bg: #121213;
+    --text: #ffffff;
+    --muted: #818384;
+    --border: #3a3a3c;
+    --card: #1a1a1b;
+    --correct: #538d4e;
+    --present: #b59f3b;
+    --wrong: #b03a2e;
+  }
+
+  * { box-sizing: border-box; }
+
+  html, body {
+    margin: 0;
+    min-height: 100%;
+    background: var(--bg);
+    color: var(--text);
+    font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+  }
+
+  body {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 40px 20px 64px;
+  }
+
+  .back {
+    position: fixed;
+    top: 16px;
+    left: 16px;
+    color: var(--muted);
+    text-decoration: none;
+    font-size: 13px;
+    letter-spacing: 1px;
+  }
+  .back:hover { color: var(--text); }
+
+  header { text-align: center; margin-bottom: 18px; }
+  header h1 {
+    margin: 0;
+    font-size: 32px;
+    font-weight: 700;
+    letter-spacing: 4px;
+    text-transform: uppercase;
+  }
+  header p { margin: 8px 0 0; color: var(--muted); font-size: 14px; }
+
+  .sizes { display: flex; gap: 8px; margin-bottom: 18px; }
+  .sizes button {
+    padding: 7px 14px;
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    background: transparent;
+    color: var(--text);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    cursor: pointer;
+  }
+  .sizes button:hover { border-color: var(--muted); }
+  .sizes button.active { background: var(--correct); border-color: var(--correct); }
+
+  /* Board of guess rows */
+  .board {
+    display: flex;
+    flex-direction: column-reverse; /* newest guess row sits at the bottom near the palette */
+    gap: 8px;
+    margin-bottom: 8px;
+  }
+  .guess-row {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+  .pegs { display: flex; gap: 8px; }
+  .peg {
+    width: 38px;
+    height: 38px;
+    border-radius: 50%;
+    background: var(--card);
+    border: 1px solid var(--border);
+  }
+  .peg.slot { cursor: pointer; }
+  .peg.slot.active { box-shadow: 0 0 0 2px var(--text); }
+
+  /* Feedback grid: small black/white pegs */
+  .feedback {
+    display: grid;
+    grid-template-columns: repeat(2, 10px);
+    grid-auto-rows: 10px;
+    gap: 4px;
+    width: 24px;
+  }
+  .fb {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background: transparent;
+    border: 1px solid var(--border);
+  }
+  .fb.black { background: #ffffff; border-color: #ffffff; }
+  .fb.white { background: transparent; border-color: var(--muted); }
+
+  .rownum { width: 20px; text-align: right; color: var(--muted); font-size: 12px; }
+
+  /* Colour palette */
+  .palette { display: flex; gap: 10px; margin: 20px 0 6px; }
+  .swatch {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    cursor: pointer;
+    border: 2px solid transparent;
+    transition: transform 0.08s ease;
+  }
+  .swatch:hover { transform: scale(1.1); }
+
+  .msg { min-height: 24px; font-size: 16px; font-weight: 700; letter-spacing: 1px; margin: 12px 0 6px; text-align: center; }
+  .msg.win { color: var(--correct); }
+  .msg.lose { color: var(--wrong); }
+
+  .actions { display: flex; gap: 10px; margin-bottom: 8px; }
+  .actions button {
+    padding: 10px 18px;
+    font-size: 13px;
+    font-weight: 700;
+    letter-spacing: 1px;
+    background: transparent;
+    color: var(--text);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    cursor: pointer;
+  }
+  .actions button:hover { border-color: var(--muted); }
+  .actions button.enter { background: var(--correct); border-color: var(--correct); }
+
+  .controls { display: flex; gap: 12px; margin-top: 12px; }
+  .controls button {
+    padding: 10px 18px;
+    font-size: 13px;
+    font-weight: 700;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    background: transparent;
+    color: var(--text);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    cursor: pointer;
+  }
+  .controls button:hover { border-color: var(--muted); }
+
+  /* Secret reveal row */
+  .secret { display: flex; gap: 8px; margin-top: 14px; min-height: 38px; align-items: center; }
+  .secret .label { color: var(--muted); font-size: 12px; letter-spacing: 1px; text-transform: uppercase; margin-right: 6px; }
+
+  .notes {
+    width: 100%;
+    max-width: 380px;
+    margin-top: 30px;
+    padding-top: 16px;
+    border-top: 1px solid var(--border);
+    color: var(--muted);
+    font-size: 13px;
+    line-height: 1.6;
+  }
+  .notes h3 {
+    margin: 0 0 8px;
+    font-size: 12px;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    color: var(--text);
+  }
+  .notes ul { margin: 0; padding-left: 18px; }
+  .notes li { margin-bottom: 5px; }
+  .notes b { color: var(--text); }
+  .legend { display: inline-flex; align-items: center; gap: 4px; }
+  .legend .dot { width: 10px; height: 10px; border-radius: 50%; display: inline-block; }
+  .legend .dot.black { background: #fff; }
+  .legend .dot.white { border: 1px solid var(--muted); }
+</style>
+</head>
+<body>
+  <a class="back" href="index.html">&larr; Games</a>
+
+  <header>
+    <h1>Mastermind</h1>
+    <p>Crack the hidden colour code by deduction.</p>
+  </header>
+
+  <div class="sizes" id="sizes"></div>
+
+  <div class="board" id="board"></div>
+
+  <div class="secret" id="secret"></div>
+
+  <div class="palette" id="palette"></div>
+
+  <div class="msg" id="msg"></div>
+
+  <div class="actions">
+    <button id="clear">Clear</button>
+    <button id="submit" class="enter">Guess</button>
+  </div>
+
+  <div class="controls">
+    <button id="new">New game</button>
+  </div>
+
+  <div class="notes">
+    <h3>How to play</h3>
+    <ul>
+      <li>A secret code of coloured pegs is hidden. You have <b>10 guesses</b> to crack it.</li>
+      <li>Click a colour to fill the next slot (click a slot to select it, or to clear it). Press <b>Guess</b> when the row is full.</li>
+      <li>Feedback: a <span class="legend"><span class="dot black"></span> <b>white peg</b></span> = right colour <b>and</b> right spot; an <span class="legend"><span class="dot white"></span> <b>outline peg</b></span> = right colour, wrong spot.</li>
+      <li>Colours <b>can repeat</b> in the code. Use the clues to deduce the exact code.</li>
+    </ul>
+  </div>
+
+<script>
+(function () {
+  "use strict";
+
+  // Palette of distinct, dark-theme-friendly colours.
+  var COLORS = ["#e05252", "#e0a020", "#e6e64d", "#4fb14f", "#3f8ae0", "#a86fe0"];
+  var LEVELS = {
+    "Easy":   { slots: 4, colors: 6, guesses: 10 },
+    "Hard":   { slots: 5, colors: 6, guesses: 12 }
+  };
+
+  var sizesEl = document.getElementById("sizes");
+  var boardEl = document.getElementById("board");
+  var paletteEl = document.getElementById("palette");
+  var secretEl = document.getElementById("secret");
+  var msgEl = document.getElementById("msg");
+
+  var cfg;          // active level config
+  var secret;       // array of colour indices
+  var guesses;      // array of completed guesses [{code, black, white}]
+  var current;      // array length slots, -1 = empty
+  var activeSlot;   // selected slot index (or first empty)
+  var over;
+
+  // --- Setup ---------------------------------------------------------------
+
+  function startLevel(name) {
+    cfg = LEVELS[name];
+    markActive(name);
+    newGame();
+  }
+
+  function newGame() {
+    secret = [];
+    for (var i = 0; i < cfg.slots; i++) secret.push(Math.floor(Math.random() * cfg.colors));
+    guesses = [];
+    current = new Array(cfg.slots).fill(-1);
+    activeSlot = 0;
+    over = false;
+    buildPalette();
+    render();
+    renderSecret(false);
+    setMsg("", "");
+  }
+
+  // --- Render --------------------------------------------------------------
+
+  function pegEl(colorIdx, cls) {
+    var d = document.createElement("div");
+    d.className = "peg" + (cls ? " " + cls : "");
+    if (colorIdx >= 0) d.style.background = COLORS[colorIdx];
+    return d;
+  }
+
+  function feedbackEl(black, white) {
+    var wrap = document.createElement("div");
+    wrap.className = "feedback";
+    var k;
+    for (k = 0; k < black; k++) { var b = document.createElement("div"); b.className = "fb black"; wrap.appendChild(b); }
+    for (k = 0; k < white; k++) { var w = document.createElement("div"); w.className = "fb white"; wrap.appendChild(w); }
+    var totalEmpty = cfg.slots - black - white;
+    for (k = 0; k < totalEmpty; k++) { var e = document.createElement("div"); e.className = "fb"; wrap.appendChild(e); }
+    return wrap;
+  }
+
+  function render() {
+    boardEl.innerHTML = "";
+    // Completed guess rows (oldest first; CSS column-reverse puts newest at bottom).
+    guesses.forEach(function (g, gi) {
+      boardEl.appendChild(makeRow(g.code, gi + 1, null, g));
+    });
+    // Active input row (if game not over).
+    if (!over) {
+      boardEl.appendChild(makeRow(current, guesses.length + 1, "input", null));
+    }
+  }
+
+  function makeRow(code, num, mode, g) {
+    var row = document.createElement("div");
+    row.className = "guess-row";
+    var n = document.createElement("div");
+    n.className = "rownum";
+    n.textContent = num;
+    row.appendChild(n);
+
+    var pegs = document.createElement("div");
+    pegs.className = "pegs";
+    for (var i = 0; i < cfg.slots; i++) {
+      var cls = "";
+      if (mode === "input") {
+        cls = "slot";
+        if (i === activeSlot) cls += " active";
+      }
+      var p = pegEl(code[i], cls);
+      if (mode === "input") p.dataset.slot = i;
+      pegs.appendChild(p);
+    }
+    row.appendChild(pegs);
+
+    if (g) row.appendChild(feedbackEl(g.black, g.white));
+    else { var spacer = document.createElement("div"); spacer.className = "feedback"; row.appendChild(spacer); }
+    return row;
+  }
+
+  function renderSecret(reveal) {
+    secretEl.innerHTML = "";
+    var label = document.createElement("span");
+    label.className = "label";
+    label.textContent = reveal ? "Code" : "";
+    secretEl.appendChild(label);
+    if (!reveal) return;
+    secret.forEach(function (ci) { secretEl.appendChild(pegEl(ci, "")); });
+  }
+
+  function buildPalette() {
+    paletteEl.innerHTML = "";
+    for (var i = 0; i < cfg.colors; i++) {
+      var s = document.createElement("div");
+      s.className = "swatch";
+      s.style.background = COLORS[i];
+      s.dataset.color = i;
+      paletteEl.appendChild(s);
+    }
+  }
+
+  function setMsg(text, kind) {
+    msgEl.textContent = text;
+    msgEl.className = "msg" + (kind ? " " + kind : "");
+  }
+
+  function markActive(name) {
+    Array.prototype.forEach.call(sizesEl.children, function (b) {
+      b.classList.toggle("active", b.dataset.level === name);
+    });
+  }
+
+  // --- Scoring -------------------------------------------------------------
+
+  function evaluate(code) {
+    var black = 0, white = 0;
+    var sCount = new Array(cfg.colors).fill(0);
+    var gCount = new Array(cfg.colors).fill(0);
+    for (var i = 0; i < cfg.slots; i++) {
+      if (code[i] === secret[i]) black++;
+      else { sCount[secret[i]]++; gCount[code[i]]++; }
+    }
+    for (var c = 0; c < cfg.colors; c++) white += Math.min(sCount[c], gCount[c]);
+    return { black: black, white: white };
+  }
+
+  // --- Play ----------------------------------------------------------------
+
+  function placeColor(ci) {
+    if (over) return;
+    current[activeSlot] = ci;
+    // Advance to the next empty slot, if any.
+    var next = current.indexOf(-1);
+    activeSlot = next === -1 ? activeSlot : next;
+    render();
+  }
+
+  function selectSlot(i) {
+    if (over) return;
+    if (current[i] !== -1) { current[i] = -1; activeSlot = i; } // click filled slot clears it
+    else activeSlot = i;
+    render();
+  }
+
+  function submit() {
+    if (over) return;
+    if (current.indexOf(-1) !== -1) return setMsg("Fill all " + cfg.slots + " slots", "lose");
+    var code = current.slice();
+    var fb = evaluate(code);
+    guesses.push({ code: code, black: fb.black, white: fb.white });
+    current = new Array(cfg.slots).fill(-1);
+    activeSlot = 0;
+
+    if (fb.black === cfg.slots) {
+      over = true;
+      render();
+      renderSecret(true);
+      setMsg("Cracked it in " + guesses.length + "! 🎉", "win");
+    } else if (guesses.length >= cfg.guesses) {
+      over = true;
+      render();
+      renderSecret(true);
+      setMsg("Out of guesses — code revealed.", "lose");
+    } else {
+      render();
+      setMsg("", "");
+    }
+  }
+
+  function clearRow() {
+    if (over) return;
+    current = new Array(cfg.slots).fill(-1);
+    activeSlot = 0;
+    render();
+  }
+
+  // --- Events --------------------------------------------------------------
+
+  function buildSizes() {
+    sizesEl.innerHTML = "";
+    Object.keys(LEVELS).forEach(function (name) {
+      var b = document.createElement("button");
+      var c = LEVELS[name];
+      b.textContent = name + " (" + c.slots + ")";
+      b.dataset.level = name;
+      sizesEl.appendChild(b);
+    });
+  }
+
+  sizesEl.addEventListener("click", function (e) {
+    var b = e.target.closest("button");
+    if (b) startLevel(b.dataset.level);
+  });
+
+  paletteEl.addEventListener("click", function (e) {
+    var s = e.target.closest(".swatch");
+    if (s) placeColor(Number(s.dataset.color));
+  });
+
+  boardEl.addEventListener("click", function (e) {
+    var p = e.target.closest(".peg.slot");
+    if (p) selectSlot(Number(p.dataset.slot));
+  });
+
+  document.getElementById("clear").addEventListener("click", clearRow);
+  document.getElementById("submit").addEventListener("click", submit);
+  document.getElementById("new").addEventListener("click", newGame);
+
+  document.addEventListener("keydown", function (e) {
+    if (over) return;
+    if (e.key === "Enter") { submit(); e.preventDefault(); }
+    else if (e.key === "Backspace") {
+      // Clear the active slot (or the last filled one).
+      if (current[activeSlot] === -1) {
+        for (var i = cfg.slots - 1; i >= 0; i--) if (current[i] !== -1) { activeSlot = i; break; }
+      }
+      current[activeSlot] = -1;
+      render();
+      e.preventDefault();
+    } else if (/^[1-9]$/.test(e.key)) {
+      var ci = Number(e.key) - 1;
+      if (ci < cfg.colors) placeColor(ci);
+    }
+  });
+
+  // --- Boot ----------------------------------------------------------------
+
+  buildSizes();
+  startLevel("Easy");
+})();
+</script>
+</body>
+</html>

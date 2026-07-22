@@ -1,0 +1,379 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Noughts & Crosses</title>
+<style>
+  :root {
+    --bg: #121213;
+    --text: #ffffff;
+    --muted: #818384;
+    --border: #3a3a3c;
+    --card: #1a1a1b;
+    --correct: #538d4e;
+    --present: #b59f3b;
+    --wrong: #b03a2e;
+    --x: #3f8ae0;
+    --o: #e0a020;
+  }
+
+  * { box-sizing: border-box; }
+
+  html, body {
+    margin: 0;
+    min-height: 100%;
+    background: var(--bg);
+    color: var(--text);
+    font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+  }
+
+  body {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 40px 20px 64px;
+  }
+
+  .back {
+    position: fixed;
+    top: 16px;
+    left: 16px;
+    color: var(--muted);
+    text-decoration: none;
+    font-size: 13px;
+    letter-spacing: 1px;
+  }
+  .back:hover { color: var(--text); }
+
+  header { text-align: center; margin-bottom: 18px; }
+  header h1 {
+    margin: 0;
+    font-size: 30px;
+    font-weight: 700;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+  }
+  header p { margin: 8px 0 0; color: var(--muted); font-size: 14px; }
+
+  .sizes { display: flex; gap: 8px; margin-bottom: 18px; }
+  .sizes button {
+    padding: 7px 14px;
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    background: transparent;
+    color: var(--text);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    cursor: pointer;
+  }
+  .sizes button:hover { border-color: var(--muted); }
+  .sizes button.active { background: var(--correct); border-color: var(--correct); }
+
+  /* Scoreboard */
+  .scores {
+    display: flex;
+    gap: 12px;
+    margin-bottom: 20px;
+    width: 300px;
+    max-width: 100%;
+  }
+  .score-box {
+    flex: 1;
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 8px 6px;
+    text-align: center;
+  }
+  .score-box .label {
+    font-size: 11px;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    color: var(--muted);
+  }
+  .score-box .val { font-size: 22px; font-weight: 700; }
+  .score-box.x .val { color: var(--x); }
+  .score-box.o .val { color: var(--o); }
+
+  .board {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 8px;
+    background: #1c1c1d;
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 8px;
+    margin-bottom: 8px;
+  }
+  .cell {
+    width: 92px;
+    height: 92px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 52px;
+    font-weight: 700;
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    cursor: pointer;
+    user-select: none;
+    transition: background 0.08s ease;
+  }
+  .cell:hover { border-color: var(--muted); }
+  .cell.x { color: var(--x); }
+  .cell.o { color: var(--o); }
+  .cell.win { background: rgba(83, 141, 78, 0.25); border-color: var(--correct); }
+  .cell.filled { cursor: default; }
+
+  .msg { min-height: 26px; font-size: 18px; font-weight: 700; letter-spacing: 1px; margin: 18px 0 6px; }
+  .msg.x { color: var(--x); }
+  .msg.o { color: var(--o); }
+  .msg.draw { color: var(--muted); }
+
+  .controls { display: flex; gap: 12px; margin-top: 12px; }
+  .controls button {
+    padding: 10px 18px;
+    font-size: 13px;
+    font-weight: 700;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    background: transparent;
+    color: var(--text);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    cursor: pointer;
+  }
+  .controls button:hover { border-color: var(--muted); }
+
+  .notes {
+    width: 300px;
+    max-width: 100%;
+    margin-top: 34px;
+    padding-top: 16px;
+    border-top: 1px solid var(--border);
+    color: var(--muted);
+    font-size: 13px;
+    line-height: 1.6;
+  }
+  .notes h3 {
+    margin: 0 0 8px;
+    font-size: 12px;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    color: var(--text);
+  }
+  .notes ul { margin: 0; padding-left: 18px; }
+  .notes li { margin-bottom: 5px; }
+  .notes b { color: var(--text); }
+</style>
+</head>
+<body>
+  <a class="back" href="index.html">&larr; Games</a>
+
+  <header>
+    <h1>Noughts &amp; Crosses</h1>
+    <p>Get three in a row. You are crosses.</p>
+  </header>
+
+  <div class="sizes" id="mode"></div>
+
+  <div class="scores">
+    <div class="score-box x"><div class="label">X</div><div class="val" id="scoreX">0</div></div>
+    <div class="score-box"><div class="label">Draws</div><div class="val" id="scoreD">0</div></div>
+    <div class="score-box o"><div class="label">O</div><div class="val" id="scoreO">0</div></div>
+  </div>
+
+  <div class="board" id="board"></div>
+
+  <div class="msg" id="msg"></div>
+
+  <div class="controls">
+    <button id="new">New round</button>
+  </div>
+
+  <div class="notes">
+    <h3>How to play</h3>
+    <ul>
+      <li>Take turns placing your mark; get <b>three in a row</b> &mdash; row, column or diagonal &mdash; to win.</li>
+      <li><b>vs Computer</b>: you are <b>X</b> and move first against an unbeatable opponent &mdash; a draw is the best you can force.</li>
+      <li><b>2 Players</b>: take turns on the same device.</li>
+      <li>The scoreboard tracks wins and draws across rounds.</li>
+    </ul>
+  </div>
+
+<script>
+(function () {
+  "use strict";
+
+  var WINS = [
+    [0,1,2],[3,4,5],[6,7,8],
+    [0,3,6],[1,4,7],[2,5,8],
+    [0,4,8],[2,4,6]
+  ];
+
+  var modeEl = document.getElementById("mode");
+  var boardEl = document.getElementById("board");
+  var msgEl = document.getElementById("msg");
+  var scoreXEl = document.getElementById("scoreX");
+  var scoreOEl = document.getElementById("scoreO");
+  var scoreDEl = document.getElementById("scoreD");
+
+  var cells;        // array of 9: "", "x", "o"
+  var turn;         // "x" or "o"
+  var over;
+  var vsComputer = true;
+  var sX = 0, sO = 0, sD = 0;
+  var locked = false; // true while computer is "thinking"
+
+  // --- Setup ---------------------------------------------------------------
+
+  function newRound() {
+    cells = ["","","","","","","","",""];
+    turn = "x";
+    over = false;
+    locked = false;
+    render();
+    setMsg(vsComputer ? "Your move" : "X to move", "x");
+  }
+
+  function render(winLine) {
+    boardEl.innerHTML = "";
+    for (var i = 0; i < 9; i++) {
+      var d = document.createElement("div");
+      d.className = "cell" + (cells[i] ? " " + cells[i] + " filled" : "");
+      if (winLine && winLine.indexOf(i) !== -1) d.className += " win";
+      d.textContent = cells[i] === "x" ? "✕" : cells[i] === "o" ? "◯" : "";
+      d.dataset.i = i;
+      boardEl.appendChild(d);
+    }
+  }
+
+  function setMsg(text, kind) {
+    msgEl.textContent = text;
+    msgEl.className = "msg" + (kind ? " " + kind : "");
+  }
+
+  // --- Win detection -------------------------------------------------------
+
+  function winnerOf(b) {
+    for (var i = 0; i < WINS.length; i++) {
+      var w = WINS[i];
+      if (b[w[0]] && b[w[0]] === b[w[1]] && b[w[1]] === b[w[2]]) return { who: b[w[0]], line: w };
+    }
+    return null;
+  }
+
+  function isFull(b) { return b.every(function (c) { return c; }); }
+
+  // --- Minimax (perfect play) ----------------------------------------------
+
+  function minimax(b, player, ai, human) {
+    var win = winnerOf(b);
+    if (win) return win.who === ai ? { score: 10 } : { score: -10 };
+    if (isFull(b)) return { score: 0 };
+
+    var best = null;
+    for (var i = 0; i < 9; i++) {
+      if (b[i]) continue;
+      b[i] = player;
+      var res = minimax(b, player === "x" ? "o" : "x", ai, human);
+      b[i] = "";
+      // Prefer faster wins / slower losses by nudging with depth via magnitude.
+      var score = res.score;
+      if (best === null ||
+          (player === ai && score > best.score) ||
+          (player === human && score < best.score)) {
+        best = { score: score, move: i };
+      }
+    }
+    return best;
+  }
+
+  function computerMove() {
+    var ai = "o", human = "x";
+    var best = minimax(cells.slice(), ai, ai, human);
+    if (best.move === undefined) return;
+    place(best.move, ai);
+  }
+
+  // --- Play ----------------------------------------------------------------
+
+  function place(i, who) {
+    cells[i] = who;
+    var win = winnerOf(cells);
+    if (win) {
+      over = true;
+      render(win.line);
+      if (win.who === "x") { sX++; scoreXEl.textContent = sX; }
+      else { sO++; scoreOEl.textContent = sO; }
+      var label = vsComputer ? (win.who === "x" ? "You win! 🎉" : "Computer wins") : (win.who.toUpperCase() + " wins!");
+      setMsg(label, win.who);
+      return;
+    }
+    if (isFull(cells)) {
+      over = true;
+      render();
+      sD++; scoreDEl.textContent = sD;
+      setMsg("Draw", "draw");
+      return;
+    }
+    turn = who === "x" ? "o" : "x";
+    render();
+    if (!vsComputer) setMsg(turn.toUpperCase() + " to move", turn);
+    else setMsg(turn === "x" ? "Your move" : "Computer thinking…", turn);
+  }
+
+  function clickCell(i) {
+    if (over || locked || cells[i]) return;
+    if (vsComputer) {
+      if (turn !== "x") return;
+      place(i, "x");
+      if (!over) {
+        locked = true;
+        setTimeout(function () { computerMove(); locked = false; }, 260);
+      }
+    } else {
+      place(i, turn);
+    }
+  }
+
+  // --- Events --------------------------------------------------------------
+
+  function buildMode() {
+    modeEl.innerHTML = "";
+    [["vs Computer", true], ["2 Players", false]].forEach(function (opt) {
+      var b = document.createElement("button");
+      b.textContent = opt[0];
+      b.dataset.vs = opt[1] ? "1" : "0";
+      if (opt[1] === vsComputer) b.className = "active";
+      modeEl.appendChild(b);
+    });
+  }
+
+  modeEl.addEventListener("click", function (e) {
+    var b = e.target.closest("button");
+    if (!b) return;
+    vsComputer = b.dataset.vs === "1";
+    buildMode();
+    newRound();
+  });
+
+  boardEl.addEventListener("click", function (e) {
+    var d = e.target.closest(".cell");
+    if (d) clickCell(Number(d.dataset.i));
+  });
+
+  document.getElementById("new").addEventListener("click", newRound);
+
+  // --- Boot ----------------------------------------------------------------
+
+  buildMode();
+  newRound();
+})();
+</script>
+</body>
+</html>

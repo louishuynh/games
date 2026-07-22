@@ -1,0 +1,421 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Word Ladder</title>
+<style>
+  :root {
+    --bg: #121213;
+    --text: #ffffff;
+    --muted: #818384;
+    --border: #3a3a3c;
+    --card: #1a1a1b;
+    --correct: #538d4e;
+    --present: #b59f3b;
+    --wrong: #b03a2e;
+  }
+
+  * { box-sizing: border-box; }
+
+  html, body {
+    margin: 0;
+    min-height: 100%;
+    background: var(--bg);
+    color: var(--text);
+    font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+  }
+
+  body {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 40px 20px 64px;
+  }
+
+  .back {
+    position: fixed;
+    top: 16px;
+    left: 16px;
+    color: var(--muted);
+    text-decoration: none;
+    font-size: 13px;
+    letter-spacing: 1px;
+  }
+  .back:hover { color: var(--text); }
+
+  header { text-align: center; margin-bottom: 18px; }
+  header h1 {
+    margin: 0;
+    font-size: 34px;
+    font-weight: 700;
+    letter-spacing: 5px;
+    text-transform: uppercase;
+  }
+  header p { margin: 8px 0 0; color: var(--muted); font-size: 14px; }
+
+  /* Length selector */
+  .sizes { display: flex; gap: 8px; margin-bottom: 18px; }
+  .sizes button {
+    padding: 7px 14px;
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    background: transparent;
+    color: var(--text);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    cursor: pointer;
+  }
+  .sizes button:hover { border-color: var(--muted); }
+  .sizes button.active { background: var(--correct); border-color: var(--correct); }
+
+  .goal {
+    font-size: 13px;
+    color: var(--muted);
+    letter-spacing: 1px;
+    margin-bottom: 14px;
+    text-align: center;
+  }
+  .goal b { color: var(--text); }
+  .goal .opt { color: var(--present); }
+
+  /* Ladder rows */
+  .ladder {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    margin-bottom: 12px;
+  }
+  .row { display: flex; gap: 6px; justify-content: center; }
+  .tile {
+    width: 50px;
+    height: 50px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 24px;
+    font-weight: 700;
+    text-transform: uppercase;
+    border: 2px solid var(--border);
+    border-radius: 6px;
+    background: var(--card);
+  }
+  .row.start .tile { border-color: var(--muted); }
+  .row.end .tile { background: var(--present); border-color: var(--present); color: #10100a; }
+  .row.rung .tile.changed { background: var(--correct); border-color: var(--correct); }
+  .row.input .tile { border-color: var(--muted); }
+  .row.input .tile.cursor { border-color: var(--text); }
+  .divider { color: var(--muted); font-size: 12px; text-align: center; letter-spacing: 2px; margin: 2px 0; }
+
+  .msg { min-height: 20px; font-size: 14px; font-weight: 700; letter-spacing: 1px; margin: 8px 0 14px; }
+  .msg.ok { color: var(--correct); }
+  .msg.err { color: var(--wrong); }
+  .msg.big { color: var(--correct); font-size: 16px; }
+
+  .actions { display: flex; gap: 10px; margin-bottom: 8px; flex-wrap: wrap; justify-content: center; }
+  .actions button {
+    padding: 10px 18px;
+    font-size: 13px;
+    font-weight: 700;
+    letter-spacing: 1px;
+    background: transparent;
+    color: var(--text);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    cursor: pointer;
+  }
+  .actions button:hover { border-color: var(--muted); }
+  .actions button.enter { background: var(--correct); border-color: var(--correct); }
+
+  .controls { display: flex; gap: 12px; margin-top: 20px; }
+  .controls button {
+    padding: 10px 18px;
+    font-size: 13px;
+    font-weight: 700;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    background: transparent;
+    color: var(--text);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    cursor: pointer;
+  }
+  .controls button:hover { border-color: var(--muted); }
+
+  .notes {
+    width: 100%;
+    max-width: 420px;
+    margin-top: 34px;
+    padding-top: 16px;
+    border-top: 1px solid var(--border);
+    color: var(--muted);
+    font-size: 13px;
+    line-height: 1.6;
+  }
+  .notes h3 {
+    margin: 0 0 8px;
+    font-size: 12px;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    color: var(--text);
+  }
+  .notes ul { margin: 0; padding-left: 18px; }
+  .notes li { margin-bottom: 5px; }
+  .notes b { color: var(--text); }
+</style>
+</head>
+<body>
+  <a class="back" href="index.html">&larr; Games</a>
+
+  <header>
+    <h1>Word Ladder</h1>
+    <p>Change one letter at a time &mdash; every step must be a real word.</p>
+  </header>
+
+  <div class="sizes" id="sizes"></div>
+
+  <div class="goal" id="goal"></div>
+
+  <div class="ladder" id="ladder"></div>
+
+  <div class="msg" id="msg"></div>
+
+  <div class="actions">
+    <button id="undo">Undo</button>
+    <button id="submit" class="enter">Enter</button>
+  </div>
+
+  <div class="controls">
+    <button id="new">New puzzle</button>
+    <button id="reveal">Show solution</button>
+  </div>
+
+  <div class="notes">
+    <h3>How to play</h3>
+    <ul>
+      <li>Get from the <b>start word</b> to the <b>target</b> (shown gold) one step at a time.</li>
+      <li>Each step changes <b>exactly one letter</b> and keeps the same length &mdash; no adding, removing or rearranging.</li>
+      <li>Every rung must be a <b>real word</b>. The changed letter turns green.</li>
+      <li>Try to match the <b>par</b> &mdash; the fewest steps possible.</li>
+    </ul>
+  </div>
+
+<script>
+(function () {
+  "use strict";
+
+  var DATA = {"words":{"4":["abba","able","aces","ache","acid","acme","acne","acre","acta","acts","adds","aeon","aero","agar","aged","ages","aide","aids","aims","airs","airy","akin","alan","alas","alba","alec","alfa","ally","alma","aloe","alps","also","alto","alum","amen","amid","amin","amir","ammo","amps","anew","anil","anna","anon","ante","anti","ants","apes","apex","aqua","arch","arco","arcs","area","ares","aria","arid","arms","army","arts","asks","atom","atop","aunt","aura","auto","avid","away","axel","axes","axis","axle","ayes","baba","babe","baby","bach","back","bags","baht","bail","bait","bake","bald","bale","ball","balm","band","bang","bank","bans","barb","bard","bare","bark","barn","bars","base","bash","bass","bath","bats","baud","bays","bead","beam","bean","bear","beat","beau","beck","beds","beef","been","beep","beer","bees","beet","bell","belt","bend","bent","berg","best","beta","beth","bets","bias","bibs","bids","bike","bile","bill","bind","bins","bios","bird","bite","bits","blah","blew","blob","bloc","blot","blow","blue","blur","boar","boat","body","boil","bold","bolt","bomb","bond","bone","bong","boob","book","boom","boon","boot","bora","bore","born","boss","both","bots","bout","bowl","bows","boys","brad","bran","bras","brat","bray","bred","brew","brig","brio","brit","bros","brow","buck","buds","buff","bugs","bulb","bulk","bull","bump","bunk","buoy","burn","burr","bury","bush","bust","busy","butt","buys","buzz","byte","cabs","cafe","cage","cain","cake","calf","call","calm","came","camp","cams","cane","cans","cant","cape","caps","carb","card","care","carl","carp","carr","cars","cart","casa","case","cash","cast","cate","cats","cave","cell","cent","chad","chao","chap","char","chat","chef","chew","chez","chic","chin","chip","chit","chop","chow","ciao","cine","cite","city","clad","clam","clan","clap","claw","clay","clip","club","clue","coal","coat","coax","cobb","coca","coco","coda","code","coed","coil","coin","coke","cola","cold","cole","colt","coma","comb","come","comp","cone","conn","cons","cook","cool","coon","coop","cope","cops","copy","cord","core","cork","corn","cory","cost","cosy","cote","cots","coup","cove","cows","cozy","crab","cram","crew","crib","crop","crow","cube","cubs","cues","cuff","cult","cups","curb","cure","curl","curr","curt","cute","cuts","cyan","cyst","dads","daft","dahl","dale","dame","damp","dams","dang","dare","dark","darn","dart","dash","data","date","dawn","days","dead","deaf","deal","dean","dear","debt","deck","deco","deed","deem","deep","deer","defy","deli","dell","demo","dent","deny","desk","dial","dice","dido","died","dies","diet","digs","dill","dime","dine","ding","dips","dire","dirk","dirt","disc","dish","disk","diss","diva","dive","dock","docs","does","dogs","dojo","dole","doll","dome","done","dong","doom","door","dope","dorm","dose","doth","dots","dove","down","drag","dram","draw","drew","drip","drop","drug","drum","dual","duck","duct","dude","duel","dues","duet","duff","duke","dull","duly","dumb","dump","dune","dung","dunk","dusk","dust","duty","dyed","dyer","dyes","dyke","each","earl","earn","ears","ease","east","easy","eats","echo","eddy","edge","edit","eggs","eide","elan","else","emit","ends","envy","epic","ergo","eros","euro","even","ever","evil","exam","exec","exit","exon","expo","eyed","eyes","eyre","face","fact","fade","fail","fair","fake","fall","fame","fang","fans","fare","farm","faro","fart","fast","fate","fats","faux","fave","fear","feat","feds","feed","feel","fees","feet","fell","felt","fern","fiat","fife","figs","fila","file","fill","film","find","fine","fink","fins","fire","firm","fish","fist","fits","five","flag","flap","flat","flaw","flax","flea","fled","flee","flew","flex","flip","flop","flow","flux","foam","foes","foil","fold","folk","fond","font","food","fool","foot","ford","fore","fork","form","fort","foss","foul","four","fowl","foxy","fray","free","fret","frog","from","fuel","fuji","full","fund","funk","fury","fuse","fuss","gage","gags","gain","gait","gala","gale","gall","gals","game","gang","gaps","gasp","gate","gave","gays","gaze","gear","geek","gees","geld","gels","gems","gene","gent","germ","gets","gift","giga","gigs","gill","gilt","gimp","girl","giro","give","glad","glen","glib","glow","glue","gnus","goal","goat","gods","goes","gold","golf","gone","gong","good","gore","gosh","gown","grab","grad","gram","gran","gray","grew","grey","grid","grim","grin","grip","grit","grow","grub","gulf","gull","gums","guns","guru","gust","guts","guys","gyms","hack","haha","hail","hair","hale","half","hall","halo","halt","hand","hang","hank","hard","hare","harm","harp","hart","hash","hast","hate","hath","hats","haul","haut","have","hawk","hays","haze","head","heal","heap","hear","heat","heck","heed","heel","heir","held","hell","helm","help","hemp","hens","herb","herd","here","hero","hers","hide","high","hike","hill","hind","hint","hips","hire","hist","hits","hive","hoax","hobo","hobs","hoes","hogs","hold","hole","holt","holy","home","homo","hone","hong","hons","hood","hook","hoop","hope","hops","horn","hose","host","hour","hove","howe","howl","hoya","hubs","huff","huge","hugs","hula","hulk","hull","hump","hung","hunk","huns","hunt","hurt","hush","hymn","hype","ibis","iced","icon","idea","idle","idol","ills","imam","inch","info","inks","inns","into","ions","iris","iron","isle","itch","item","jack","jade","jail","jake","jams","jane","jars","java","jaws","jays","jazz","jean","jeep","jerk","jess","jest","jets","jeux","jews","jill","jive","jobs","jock","joey","john","join","joke","jolt","josh","joss","joys","judo","jugs","jump","junk","jury","just","kane","kart","kata","kays","keel","keen","keep","kemp","keno","kent","kept","kern","keys","khan","kick","kids","kill","kiln","kind","king","kirk","kiss","kite","kits","kiwi","knee","knew","knit","knob","knot","know","kohl","koss","kris","labs","lace","lack","lacy","lads","lady","laid","lair","lake","lama","lamb","lame","lamp","land","lane","lang","laps","lark","lars","lash","last","late","lava","lawn","laws","lays","lazy","lead","leaf","leak","lean","leap","lear","lees","left","legs","lend","lens","lent","less","lest","lets","levy","liar","libs","lice","lick","lido","lids","lied","lien","lies","lieu","life","lift","like","lily","lima","limb","lime","limo","limp","line","ling","link","linn","lint","lion","lips","lira","lire","lisp","list","lite","live","load","loaf","loan","lobe","loch","loci","lock","loco","loft","logo","logs","lone","long","look","loom","loon","loop","loot","lord","lore","lose","loss","lost","lots","loud","love","lowe","lows","lube","luce","luck","lulu","lump","luna","lung","lure","lush","lust","lutz","luxe","lynx","mace","mach","mack","macs","made","mage","mags","maid","mail","main","make","male","mall","malt","mama","mana","mans","many","maps","marc","mare","mark","mars","mart","mash","mask","mass","mast","mate","math","mats","matt","maud","maxi","maya","mayo","mays","maze","mead","meal","mean","meat","meek","meet","melt","memo","mems","menu","meow","mere","mesa","mesh","mess","meta","meth","mica","mice","mick","midi","mike","mild","mile","milk","mill","milo","mime","mina","mind","mine","mini","mink","mint","miss","mist","mite","moan","mock","mode","mods","mojo","mold","mole","moms","monk","mono","mood","moon","moor","moot","mora","more","mort","moss","most","moth","mott","move","much","muck","mugs","mule","muni","muse","musk","must","mute","mutt","myth","nada","nail","name","nana","navy","nays","nazi","near","neat","neck","need","nema","neon","nerd","ness","nest","nets","news","newt","next","nice","nick","nine","nite","node","noel","noir","nome","none","nook","noon","nope","norm","nose","note","noun","nous","nova","nude","nuke","null","numb","nuns","nuts","oaks","oath","oats","obey","oboe","odds","odor","offs","ogre","ohms","oils","oily","okay","olds","omen","omit","once","ones","only","onto","onyx","oops","opal","open","opus","oral","orca","orgy","otto","ouch","ours","outs","oval","oven","over","owed","owes","owls","owns","pace","pack","pacs","pact","pads","page","paid","pain","pair","pale","palm","pals","pane","pans","pant","papa","para","park","part","pass","past","pate","path","pats","pave","pawn","paws","pays","peak","pear","peas","peat","peck","peek","peel","peep","peer","pegs","pens","peri","perm","peso","pest","pets","phat","pick","pics","pier","pies","pigs","pike","pile","pill","pima","pimp","pine","ping","pink","pins","pint","pipe","pits","pity","plan","plat","play","plea","plot","plow","plug","plum","plus","pods","poem","poet","poke","pole","poll","polo","poly","pond","pong","pony","pooh","pool","poop","poor","pope","pops","pore","pork","porn","port","pose","posh","post","pots","pour","pray","prep","prey","prod","prof","prog","prom","prop","pros","pubs","puck","puff","pull","pulp","puma","pump","punk","punt","pups","pure","push","puts","putt","quad","quay","quit","quiz","race","rack","raft","rage","rags","raid","rail","rain","raja","rake","ramp","rams","rand","rang","rank","rant","rare","rash","rate","rats","rave","rays","read","real","reap","rear","redo","reds","reed","reef","reel","rees","refs","regs","rein","rely","rent","repo","reps","rest","rial","ribs","rice","rich","rick","ride","riff","rift","rigs","rims","ring","rink","riot","ripe","rips","rise","risk","rite","ritz","road","roam","roar","robe","rock","rode","rods","role","rolf","roll","roms","roof","room","root","rope","rose","rosy","rove","rows","ruby","rude","ruff","rugs","ruin","rule","rune","runs","rush","rust","ruth","sack","safe","saga","sage","said","sail","sake","sale","salt","same","sand","sane","sang","sank","sans","sash","saul","save","saws","says","scam","scan","scar","scat","scot","scum","seal","seam","seas","seat","secs","sect","seed","seek","seem","seen","seer","sees","self","sell","semi","send","sent","sept","sera","sets","sewn","sexy","shah","sham","shaw","shay","shea","shed","shes","shin","ship","shoe","shop","shot","show","shri","shut","sick","side","sigh","sign","silk","silt","sims","sine","sing","sinh","sink","sins","sips","sire","site","sith","sits","size","skew","skid","skim","skin","skip","skis","slab","slam","slap","sled","slew","slid","slim","slip","slit","slot","slow","slug","smog","smut","snap","snip","snow","snug","soak","soap","soar","sock","soda","sofa","soft","soil","sold","sole","solo","soma","some","song","sons","soon","sore","sort","soul","soup","sour","sous","span","spar","spas","spec","sped","spin","spit","spot","spun","spur","stab","stag","star","stat","stay","stem","step","stew","stir","stop","stow","stub","stud","stun","subs","such","suck","sued","sues","suit","sumo","sums","sung","sunk","suns","sure","surf","swan","swap","swat","sway","swim","sync","tabs","tack","taco","tags","tail","take","tale","talk","tall","tame","tang","tank","taos","tape","taps","tart","task","tate","taxa","taxi","teak","teal","team","tear","teas","teen","tees","tele","tell","temp","tend","tens","tent","term","test","text","than","that","thee","them","then","they","thin","this","thou","thru","thug","thus","tick","tide","tidy","tied","tier","ties","tiff","tiki","tile","till","tilt","time","ting","tins","tint","tiny","tips","tire","toad","toby","toes","tofu","told","toll","tomb","tome","toms","tone","tong","tons","tony","took","tool","toon","tops","tore","tori","torn","toro","tort","tory","toss","tote","tour","tout","town","toys","trad","tram","trap","tray","tree","trek","trey","trim","trio","trip","troy","true","tuba","tube","tubs","tuck","tuff","tuna","tune","tung","turf","turk","turn","twat","twin","tyne","type","typo","tyre","ugly","undo","unit","unto","upon","urea","urge","used","user","uses","vail","vain","vale","vans","vars","vary","vase","vast","veal","veil","vein","vent","vera","verb","vert","very","vest","veto","vets","vial","vibe","vice","vide","view","vile","vine","visa","vita","viva","void","volt","vote","vows","wade","wage","wait","wake","walk","wall","wand","want","ward","ware","warm","warn","warp","wars","wary","wash","wasp","watt","wave","ways","weak","wear","webs","weed","week","weep","weir","weld","well","welt","went","were","west","what","when","whey","whip","whoa","whom","wick","wide","wife","wigs","wild","will","wilt","wind","wine","wing","wink","wins","wipe","wire","wise","wish","with","wits","woes","woke","wolf","womb","wont","wood","wool","word","wore","work","worm","worn","wort","wrap","wren","writ","wynn","yang","yard","yarn","yeah","year","yeas","yell","yoga","yogi","yoke","your","yuan","zeal","zero","zeta","zinc","zone","zoom","zoos"],"5":["abbas","abbey","abbot","abide","abode","abort","about","above","abuse","abyss","aches","acids","acorn","acres","acted","actin","actor","acute","adapt","added","adder","adept","admit","adobe","adopt","adore","adult","aegis","after","again","agate","agent","agile","aging","agony","agora","agree","ahead","aided","aides","aimed","aired","aisle","alamo","aland","alarm","album","alder","alert","algae","alias","alien","align","alike","alive","alley","allow","alloy","aloha","alone","along","aloud","alpha","altar","alter","altos","amber","amend","amiga","amigo","amino","among","amour","ample","angel","anger","angle","angry","angst","anime","ankle","annex","annoy","anvil","apart","apnea","appel","apple","apply","apron","arbor","areas","arena","argue","argus","ariel","arise","armed","armor","aroma","arose","array","arrow","arson","ascot","ashes","aside","asked","asker","aspen","assay","asses","asset","atlas","atoll","atoms","attic","audio","audit","autos","avail","avant","avian","avoid","await","awake","award","aware","awful","axial","axiom","azure","babel","babes","backs","bacon","badge","badly","baked","baker","balls","bally","banco","bands","bangs","banjo","banks","barge","barns","baron","barre","basal","based","bases","basic","basil","basin","basis","batch","bates","baths","baton","bayou","beach","beads","beams","beans","beard","bears","beast","beats","bebop","beech","beers","began","begin","begun","beige","being","belle","bells","belly","below","belts","bench","bends","benny","berry","berth","bezel","bible","biker","bikes","bills","billy","binds","binge","bingo","birch","birds","birth","bison","bites","black","blade","blame","bland","blank","blast","blaze","bleak","bleed","blend","bless","blind","blink","bliss","blitz","block","blond","blood","bloom","blown","blows","blues","bluff","blunt","blush","board","boast","boats","bobby","bogus","boing","bolts","bombs","bonds","bones","bonus","boobs","books","boost","booth","boots","booty","booze","bored","borne","boron","bound","bowed","bowel","bowls","boxed","boxer","boxes","brace","braid","brain","brake","brand","brass","brave","bravo","bread","break","breed","brent","brick","bride","brief","brill","brine","bring","brink","brits","britt","broad","brock","broke","brood","brook","broom","broth","brown","brush","brute","bucks","buddy","buffy","buggy","build","built","bulbs","bulge","bulky","bulls","bully","bumps","bunch","bunny","burke","burns","burnt","burst","buses","busty","butch","butte","butts","buyer","bylaw","bytes","cabin","cable","cache","caddy","cadet","cadre","cafes","cages","cakes","calls","camel","cameo","campo","camps","candy","canes","canoe","canon","carat","carbs","cards","cared","cares","cargo","carol","carry","carte","carts","carve","cases","caste","casts","catch","cater","cause","caves","cease","cedar","celeb","cello","cells","cents","ceres","chain","chair","chalk","champ","chang","chant","chaos","charm","chars","chart","chase","chats","cheap","cheat","check","cheek","cheer","chefs","chess","chest","chevy","chick","chico","chief","child","chile","chili","chill","chime","chimp","china","chino","chips","choir","choke","chops","chord","chose","chuck","chunk","chute","cider","cigar","circa","cisco","cited","cites","civic","civil","claim","clamp","clans","clash","clasp","class","claws","clean","clear","clerk","click","cliff","climb","cline","cling","clips","cloak","clock","clogs","clone","close","cloth","cloud","clown","clubs","clues","coach","coast","coats","cobra","cocoa","cocos","codec","coded","coder","codes","codex","coils","coins","colds","coles","colin","colon","color","colts","combo","combs","comes","comet","comfy","comic","comix","comma","comps","condo","cones","congo","cooks","coral","cords","cores","corgi","corps","costa","costs","couch","cough","could","count","coupe","court","cover","crabs","crack","craft","crane","crank","crash","crate","crave","crawl","craze","crazy","cream","creed","creek","creep","creme","crest","crews","cribs","cried","cries","crime","crisp","crock","croft","crook","crops","crore","cross","crowd","crown","crows","crude","cruel","crush","crust","crypt","cubes","cubic","cuffs","cupid","cured","cures","curly","curry","curse","curve","cutie","cycle","cysts","daddy","daily","dairy","daisy","dance","dandy","dared","darts","dated","dates","datum","deals","dealt","deans","death","debit","debts","debug","debut","decal","decay","decks","decor","deeds","deems","defer","deity","delay","delft","delta","demon","demos","denim","dense","dents","depot","depth","derby","derry","desks","deter","detox","deuce","devel","devil","devon","diary","diced","diets","digit","dildo","dinar","diner","diode","dirty","disco","discs","disks","ditch","ditto","divas","diver","dives","dizzy","docks","dodge","doggy","dogma","doing","dolce","dolls","dolly","donna","donor","donut","doors","doses","doubt","dough","doves","downs","dozen","draft","drain","drake","drama","drank","drawn","draws","dread","dream","dress","dried","dries","drift","drill","drink","drive","drops","drove","drown","drugs","druid","drums","drunk","dryer","ducks","ducts","dudes","dukes","dumas","dummy","dumps","dunes","dusty","dutch","duvet","dwarf","dwell","dying","dykes","eager","eagle","early","earns","earth","eaten","eater","ebony","edema","edged","edges","edits","eight","eject","elbow","elder","elect","elite","elves","embed","emery","empty","enact","ended","enema","enemy","enjoy","enrol","enter","entry","envoy","epoch","epoxy","equal","equip","erase","erect","erica","erred","error","essay","ester","ether","ethic","ethos","ethyl","euros","event","every","evils","evite","evoke","exact","exams","excel","exert","exile","exist","exits","expat","expos","extra","fable","faced","faces","facet","facts","faded","fades","fails","faint","fairs","fairy","faith","fakes","falls","false","famed","fancy","fanny","fares","farms","fatal","fatty","fault","fauna","favor","faxed","faxes","fears","feast","fecal","feeds","feels","femme","fence","feral","ferry","fetal","fetch","fetus","fever","fewer","fiber","fibre","fiche","field","fiery","fifth","fifty","fight","filed","files","fills","films","filth","final","finch","finds","fined","finer","fines","fired","fires","firms","first","firth","fists","fitch","fixed","fixes","flags","flair","flake","flame","flank","flaps","flare","flash","flask","flats","flaws","fleet","flesh","flick","flied","flies","flint","flirt","float","flock","flood","floor","flops","flora","floss","flour","flown","flows","fluff","fluid","fluke","flung","flush","flute","flyer","focal","focus","folds","folio","folks","folly","fonds","fonts","foods","fools","force","forge","forks","forms","forte","forth","forty","forum","fouls","found","foxes","foyer","frame","franc","frank","fraud","freak","freed","frees","fresh","fried","fries","fritz","frogs","front","frost","fruit","fryer","fudge","fuels","fully","fumes","funds","fungi","funky","funny","furry","fused","fuses","futon","fuzzy","gains","gamer","games","gamma","gangs","garth","gases","gated","gates","gator","gauge","gauss","gears","gecko","geeks","geeky","geese","genes","genet","genie","genoa","genre","gents","genus","germs","ghost","giant","gifts","gimme","ginny","girls","given","gives","gizmo","glade","gland","glare","glass","glaze","glide","globe","gloom","glory","gloss","glove","glued","gnome","goals","goats","going","gonzo","goods","goofy","goose","gorge","gowns","grabs","grace","grade","grads","graft","grail","grain","grams","grand","grant","graph","grasp","grass","grave","gravy","grays","great","greed","greek","green","greet","grids","grief","grill","grind","grips","groom","gross","group","grove","grown","grows","guard","guess","guest","guide","guild","guile","guilt","gully","gurus","gusts","gypsy","habit","hacks","haiku","hairs","hairy","halls","hands","handy","hangs","hanks","happy","hardy","harms","harry","harsh","haste","hatch","hated","hates","haunt","haute","haven","havoc","hawks","hazel","heads","heaps","heard","hears","heart","heath","heats","heavy","hedge","heels","hefty","heirs","helix","hello","helms","helps","hence","henry","herbs","herds","heres","heron","hertz","hicks","hides","highs","hikes","hills","hinge","hints","hippo","hired","hires","hitch","hives","hobby","hogan","hoist","holds","holes","holly","homer","homes","honda","honey","honor","hoods","hooks","hoops","hoped","hopes","horde","horns","horny","horse","hoses","hosts","hotel","hound","hours","house","hover","hubby","human","humid","humor","humps","hunks","hunts","hurry","hurst","hurts","husky","hutch","hydra","hydro","hymns","hyper","icing","icons","ideal","ideas","idiot","idols","image","imply","incur","index","indie","inert","infer","infos","infra","inlay","inlet","inner","input","inset","inter","intro","ionic","irons","irony","isles","issue","itchy","items","ivory","jacks","japan","jazzy","jeans","jelly","jenny","jerry","jesse","jewel","jihad","jimmy","jocks","johns","joins","joint","joker","jokes","jolly","jones","judas","judge","juice","juicy","jumbo","jumps","juror","kanji","kappa","karat","karma","kayak","keeps","kelly","kerry","khaki","kicks","kills","kinds","kings","kinks","kinky","kiosk","kites","kitty","knees","knife","knobs","knock","knoll","knots","known","knows","koala","kraft","krona","krone","kudos","label","labor","lacey","lacks","laden","lager","laird","lakes","lambs","lamps","lance","lands","lanes","lapel","lapse","large","largo","laser","lasts","latch","later","latex","lathe","laugh","laura","lawns","layer","layup","leach","leads","leafs","leaks","leaps","learn","lease","leash","least","leave","ledge","lefty","legal","lemma","lemon","lends","leone","level","lever","levin","lewis","lexis","liang","liars","libel","libra","licks","liens","lifts","light","liked","likes","lilac","limbo","limbs","limit","limos","lined","linen","liner","lines","lingo","links","lions","lipid","lists","liter","litre","lived","liver","lives","llama","loads","loans","lobby","local","locks","locus","lodge","lofts","lofty","logan","logic","logos","looks","looms","loops","loose","lords","loser","loses","lotto","lotus","louie","louis","lousy","loved","lover","loves","lower","loyal","lucid","lucky","lunar","lunch","lungs","lupus","lures","lying","lymph","lynch","lyric","macho","macon","macro","madam","mafia","magic","magma","maids","mails","mains","maize","major","maker","makes","males","malls","mambo","mamma","mango","mania","manic","manly","manor","maple","march","marge","maria","marks","marry","marsh","masks","mason","match","mater","mates","maths","matte","maven","maxim","mayan","maybe","mayor","meals","means","meant","meats","mecca","medal","media","medic","meets","melee","melon","memos","menus","mercy","merge","merit","merle","merry","messy","metal","meter","metre","metro","micro","midst","might","mikes","miles","milky","mills","mimic","minds","mined","miner","mines","minis","minor","minus","missy","misty","mites","mixed","mixer","mixes","mocha","modal","model","modem","modes","moist","molds","molly","momma","mommy","monde","mondo","money","monks","monte","month","moods","moody","moons","moose","moral","moron","morse","motel","moths","motif","motor","motto","mould","mound","mount","mouse","mouth","moved","mover","moves","movie","mower","muddy","mulch","mules","mummy","mural","music","myths","nails","naive","naked","named","names","nancy","nanny","nasal","nasty","natal","naval","navel","nazis","needs","needy","nelly","nerds","nerve","nests","never","newer","newly","nexus","nicer","niche","niece","nifty","night","ninja","ninth","nitro","noble","nodes","noise","noisy","nomad","norms","north","notch","noted","notes","nouns","novel","nudes","nudge","nurse","nylon","oasis","obese","occur","ocean","octet","oddly","odors","offer","often","older","olive","omega","onion","onset","opens","opera","opium","opted","optic","orbit","order","organ","ortho","other","otter","ought","ounce","outer","ovary","ovens","overs","overt","owing","owned","owner","oxide","ozone","paced","packs","paddy","padre","pagan","pager","pages","pains","paint","pairs","palms","palsy","panda","panel","panic","pants","panty","paper","paris","parks","parry","parts","party","paseo","pasta","paste","patch","paths","patio","patsy","patty","pause","paved","payer","peace","peach","peaks","pearl","pears","pecan","pedal","pedro","peeps","peers","penal","pence","penis","penny","perch","peril","perks","perky","perry","pesos","pests","petal","peter","petty","phase","phone","phono","photo","piano","picks","piece","piers","piggy","piled","piles","pills","pilot","pinch","pines","pings","pinot","pinto","piper","pipes","pitch","pivot","pixel","pixie","pizza","place","plaid","plain","plane","plank","plans","plant","plate","playa","plays","plaza","plead","pleas","plots","pluck","plugs","plume","plump","plush","poems","poets","point","poker","polar","poles","polio","polka","polls","ponds","pools","poppy","porch","porno","ports","posed","poser","poses","posse","posts","potty","pouch","pound","power","prank","press","price","prick","pride","prima","prime","primo","print","prior","prism","prize","probe","promo","prone","prong","proof","props","prose","proud","prove","proxy","psalm","psych","pubic","puffy","pulls","pulse","pumps","punch","punto","pupil","puppy","purge","purse","pussy","putty","quads","quail","quake","quark","quart","quasi","queen","queer","query","quest","queue","quick","quiet","quilt","quite","quits","quota","quote","rabbi","raced","racer","races","racks","radar","radio","radon","raids","rails","rains","rainy","raise","rally","ralph","ramps","ranch","randy","range","ranks","rants","rapid","rated","rates","ratio","raven","raves","rayon","razor","reach","react","reads","ready","realm","rebel","recap","recon","redux","reeds","reefs","reels","reeve","refer","regal","rehab","reign","relax","relay","relic","remit","remix","renal","renew","rents","repay","reply","reset","resid","resin","rests","retro","retry","reuse","revue","rhino","rhyme","rider","rides","ridge","riffs","rifle","right","rigid","riley","rings","rinse","riots","risen","riser","rises","risks","risky","rites","rival","river","roach","roads","roast","robes","robin","robot","rocks","rocky","rodeo","roger","rogue","roles","rolls","roman","romeo","roofs","rooms","roots","roper","ropes","roses","rotor","rouge","rough","round","rouse","route","rover","rowan","royal","rugby","ruins","ruled","ruler","rules","rumor","rupee","rural","rusty","saber","sable","sabre","sacks","sadly","safer","safes","sails","saint","saith","salad","sales","sally","salon","salsa","salts","salty","samba","sands","sandy","santo","sarge","sassy","satin","sauce","sault","sauna","saved","saver","saves","savoy","savvy","scale","scalp","scamp","scams","scans","scare","scarf","scars","scart","scary","scene","scent","scion","scoop","scope","score","scots","scout","screw","scrub","scuba","seals","seams","sears","seats","sedan","seeds","seeks","seems","seine","seize","sells","semen","sends","sense","serge","serif","serum","serve","servo","seton","setup","seven","sewer","sexes","shack","shade","shady","shaft","shake","shall","shalt","shame","shank","shape","share","shark","sharp","shave","shawl","shawn","shear","sheds","sheen","sheep","sheer","sheet","shelf","shell","shift","shine","shiny","ships","shire","shirt","shiva","shock","shoes","shook","shoot","shops","shore","short","shots","shout","shove","shown","shows","shred","shrub","shuts","sided","sides","siege","sieve","sight","sigma","signs","silky","silly","silva","since","sings","sinks","sinus","siren","sissy","sites","sixth","sixty","sized","sizes","skate","skier","skies","skill","skins","skirt","skull","skunk","slabs","slack","slain","slams","slang","slant","slash","slate","slave","sleek","sleep","slept","slice","slick","slide","slime","sling","slips","slope","slots","slows","slump","smack","small","smart","smash","smear","smell","smile","smith","smoke","smoky","snack","snail","snake","snaps","snare","sneak","sniff","snoop","snort","snowy","snuff","soaps","sober","socks","sofas","soils","solar","solid","solos","solve","sonar","songs","sonic","sonny","sores","sorry","sorts","souls","sound","soups","south","space","spade","spank","spans","spare","spark","spawn","speak","spear","specs","speed","spell","spend","spent","sperm","spiel","spies","spike","spill","spine","spins","spite","split","spoil","spoke","spoof","spool","spoon","sport","spots","spout","spray","spree","spurs","squad","squat","squid","stack","staff","stage","stain","stair","stake","stale","stalk","stall","stamp","stand","stang","stare","stark","stars","start","stash","state","stats","stays","steak","steal","steam","steel","steep","steer","stein","stems","steps","stern","stick","stiff","still","sting","stink","stint","stock","stoke","stole","stomp","stone","stony","stood","stool","stops","store","storm","story","stout","stove","strap","straw","stray","strip","strut","stubs","stuck","studs","study","stuff","stump","stunt","style","sucks","suede","sugar","suing","suite","suits","sunny","super","supra","surge","sushi","sutra","swami","swamp","swans","swaps","swarm","swear","sweat","sweep","sweet","swell","swept","swift","swine","swing","swirl","swish","swiss","sword","sworn","swung","sykes","synod","synth","syrup","table","taboo","tabor","tails","taken","takes","tales","talks","tally","talon","tammy","tango","tanks","taped","taper","tapes","tarot","tasks","taste","tasty","taxed","taxes","taxis","taxon","teach","teams","tears","tease","teddy","teens","teeth","telex","tells","tempo","temps","tends","tenet","tenor","tense","tenth","tents","terms","terra","terry","tesla","tests","tetra","texas","texts","thank","theft","their","theme","there","these","theta","thick","thief","thigh","thine","thing","think","third","thong","thorn","those","three","threw","throw","thugs","thumb","thyme","tiara","ticks","tidal","tides","tiers","tiger","tight","tiled","tiles","timed","timer","times","tired","tires","toast","today","token","tolls","tommy","toned","toner","tones","tonga","tonic","tonne","tools","toons","tooth","topaz","topic","torah","torch","torso","total","totem","totes","touch","tough","tours","towel","tower","towns","toxic","toxin","trace","track","tract","trade","trail","train","trait","tramp","trans","traps","trash","trays","tread","treat","trees","trend","triad","trial","tribe","trick","tried","tries","trims","trips","trois","troll","troop","trout","truce","truck","truly","trump","trunk","truss","trust","truth","tubes","tufts","tulip","tummy","tumor","tuned","tuner","tunes","turbo","turks","turns","tutor","tutti","twain","tweak","tweed","tween","twice","twill","twins","twist","tying","typed","types","typos","tyres","ulcer","ultra","uncle","uncut","under","undue","unfit","union","unite","units","unity","unset","until","unzip","upper","upset","urban","urged","urges","urine","usage","users","usher","using","usual","utter","vague","valet","valid","valor","value","valve","vapor","vases","vault","vegan","veins","venom","vents","venue","verbs","verge","verse","verve","vests","vibes","vicar","vices","video","views","vigil","vigor","villa","vines","vinyl","viola","viper","viral","virus","visas","visit","visor","vista","vitae","vital","vivid","vixen","vocal","vodka","vogue","voice","volta","volts","voted","voter","votes","vowed","vowel","wacky","wafer","wager","wages","wagon","waist","waits","waive","wakes","wales","walks","walla","walls","wally","waltz","wants","wards","wares","warns","warts","waste","watch","water","watts","waugh","waved","waves","wears","weary","weave","weber","wedge","weeds","weeks","weigh","weird","welch","wells","welsh","whale","wharf","whats","wheat","wheel","where","which","while","whine","whips","white","whole","whose","widen","wider","widow","width","wigan","wight","wills","willy","winch","winds","windy","wines","wings","wiped","wiper","wipes","wired","wires","wiser","witch","witty","wives","woman","women","woods","woody","words","works","world","worms","worry","worse","worst","worth","would","wound","woven","wraps","wrath","wreck","wrist","write","wrong","wrote","xenon","xerox","yacht","yahoo","yards","yarns","years","yeast","yield","young","yours","youth","yucca","yummy","zaire","zebra","zeros","zoned","zones"]},"puzzles":{"4":[{"start":"mass","end":"foot","optimal":4,"example":["mass","moss","most","moot","foot"]},{"start":"foot","end":"term","optimal":6,"example":["foot","boot","boat","beat","beam","team","term"]},{"start":"term","end":"cent","optimal":5,"example":["term","team","beam","beat","bent","cent"]},{"start":"hate","end":"cent","optimal":4,"example":["hate","cate","cane","cant","cent"]},{"start":"cent","end":"wing","optimal":4,"example":["cent","tent","tint","ting","wing"]},{"start":"wing","end":"copy","optimal":5,"example":["wing","wine","cine","cone","cope","copy"]},{"start":"copy","end":"rose","optimal":3,"example":["copy","cosy","rosy","rose"]},{"start":"rose","end":"well","optimal":5,"example":["rose","role","dole","doll","dell","well"]},{"start":"well","end":"docs","optimal":6,"example":["well","dell","dull","duel","dues","does","docs"]},{"start":"docs","end":"male","optimal":5,"example":["docs","dock","mock","mack","mace","male"]},{"start":"male","end":"temp","optimal":6,"example":["male","hale","hall","hell","help","hemp","temp"]},{"start":"temp","end":"milk","optimal":6,"example":["temp","hemp","help","hell","hill","mill","milk"]},{"start":"cite","end":"guns","optimal":4,"example":["cite","cute","cuts","guts","guns"]},{"start":"guns","end":"milk","optimal":5,"example":["guns","suns","sins","sink","mink","milk"]},{"start":"milk","end":"deck","optimal":4,"example":["milk","mick","pick","peck","deck"]},{"start":"deck","end":"mike","optimal":5,"example":["deck","neck","nick","nice","mice","mike"]},{"start":"mike","end":"bars","optimal":4,"example":["mike","bike","bake","bare","bars"]},{"start":"bars","end":"bone","optimal":3,"example":["bars","bare","bore","bone"]},{"start":"bone","end":"cast","optimal":4,"example":["bone","cone","cane","case","cast"]},{"start":"cast","end":"bugs","optimal":5,"example":["cast","past","pass","bass","bags","bugs"]},{"start":"bugs","end":"tied","optimal":6,"example":["bugs","bags","tags","taps","tips","ties","tied"]},{"start":"tied","end":"lock","optimal":6,"example":["tied","died","dies","does","docs","dock","lock"]},{"start":"shoe","end":"laid","optimal":6,"example":["shoe","shop","ship","skip","skid","said","laid"]},{"start":"laid","end":"lock","optimal":5,"example":["laid","land","lane","lace","lack","lock"]},{"start":"lock","end":"belt","optimal":5,"example":["lock","look","book","boot","bolt","belt"]},{"start":"belt","end":"wall","optimal":3,"example":["belt","welt","well","wall"]},{"start":"wall","end":"says","optimal":4,"example":["wall","gall","gals","gays","says"]},{"start":"says","end":"will","optimal":5,"example":["says","gays","gals","gall","wall","will"]},{"start":"will","end":"tale","optimal":3,"example":["will","till","tall","tale"]},{"start":"tale","end":"just","optimal":5,"example":["tale","male","mule","muse","must","just"]},{"start":"take","end":"just","optimal":6,"example":["take","make","male","mule","muse","must","just"]},{"start":"just","end":"ride","optimal":6,"example":["just","must","mutt","mute","mite","rite","ride"]},{"start":"stud","end":"road","optimal":6,"example":["stud","stub","stab","star","soar","roar","road"]},{"start":"ride","end":"bios","optimal":4,"example":["ride","aide","aids","bids","bios"]},{"start":"bios","end":"desk","optimal":6,"example":["bios","bids","kids","kiss","diss","disk","desk"]},{"start":"desk","end":"dive","optimal":4,"example":["desk","disk","dirk","dire","dive"]},{"start":"dive","end":"deer","optimal":6,"example":["dive","dire","dirt","diet","died","deed","deer"]},{"start":"life","end":"bull","optimal":5,"example":["life","like","bike","bile","bill","bull"]},{"start":"slow","end":"deer","optimal":5,"example":["slow","slew","sled","seed","deed","deer"]},{"start":"deer","end":"bull","optimal":5,"example":["deer","dear","deal","dual","dull","bull"]},{"start":"bull","end":"bowl","optimal":4,"example":["bull","ball","bail","boil","bowl"]},{"start":"bowl","end":"more","optimal":5,"example":["bowl","howl","howe","hole","mole","more"]},{"start":"punk","end":"more","optimal":6,"example":["punk","pink","link","line","lire","lore","more"]},{"start":"more","end":"road","optimal":4,"example":["more","lore","lord","load","road"]},{"start":"road","end":"link","optimal":6,"example":["road","read","lead","lend","lent","lint","link"]},{"start":"link","end":"some","optimal":5,"example":["link","line","lime","time","tome","some"]},{"start":"ring","end":"some","optimal":5,"example":["ring","sing","sang","sane","same","some"]},{"start":"some","end":"pull","optimal":4,"example":["some","sole","pole","poll","pull"]},{"start":"pull","end":"nude","optimal":6,"example":["pull","poll","roll","role","rule","rude","nude"]},{"start":"nude","end":"went","optimal":6,"example":["nude","node","none","gone","gene","gent","went"]},{"start":"nuke","end":"pads","optimal":6,"example":["nuke","nude","rude","rode","rods","pods","pads"]},{"start":"went","end":"swap","optimal":4,"example":["went","sent","seat","swat","swap"]},{"start":"swap","end":"peer","optimal":5,"example":["swap","swat","seat","peat","pear","peer"]},{"start":"pads","end":"hide","optimal":5,"example":["pads","lads","lids","aids","aide","hide"]},{"start":"hide","end":"mind","optimal":4,"example":["hide","side","sine","mine","mind"]},{"start":"mind","end":"peer","optimal":6,"example":["mind","find","fins","pins","pies","pier","peer"]},{"start":"peer","end":"arts","optimal":6,"example":["peer","deer","dyer","dyes","ayes","ares","arts"]},{"start":"arts","end":"time","optimal":6,"example":["arts","arms","aims","aids","aide","tide","time"]},{"start":"skip","end":"harm","optimal":6,"example":["skip","skid","said","sand","hand","hard","harm"]},{"start":"harm","end":"time","optimal":4,"example":["harm","hare","hire","tire","time"]}],"5":[{"start":"newer","end":"lives","optimal":4,"example":["newer","never","lever","liver","lives"]},{"start":"spots","end":"brown","optimal":5,"example":["spots","slots","slows","blows","blown","brown"]},{"start":"males","end":"bones","optimal":5,"example":["males","makes","cakes","canes","cones","bones"]},{"start":"build","end":"slide","optimal":5,"example":["build","guild","guile","guide","glide","slide"]},{"start":"bones","end":"dolls","optimal":5,"example":["bones","cones","coles","roles","rolls","dolls"]},{"start":"dolls","end":"bonus","optimal":6,"example":["dolls","polls","poles","coles","cones","bones","bonus"]},{"start":"saint","end":"stock","optimal":4,"example":["saint","stint","stink","stick","stock"]},{"start":"bonus","end":"lives","optimal":6,"example":["bonus","bonds","bands","lands","lanes","lines","lives"]},{"start":"lives","end":"loads","optimal":6,"example":["lives","lines","lanes","lands","lends","leads","loads"]},{"start":"loads","end":"bases","optimal":6,"example":["loads","lords","cords","cards","cares","cases","bases"]},{"start":"penny","end":"nancy","optimal":6,"example":["penny","benny","bunny","funny","fanny","fancy","nancy"]},{"start":"bases","end":"naked","optimal":3,"example":["bases","based","baked","naked"]},{"start":"tough","end":"worse","optimal":6,"example":["tough","rough","rouge","rouse","house","horse","worse"]},{"start":"worse","end":"loose","optimal":3,"example":["worse","morse","moose","loose"]},{"start":"shape","end":"stock","optimal":5,"example":["shape","share","stare","stark","stack","stock"]},{"start":"naked","end":"tired","optimal":6,"example":["naked","named","famed","faxed","fixed","fired","tired"]},{"start":"lower","end":"inter","optimal":6,"example":["lower","loser","laser","later","eater","enter","inter"]},{"start":"folks","end":"looks","optimal":5,"example":["folks","folds","foods","hoods","hooks","looks"]},{"start":"fully","end":"filed","optimal":6,"example":["fully","bully","billy","bills","fills","files","filed"]},{"start":"trace","end":"bring","optimal":5,"example":["trace","track","trick","brick","brink","bring"]},{"start":"stock","end":"spell","optimal":6,"example":["stock","stack","stalk","stall","small","smell","spell"]},{"start":"looks","end":"kinds","optimal":5,"example":["looks","locks","licks","links","kinks","kinds"]},{"start":"draft","end":"brand","optimal":4,"example":["draft","graft","grant","grand","brand"]},{"start":"tired","end":"loved","optimal":5,"example":["tired","fired","fined","lined","lived","loved"]},{"start":"inter","end":"makes","optimal":5,"example":["inter","enter","eater","mater","maker","makes"]},{"start":"loved","end":"filed","optimal":4,"example":["loved","lived","lined","fined","filed"]},{"start":"filed","end":"kinds","optimal":4,"example":["filed","files","fines","finds","kinds"]},{"start":"kinds","end":"makes","optimal":4,"example":["kinds","minds","mines","mikes","makes"]},{"start":"coach","end":"teach","optimal":3,"example":["coach","roach","reach","teach"]},{"start":"fever","end":"makes","optimal":6,"example":["fever","lever","liver","lives","likes","lakes","makes"]},{"start":"makes","end":"risks","optimal":5,"example":["makes","mikes","mites","rites","rises","risks"]},{"start":"bring","end":"broad","optimal":6,"example":["bring","brink","brick","brock","brook","brood","broad"]},{"start":"relay","end":"metal","optimal":6,"example":["relay","delay","decay","decal","fecal","fetal","metal"]},{"start":"forth","end":"fifty","optimal":3,"example":["forth","firth","fifth","fifty"]},{"start":"teach","end":"coast","optimal":6,"example":["teach","leach","leash","least","beast","boast","coast"]},{"start":"risks","end":"saved","optimal":6,"example":["risks","rises","rites","rates","raves","saves","saved"]},{"start":"bride","end":"chile","optimal":5,"example":["bride","pride","prime","crime","chime","chile"]},{"start":"stuck","end":"spell","optimal":6,"example":["stuck","stack","stalk","stall","small","smell","spell"]},{"start":"discs","end":"wider","optimal":6,"example":["discs","disks","risks","rises","rides","rider","wider"]},{"start":"toner","end":"saved","optimal":6,"example":["toner","tones","cones","canes","caves","saves","saved"]},{"start":"there","end":"lease","optimal":6,"example":["there","these","those","chose","chase","cease","lease"]},{"start":"burns","end":"forms","optimal":6,"example":["burns","barns","warns","wards","words","worms","forms"]},{"start":"coast","end":"leave","optimal":5,"example":["coast","boast","beast","least","lease","leave"]},{"start":"forms","end":"saved","optimal":6,"example":["forms","farms","fares","cares","caves","saves","saved"]},{"start":"saved","end":"lands","optimal":5,"example":["saved","saves","caves","canes","lanes","lands"]},{"start":"lands","end":"helps","optimal":5,"example":["lands","lends","leads","heads","heaps","helps"]},{"start":"grain","end":"brown","optimal":4,"example":["grain","drain","drawn","drown","brown"]},{"start":"helps","end":"teams","optimal":4,"example":["helps","heaps","hears","tears","teams"]},{"start":"speak","end":"steel","optimal":3,"example":["speak","steak","steal","steel"]},{"start":"delay","end":"metal","optimal":5,"example":["delay","decay","decal","fecal","fetal","metal"]},{"start":"daddy","end":"carry","optimal":5,"example":["daddy","dandy","handy","hardy","harry","carry"]},{"start":"leave","end":"those","optimal":5,"example":["leave","lease","cease","chase","chose","those"]},{"start":"wider","end":"miles","optimal":5,"example":["wider","rider","rides","tides","tiles","miles"]},{"start":"elder","end":"sides","optimal":6,"example":["elder","alder","adder","added","aided","sided","sides"]},{"start":"march","end":"lunch","optimal":5,"example":["march","match","batch","butch","bunch","lunch"]},{"start":"spell","end":"stats","optimal":6,"example":["spell","shell","shall","stall","stale","state","stats"]},{"start":"metal","end":"moves","optimal":5,"example":["metal","medal","modal","model","modes","moves"]},{"start":"miles","end":"games","optimal":4,"example":["miles","males","mates","gates","games"]},{"start":"chess","end":"brush","optimal":5,"example":["chess","chest","crest","crust","crush","brush"]},{"start":"rooms","end":"teams","optimal":6,"example":["rooms","roots","boots","boats","beats","beams","teams"]}]}};
+
+  var sizesEl = document.getElementById("sizes");
+  var goalEl = document.getElementById("goal");
+  var ladderEl = document.getElementById("ladder");
+  var msgEl = document.getElementById("msg");
+
+  var len;         // active word length
+  var wordSet;     // Set of valid words for this length
+  var puzzle;      // { start, end, optimal, example }
+  var chain;       // committed words, chain[0] === start
+  var entry = "";  // current typed rung
+  var solved = false;
+  var revealed = false;
+
+  // --- Setup ---------------------------------------------------------------
+
+  function startLen(L) {
+    len = L;
+    wordSet = {};
+    DATA.words[L].forEach(function (w) { wordSet[w] = true; });
+    markActive();
+    newPuzzle();
+  }
+
+  function newPuzzle() {
+    var list = DATA.puzzles[len];
+    puzzle = list[Math.floor(Math.random() * list.length)];
+    chain = [puzzle.start];
+    entry = "";
+    solved = false;
+    revealed = false;
+    document.getElementById("reveal").textContent = "Show solution";
+    renderGoal();
+    render();
+    setMsg("", "");
+  }
+
+  function renderGoal() {
+    var used = chain.length - 1;
+    goalEl.innerHTML =
+      "<b>" + puzzle.start.toUpperCase() + "</b> &rarr; <b>" + puzzle.end.toUpperCase() + "</b>" +
+      " &middot; par <span class='opt'>" + puzzle.optimal + "</span>" +
+      " &middot; your steps: " + used;
+  }
+
+  function tileRow(word, cls, prev) {
+    var row = document.createElement("div");
+    row.className = "row " + cls;
+    for (var i = 0; i < len; i++) {
+      var t = document.createElement("div");
+      t.className = "tile";
+      var ch = word[i] || "";
+      if (cls === "rung" && prev && ch && ch !== prev[i]) t.className += " changed";
+      t.textContent = ch;
+      row.appendChild(t);
+    }
+    return row;
+  }
+
+  function inputRow() {
+    var row = document.createElement("div");
+    row.className = "row input";
+    for (var i = 0; i < len; i++) {
+      var t = document.createElement("div");
+      t.className = "tile";
+      if (i === entry.length) t.className += " cursor";
+      t.textContent = entry[i] || "";
+      row.appendChild(t);
+    }
+    return row;
+  }
+
+  function render() {
+    ladderEl.innerHTML = "";
+    // Start word.
+    ladderEl.appendChild(tileRow(chain[0], "start"));
+    // Committed rungs (each compared to the one above).
+    for (var i = 1; i < chain.length; i++) {
+      ladderEl.appendChild(tileRow(chain[i], "rung", chain[i - 1]));
+    }
+    // Input row (unless already solved).
+    if (!solved && !revealed) ladderEl.appendChild(inputRow());
+    // Target word, with a gap marker if not yet reached.
+    if (!solved) {
+      var div = document.createElement("div");
+      div.className = "divider";
+      div.textContent = "⋮";
+      ladderEl.appendChild(div);
+      ladderEl.appendChild(tileRow(puzzle.end, "end"));
+    }
+    renderGoal();
+  }
+
+  function setMsg(text, kind) {
+    msgEl.textContent = text;
+    msgEl.className = "msg" + (kind ? " " + kind : "");
+  }
+
+  function markActive() {
+    Array.prototype.forEach.call(sizesEl.children, function (b) {
+      b.classList.toggle("active", b.dataset.len === String(len));
+    });
+  }
+
+  // --- Play ----------------------------------------------------------------
+
+  function diffCount(a, b) {
+    var d = 0;
+    for (var i = 0; i < a.length; i++) if (a[i] !== b[i]) d++;
+    return d;
+  }
+
+  function addLetter(ch) {
+    if (solved || revealed) return;
+    if (entry.length >= len) return;
+    entry += ch;
+    render();
+    setMsg("", "");
+  }
+
+  function delLetter() {
+    if (solved || revealed) return;
+    entry = entry.slice(0, -1);
+    render();
+  }
+
+  function submit() {
+    if (solved || revealed) return;
+    var w = entry.toLowerCase();
+    if (w.length !== len) return fail("Needs " + len + " letters");
+    var prev = chain[chain.length - 1];
+    if (w === prev) return fail("Same as the word above");
+    if (diffCount(w, prev) !== 1) return fail("Change exactly one letter");
+    if (!wordSet[w]) return fail("Not a valid word");
+
+    chain.push(w);
+    entry = "";
+
+    if (w === puzzle.end) {
+      solved = true;
+      render();
+      var used = chain.length - 1;
+      if (used === puzzle.optimal) setMsg("Solved in " + used + " — par! 🎉", "big");
+      else setMsg("Solved in " + used + " (par " + puzzle.optimal + ")", "big");
+    } else {
+      render();
+      setMsg("", "");
+    }
+  }
+
+  function fail(text) { setMsg(text, "err"); }
+
+  function undo() {
+    if (solved || revealed) return;
+    if (entry.length) { entry = ""; render(); return; }
+    if (chain.length > 1) { chain.pop(); render(); setMsg("", ""); }
+  }
+
+  function reveal() {
+    if (revealed || solved) { newPuzzle(); return; }
+    revealed = true;
+    entry = "";
+    // Show the example optimal path as the chain.
+    chain = puzzle.example.slice();
+    solved = false;
+    ladderEl.innerHTML = "";
+    ladderEl.appendChild(tileRow(chain[0], "start"));
+    for (var i = 1; i < chain.length; i++) {
+      var cls = (i === chain.length - 1) ? "end" : "rung";
+      ladderEl.appendChild(tileRow(chain[i], cls, chain[i - 1]));
+    }
+    setMsg("One solution in " + puzzle.optimal + " steps.", "err");
+    document.getElementById("reveal").textContent = "New puzzle";
+    renderGoal();
+  }
+
+  // --- Events --------------------------------------------------------------
+
+  function buildSizes() {
+    sizesEl.innerHTML = "";
+    Object.keys(DATA.puzzles).sort().forEach(function (L) {
+      var b = document.createElement("button");
+      b.textContent = L + " letters";
+      b.dataset.len = L;
+      sizesEl.appendChild(b);
+    });
+  }
+
+  sizesEl.addEventListener("click", function (e) {
+    var b = e.target.closest("button");
+    if (b) startLen(Number(b.dataset.len));
+  });
+
+  document.getElementById("undo").addEventListener("click", undo);
+  document.getElementById("submit").addEventListener("click", submit);
+  document.getElementById("new").addEventListener("click", newPuzzle);
+  document.getElementById("reveal").addEventListener("click", reveal);
+
+  document.addEventListener("keydown", function (e) {
+    if (e.key === "Enter") { submit(); e.preventDefault(); }
+    else if (e.key === "Backspace") { delLetter(); e.preventDefault(); }
+    else if (/^[a-zA-Z]$/.test(e.key)) { addLetter(e.key.toLowerCase()); }
+  });
+
+  // --- Boot ----------------------------------------------------------------
+
+  buildSizes();
+  startLen(4);
+})();
+</script>
+</body>
+</html>

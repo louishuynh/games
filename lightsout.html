@@ -1,0 +1,323 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Lights Out</title>
+<style>
+  :root {
+    --bg: #121213;
+    --text: #ffffff;
+    --muted: #818384;
+    --border: #3a3a3c;
+    --card: #1a1a1b;
+    --correct: #538d4e;
+    --present: #b59f3b;
+    --wrong: #b03a2e;
+  }
+
+  * { box-sizing: border-box; }
+
+  html, body {
+    margin: 0;
+    min-height: 100%;
+    background: var(--bg);
+    color: var(--text);
+    font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+  }
+
+  body {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 40px 20px 64px;
+  }
+
+  .back {
+    position: fixed;
+    top: 16px;
+    left: 16px;
+    color: var(--muted);
+    text-decoration: none;
+    font-size: 13px;
+    letter-spacing: 1px;
+  }
+  .back:hover { color: var(--text); }
+
+  header { text-align: center; margin-bottom: 18px; }
+  header h1 {
+    margin: 0;
+    font-size: 34px;
+    font-weight: 700;
+    letter-spacing: 5px;
+    text-transform: uppercase;
+  }
+  header p { margin: 8px 0 0; color: var(--muted); font-size: 14px; }
+
+  .sizes { display: flex; gap: 8px; margin-bottom: 18px; }
+  .sizes button {
+    padding: 7px 14px;
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    background: transparent;
+    color: var(--text);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    cursor: pointer;
+  }
+  .sizes button:hover { border-color: var(--muted); }
+  .sizes button.active { background: var(--correct); border-color: var(--correct); }
+
+  .scores {
+    display: flex;
+    gap: 12px;
+    margin-bottom: 20px;
+    width: 320px;
+    max-width: 100%;
+  }
+  .score-box {
+    flex: 1;
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 8px 14px;
+    text-align: center;
+  }
+  .score-box .label {
+    font-size: 11px;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    color: var(--muted);
+  }
+  .score-box .val { font-size: 22px; font-weight: 700; }
+
+  .board {
+    display: grid;
+    gap: 10px;
+    margin-bottom: 8px;
+  }
+  .light {
+    width: 56px;
+    height: 56px;
+    border-radius: 10px;
+    background: var(--card);
+    border: 1px solid var(--border);
+    cursor: pointer;
+    transition: background 0.12s ease, box-shadow 0.12s ease, border-color 0.12s ease;
+  }
+  .light:hover { border-color: var(--muted); }
+  .light.on {
+    background: var(--present);
+    border-color: var(--present);
+    box-shadow: 0 0 14px rgba(181, 159, 59, 0.55);
+  }
+
+  .msg { min-height: 24px; font-size: 16px; font-weight: 700; letter-spacing: 1px; margin: 18px 0 6px; }
+  .msg.win { color: var(--correct); }
+
+  .controls { display: flex; gap: 12px; margin-top: 12px; }
+  .controls button {
+    padding: 10px 18px;
+    font-size: 13px;
+    font-weight: 700;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    background: transparent;
+    color: var(--text);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    cursor: pointer;
+  }
+  .controls button:hover { border-color: var(--muted); }
+
+  .notes {
+    width: 320px;
+    max-width: 100%;
+    margin-top: 34px;
+    padding-top: 16px;
+    border-top: 1px solid var(--border);
+    color: var(--muted);
+    font-size: 13px;
+    line-height: 1.6;
+  }
+  .notes h3 {
+    margin: 0 0 8px;
+    font-size: 12px;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    color: var(--text);
+  }
+  .notes ul { margin: 0; padding-left: 18px; }
+  .notes li { margin-bottom: 5px; }
+  .notes b { color: var(--text); }
+</style>
+</head>
+<body>
+  <a class="back" href="index.html">&larr; Games</a>
+
+  <header>
+    <h1>Lights Out</h1>
+    <p>Turn every light off. Clicking a cell flips it and its neighbours.</p>
+  </header>
+
+  <div class="sizes" id="sizes"></div>
+
+  <div class="scores">
+    <div class="score-box"><div class="label">Moves</div><div class="val" id="moves">0</div></div>
+    <div class="score-box"><div class="label">Lit</div><div class="val" id="lit">0</div></div>
+  </div>
+
+  <div class="board" id="board"></div>
+
+  <div class="msg" id="msg"></div>
+
+  <div class="controls">
+    <button id="new">New puzzle</button>
+    <button id="reset">Reset</button>
+  </div>
+
+  <div class="notes">
+    <h3>How to play</h3>
+    <ul>
+      <li>Click a cell to toggle it <b>and its four orthogonal neighbours</b> on or off.</li>
+      <li>The goal is to switch <b>every light off</b>.</li>
+      <li>Every puzzle is <b>guaranteed solvable</b>. <b>Reset</b> returns to the starting layout.</li>
+      <li>Try to clear the board in as <b>few moves</b> as possible.</li>
+    </ul>
+  </div>
+
+<script>
+(function () {
+  "use strict";
+
+  var SIZES = [3, 5];
+
+  var sizesEl = document.getElementById("sizes");
+  var boardEl = document.getElementById("board");
+  var msgEl = document.getElementById("msg");
+  var movesEl = document.getElementById("moves");
+  var litEl = document.getElementById("lit");
+
+  var N;            // grid dimension
+  var lights;       // boolean array, true = on
+  var initial;      // saved starting layout for Reset
+  var moves = 0;
+  var solved = false;
+
+  function idx(r, c) { return r * N + c; }
+
+  // --- Setup ---------------------------------------------------------------
+
+  function press(state, r, c) {
+    var cells = [[r, c], [r - 1, c], [r + 1, c], [r, c - 1], [r, c + 1]];
+    cells.forEach(function (p) {
+      if (p[0] >= 0 && p[0] < N && p[1] >= 0 && p[1] < N) {
+        state[idx(p[0], p[1])] = !state[idx(p[0], p[1])];
+      }
+    });
+  }
+
+  function newPuzzle() {
+    lights = new Array(N * N).fill(false);
+    // Scramble from the solved (all-off) state so it's always solvable.
+    var clicks = Math.floor(N * N * 0.6) + Math.floor(Math.random() * N);
+    for (var i = 0; i < clicks; i++) {
+      press(lights, Math.floor(Math.random() * N), Math.floor(Math.random() * N));
+    }
+    // Guard against the fluke of an all-off scramble.
+    if (lights.every(function (v) { return !v; })) press(lights, 0, 0);
+    initial = lights.slice();
+    moves = 0;
+    solved = false;
+    render();
+    setMsg("");
+  }
+
+  function reset() {
+    lights = initial.slice();
+    moves = 0;
+    solved = false;
+    render();
+    setMsg("");
+  }
+
+  // --- Render --------------------------------------------------------------
+
+  function render() {
+    boardEl.style.gridTemplateColumns = "repeat(" + N + ", 1fr)";
+    boardEl.innerHTML = "";
+    for (var i = 0; i < lights.length; i++) {
+      var d = document.createElement("div");
+      d.className = "light" + (lights[i] ? " on" : "");
+      d.dataset.i = i;
+      boardEl.appendChild(d);
+    }
+    movesEl.textContent = moves;
+    litEl.textContent = lights.filter(function (v) { return v; }).length;
+  }
+
+  function setMsg(text) {
+    msgEl.textContent = text;
+    msgEl.className = "msg" + (text ? " win" : "");
+  }
+
+  function markActive() {
+    Array.prototype.forEach.call(sizesEl.children, function (b) {
+      b.classList.toggle("active", b.dataset.n === String(N));
+    });
+  }
+
+  // --- Play ----------------------------------------------------------------
+
+  function clickCell(i) {
+    if (solved) return;
+    var r = Math.floor(i / N), c = i % N;
+    press(lights, r, c);
+    moves++;
+    render();
+    if (lights.every(function (v) { return !v; })) {
+      solved = true;
+      setMsg("Lights out! " + moves + " moves 🎉");
+    }
+  }
+
+  // --- Events --------------------------------------------------------------
+
+  function buildSizes() {
+    sizesEl.innerHTML = "";
+    SIZES.forEach(function (n) {
+      var b = document.createElement("button");
+      b.textContent = n + "×" + n;
+      b.dataset.n = n;
+      sizesEl.appendChild(b);
+    });
+  }
+
+  sizesEl.addEventListener("click", function (e) {
+    var b = e.target.closest("button");
+    if (!b) return;
+    N = Number(b.dataset.n);
+    markActive();
+    newPuzzle();
+  });
+
+  boardEl.addEventListener("click", function (e) {
+    var d = e.target.closest(".light");
+    if (d) clickCell(Number(d.dataset.i));
+  });
+
+  document.getElementById("new").addEventListener("click", newPuzzle);
+  document.getElementById("reset").addEventListener("click", reset);
+
+  // --- Boot ----------------------------------------------------------------
+
+  buildSizes();
+  N = 5;
+  markActive();
+  newPuzzle();
+})();
+</script>
+</body>
+</html>

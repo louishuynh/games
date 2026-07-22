@@ -34,7 +34,7 @@
 
   header {
     text-align: center;
-    margin-bottom: 40px;
+    margin-bottom: 28px;
   }
 
   header h1 {
@@ -51,12 +51,52 @@
     font-size: 15px;
   }
 
+  /* Category filter chips */
+  .filters {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 8px;
+    margin-bottom: 36px;
+    max-width: 760px;
+  }
+  .chip {
+    padding: 8px 16px;
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    background: transparent;
+    color: var(--text);
+    border: 1px solid var(--border);
+    border-radius: 20px;
+    cursor: pointer;
+    transition: border-color 0.12s ease, background 0.12s ease;
+  }
+  .chip:hover { border-color: var(--muted); }
+  .chip.active { background: var(--correct); border-color: var(--correct); }
+  .chip .count { color: var(--muted); font-weight: 400; margin-left: 4px; }
+  .chip.active .count { color: rgba(255,255,255,0.7); }
+
+  /* Category sections */
+  .section { width: 100%; max-width: 760px; margin-bottom: 40px; }
+  .section.hidden { display: none; }
+  .section-title {
+    font-size: 13px;
+    font-weight: 700;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin: 0 0 16px;
+    padding-bottom: 8px;
+    border-bottom: 1px solid var(--border);
+  }
+
   .grid {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
     gap: 18px;
     width: 100%;
-    max-width: 760px;
   }
 
   .card {
@@ -120,13 +160,6 @@
     text-transform: uppercase;
     color: var(--correct);
   }
-
-  footer {
-    margin-top: 48px;
-    color: var(--muted);
-    font-size: 13px;
-    text-align: center;
-  }
 </style>
 </head>
 <body>
@@ -135,180 +168,242 @@
     <p>A little arcade of self-contained browser games.</p>
   </header>
 
-  <div class="grid">
+  <!-- Filter chips are generated from the sections below. -->
+  <div class="filters" id="filters"></div>
 
-    <!-- Wordle -->
-    <a class="card" href="wordle.html">
-      <div class="tiles">
-        <div class="mini correct">W</div>
-        <div class="mini empty">O</div>
-        <div class="mini present">R</div>
-      </div>
-      <h2>Wordle</h2>
-      <p>Guess the five-letter word in six tries. Tracks your stats and streaks.</p>
-      <span class="play">Play &rarr;</span>
-    </a>
+  <!--
+    To add a game: drop your <name>.html in this folder, then copy a card
+    block into the right <section> below (or add a new section with its own
+    data-cat). The filter chips are built automatically from the sections.
+  -->
 
-    <!-- 24 -->
-    <a class="card" href="24.html">
-      <div class="tiles">
-        <div class="mini correct">2</div>
-        <div class="mini present">4</div>
-      </div>
-      <h2>24</h2>
-      <p>Make 24 from four numbers using + - x and division.</p>
-      <span class="play">Play &rarr;</span>
-    </a>
+  <!-- ===================== WORD GAMES ===================== -->
+  <section class="section" data-cat="word" data-label="Word">
+    <h2 class="section-title">Word games</h2>
+    <div class="grid">
 
-    <!-- Sudoku -->
-    <a class="card" href="sudoku.html">
-      <div class="tiles">
-        <div class="mini correct">4</div>
-        <div class="mini empty">6</div>
-        <div class="mini present">9</div>
-      </div>
-      <h2>Sudoku</h2>
-      <p>Classic number logic in three sizes: an easy 4&times;4, a middling 6&times;6, or the full 9&times;9.</p>
-      <span class="play">Play &rarr;</span>
-    </a>
+      <a class="card" href="wordle.html">
+        <div class="tiles">
+          <div class="mini correct">W</div>
+          <div class="mini empty">O</div>
+          <div class="mini present">R</div>
+        </div>
+        <h2>Wordle</h2>
+        <p>Guess the five-letter word in six tries. Tracks your stats and streaks.</p>
+        <span class="play">Play &rarr;</span>
+      </a>
 
-    <!-- Target -->
-    <a class="card" href="target.html">
-      <div class="tiles">
-        <div class="mini correct">T</div>
-        <div class="mini present">A</div>
-        <div class="mini empty">R</div>
-      </div>
-      <h2>Target</h2>
-      <p>Make as many 4+ letter words as you can from nine letters &mdash; every word must use the centre one.</p>
-      <span class="play">Play &rarr;</span>
-    </a>
+      <a class="card" href="target.html">
+        <div class="tiles">
+          <div class="mini correct">T</div>
+          <div class="mini present">A</div>
+          <div class="mini empty">R</div>
+        </div>
+        <h2>Target</h2>
+        <p>Make as many 4+ letter words as you can from nine letters &mdash; every word must use the centre one.</p>
+        <span class="play">Play &rarr;</span>
+      </a>
 
-    <!-- Spelling Bee -->
-    <a class="card" href="spellingbee.html">
-      <div class="tiles">
-        <div class="mini empty">B</div>
-        <div class="mini present">E</div>
-        <div class="mini empty">E</div>
-      </div>
-      <h2>Spelling Bee</h2>
-      <p>Build words from seven letters in a hive &mdash; reuse letters freely, but always use the centre. Find the pangram!</p>
-      <span class="play">Play &rarr;</span>
-    </a>
+      <a class="card" href="spellingbee.html">
+        <div class="tiles">
+          <div class="mini empty">B</div>
+          <div class="mini present">E</div>
+          <div class="mini empty">E</div>
+        </div>
+        <h2>Spelling Bee</h2>
+        <p>Build words from seven letters in a hive &mdash; reuse letters freely, but always use the centre. Find the pangram!</p>
+        <span class="play">Play &rarr;</span>
+      </a>
 
-    <!-- 2048 -->
-    <a class="card" href="2048.html">
-      <div class="tiles">
-        <div class="mini empty">2</div>
-        <div class="mini present">4</div>
-        <div class="mini correct">8</div>
-      </div>
-      <h2>2048</h2>
-      <p>Slide the tiles with the arrow keys and merge matching numbers to build your way up to 2048.</p>
-      <span class="play">Play &rarr;</span>
-    </a>
+      <a class="card" href="boggle.html">
+        <div class="tiles">
+          <div class="mini correct">B</div>
+          <div class="mini empty">O</div>
+          <div class="mini present">G</div>
+        </div>
+        <h2>Boggle</h2>
+        <p>Trace words through touching letters on a 4&times;4 grid before the timer runs out &mdash; 3, 5 or 10 minutes.</p>
+        <span class="play">Play &rarr;</span>
+      </a>
 
-    <!-- Boggle -->
-    <a class="card" href="boggle.html">
-      <div class="tiles">
-        <div class="mini correct">B</div>
-        <div class="mini empty">O</div>
-        <div class="mini present">G</div>
-      </div>
-      <h2>Boggle</h2>
-      <p>Trace words through touching letters on a 4&times;4 grid before the timer runs out &mdash; 3, 5 or 10 minutes.</p>
-      <span class="play">Play &rarr;</span>
-    </a>
+      <a class="card" href="wordladder.html">
+        <div class="tiles">
+          <div class="mini empty">C</div>
+          <div class="mini present">A</div>
+          <div class="mini empty">T</div>
+        </div>
+        <h2>Word Ladder</h2>
+        <p>Turn the start word into the target one letter at a time &mdash; every rung must be a real word.</p>
+        <span class="play">Play &rarr;</span>
+      </a>
 
-    <!-- Word Ladder -->
-    <a class="card" href="wordladder.html">
-      <div class="tiles">
-        <div class="mini empty">C</div>
-        <div class="mini present">A</div>
-        <div class="mini empty">T</div>
-      </div>
-      <h2>Word Ladder</h2>
-      <p>Turn the start word into the target one letter at a time &mdash; every rung must be a real word.</p>
-      <span class="play">Play &rarr;</span>
-    </a>
+      <a class="card" href="anagrams.html">
+        <div class="tiles">
+          <div class="mini present">A</div>
+          <div class="mini empty">N</div>
+          <div class="mini correct">G</div>
+        </div>
+        <h2>Anagrams</h2>
+        <p>Unscramble the jumbled letters into a real word against the clock &mdash; build a streak for bonus points.</p>
+        <span class="play">Play &rarr;</span>
+      </a>
 
-    <!-- Anagrams -->
-    <a class="card" href="anagrams.html">
-      <div class="tiles">
-        <div class="mini present">A</div>
-        <div class="mini empty">N</div>
-        <div class="mini correct">G</div>
-      </div>
-      <h2>Anagrams</h2>
-      <p>Unscramble the jumbled letters into a real word against the clock &mdash; build a streak for bonus points.</p>
-      <span class="play">Play &rarr;</span>
-    </a>
+    </div>
+  </section>
 
-    <!-- Lights Out -->
-    <a class="card" href="lightsout.html">
-      <div class="tiles">
-        <div class="mini present">L</div>
-        <div class="mini empty">O</div>
-        <div class="mini empty">X</div>
-      </div>
-      <h2>Lights Out</h2>
-      <p>Switch off every light &mdash; but each click flips a cell and its neighbours. A compact logic puzzle.</p>
-      <span class="play">Play &rarr;</span>
-    </a>
+  <!-- ===================== LOGIC & PUZZLES ===================== -->
+  <section class="section" data-cat="logic" data-label="Logic">
+    <h2 class="section-title">Logic &amp; puzzles</h2>
+    <div class="grid">
 
-    <!-- 15 Puzzle -->
-    <a class="card" href="fifteen.html">
-      <div class="tiles">
-        <div class="mini correct">1</div>
-        <div class="mini present">5</div>
-        <div class="mini empty"></div>
-      </div>
-      <h2>15 Puzzle</h2>
-      <p>Slide the numbered tiles into order, 1 to 15, with the empty square in the corner.</p>
-      <span class="play">Play &rarr;</span>
-    </a>
+      <a class="card" href="sudoku.html">
+        <div class="tiles">
+          <div class="mini correct">4</div>
+          <div class="mini empty">6</div>
+          <div class="mini present">9</div>
+        </div>
+        <h2>Sudoku</h2>
+        <p>Classic number logic in three sizes: an easy 4&times;4, a middling 6&times;6, or the full 9&times;9.</p>
+        <span class="play">Play &rarr;</span>
+      </a>
 
-    <!-- Mastermind -->
-    <a class="card" href="mastermind.html">
-      <div class="tiles">
-        <div class="mini correct">M</div>
-        <div class="mini present">M</div>
-        <div class="mini empty"></div>
-      </div>
-      <h2>Mastermind</h2>
-      <p>Crack the hidden colour code in ten guesses, using black-and-white peg clues to deduce it.</p>
-      <span class="play">Play &rarr;</span>
-    </a>
+      <a class="card" href="lightsout.html">
+        <div class="tiles">
+          <div class="mini present">L</div>
+          <div class="mini empty">O</div>
+          <div class="mini empty">X</div>
+        </div>
+        <h2>Lights Out</h2>
+        <p>Switch off every light &mdash; but each click flips a cell and its neighbours. A compact logic puzzle.</p>
+        <span class="play">Play &rarr;</span>
+      </a>
 
-    <!-- Noughts & Crosses -->
-    <a class="card" href="noughtsandcrosses.html">
-      <div class="tiles">
-        <div class="mini empty">X</div>
-        <div class="mini present">O</div>
-        <div class="mini empty">X</div>
-      </div>
-      <h2>Noughts &amp; Crosses</h2>
-      <p>Three in a row against an unbeatable computer, or pass-and-play with a friend.</p>
-      <span class="play">Play &rarr;</span>
-    </a>
+      <a class="card" href="fifteen.html">
+        <div class="tiles">
+          <div class="mini correct">1</div>
+          <div class="mini present">5</div>
+          <div class="mini empty"></div>
+        </div>
+        <h2>15 Puzzle</h2>
+        <p>Slide the numbered tiles into order, 1 to 15, with the empty square in the corner.</p>
+        <span class="play">Play &rarr;</span>
+      </a>
 
-    <!-- Connect 4 -->
-    <a class="card" href="connect4.html">
-      <div class="tiles">
-        <div class="mini correct">4</div>
-        <div class="mini present">•</div>
-        <div class="mini empty">•</div>
-      </div>
-      <h2>Connect 4</h2>
-      <p>Drop discs to line up four in a row against the computer, or play a friend head-to-head.</p>
-      <span class="play">Play &rarr;</span>
-    </a>
+      <a class="card" href="mastermind.html">
+        <div class="tiles">
+          <div class="mini correct">M</div>
+          <div class="mini present">M</div>
+          <div class="mini empty"></div>
+        </div>
+        <h2>Mastermind</h2>
+        <p>Crack the hidden colour code in ten guesses, using black-and-white peg clues to deduce it.</p>
+        <span class="play">Play &rarr;</span>
+      </a>
 
-    <!--
-      To add a game: copy a card block above, drop your new
-      <name>.html file in this folder, and update the link + text.
-    -->
+    </div>
+  </section>
 
-  </div>
+  <!-- ===================== NUMBERS & MATHS ===================== -->
+  <section class="section" data-cat="numbers" data-label="Numbers">
+    <h2 class="section-title">Numbers &amp; maths</h2>
+    <div class="grid">
+
+      <a class="card" href="24.html">
+        <div class="tiles">
+          <div class="mini correct">2</div>
+          <div class="mini present">4</div>
+        </div>
+        <h2>24</h2>
+        <p>Make 24 from four numbers using + - x and division.</p>
+        <span class="play">Play &rarr;</span>
+      </a>
+
+      <a class="card" href="2048.html">
+        <div class="tiles">
+          <div class="mini empty">2</div>
+          <div class="mini present">4</div>
+          <div class="mini correct">8</div>
+        </div>
+        <h2>2048</h2>
+        <p>Slide the tiles with the arrow keys and merge matching numbers to build your way up to 2048.</p>
+        <span class="play">Play &rarr;</span>
+      </a>
+
+    </div>
+  </section>
+
+  <!-- ===================== TWO-PLAYER ===================== -->
+  <section class="section" data-cat="twoplayer" data-label="Two-player">
+    <h2 class="section-title">Two-player</h2>
+    <div class="grid">
+
+      <a class="card" href="noughtsandcrosses.html">
+        <div class="tiles">
+          <div class="mini empty">X</div>
+          <div class="mini present">O</div>
+          <div class="mini empty">X</div>
+        </div>
+        <h2>Noughts &amp; Crosses</h2>
+        <p>Three in a row against an unbeatable computer, or pass-and-play with a friend.</p>
+        <span class="play">Play &rarr;</span>
+      </a>
+
+      <a class="card" href="connect4.html">
+        <div class="tiles">
+          <div class="mini correct">4</div>
+          <div class="mini present">•</div>
+          <div class="mini empty">•</div>
+        </div>
+        <h2>Connect 4</h2>
+        <p>Drop discs to line up four in a row against the computer, or play a friend head-to-head.</p>
+        <span class="play">Play &rarr;</span>
+      </a>
+
+    </div>
+  </section>
+
+<script>
+(function () {
+  "use strict";
+
+  var filtersEl = document.getElementById("filters");
+  var sections = Array.prototype.slice.call(document.querySelectorAll(".section"));
+  var current = "all";
+
+  // Build chips: "All" plus one per section, each showing a game count.
+  var chips = [{ cat: "all", label: "All" }].concat(
+    sections.map(function (s) { return { cat: s.dataset.cat, label: s.dataset.label }; })
+  );
+
+  function countFor(cat) {
+    if (cat === "all") return document.querySelectorAll(".card").length;
+    var s = sections.filter(function (x) { return x.dataset.cat === cat; })[0];
+    return s ? s.querySelectorAll(".card").length : 0;
+  }
+
+  chips.forEach(function (c) {
+    var b = document.createElement("button");
+    b.className = "chip" + (c.cat === current ? " active" : "");
+    b.dataset.cat = c.cat;
+    b.innerHTML = c.label + " <span class='count'>" + countFor(c.cat) + "</span>";
+    filtersEl.appendChild(b);
+  });
+
+  function apply(cat) {
+    current = cat;
+    Array.prototype.forEach.call(filtersEl.children, function (b) {
+      b.classList.toggle("active", b.dataset.cat === cat);
+    });
+    sections.forEach(function (s) {
+      s.classList.toggle("hidden", cat !== "all" && s.dataset.cat !== cat);
+    });
+  }
+
+  filtersEl.addEventListener("click", function (e) {
+    var b = e.target.closest(".chip");
+    if (b) apply(b.dataset.cat);
+  });
+})();
+</script>
 </body>
 </html>

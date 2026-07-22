@@ -1,0 +1,465 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Anagrams</title>
+<style>
+  :root {
+    --bg: #121213;
+    --text: #ffffff;
+    --muted: #818384;
+    --border: #3a3a3c;
+    --card: #1a1a1b;
+    --correct: #538d4e;
+    --present: #b59f3b;
+    --wrong: #b03a2e;
+  }
+
+  * { box-sizing: border-box; }
+
+  html, body {
+    margin: 0;
+    min-height: 100%;
+    background: var(--bg);
+    color: var(--text);
+    font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+  }
+
+  body {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 40px 20px 64px;
+  }
+
+  .back {
+    position: fixed;
+    top: 16px;
+    left: 16px;
+    color: var(--muted);
+    text-decoration: none;
+    font-size: 13px;
+    letter-spacing: 1px;
+  }
+  .back:hover { color: var(--text); }
+
+  header { text-align: center; margin-bottom: 18px; }
+  header h1 {
+    margin: 0;
+    font-size: 34px;
+    font-weight: 700;
+    letter-spacing: 5px;
+    text-transform: uppercase;
+  }
+  header p { margin: 8px 0 0; color: var(--muted); font-size: 14px; }
+
+  .sizes { display: flex; gap: 8px; margin-bottom: 18px; }
+  .sizes button {
+    padding: 7px 14px;
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    background: transparent;
+    color: var(--text);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    cursor: pointer;
+  }
+  .sizes button:hover { border-color: var(--muted); }
+  .sizes button.active { background: var(--correct); border-color: var(--correct); }
+
+  .scores {
+    display: flex;
+    gap: 12px;
+    margin-bottom: 20px;
+    width: 340px;
+    max-width: 100%;
+  }
+  .score-box {
+    flex: 1;
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 8px 14px;
+    text-align: center;
+  }
+  .score-box .label {
+    font-size: 11px;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    color: var(--muted);
+  }
+  .score-box .val { font-size: 22px; font-weight: 700; }
+  .score-box .val.low { color: var(--wrong); }
+
+  /* Scrambled letters */
+  .scramble {
+    display: flex;
+    gap: 8px;
+    margin-bottom: 22px;
+    min-height: 62px;
+  }
+  .letter {
+    width: 54px;
+    height: 62px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 30px;
+    font-weight: 700;
+    text-transform: uppercase;
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    user-select: none;
+  }
+
+  .entry {
+    min-height: 40px;
+    font-size: 28px;
+    font-weight: 700;
+    letter-spacing: 4px;
+    text-transform: uppercase;
+    margin-bottom: 4px;
+    min-width: 200px;
+    text-align: center;
+  }
+  .entry .caret {
+    display: inline-block;
+    width: 2px;
+    height: 26px;
+    background: var(--muted);
+    margin-left: 2px;
+    vertical-align: middle;
+    animation: blink 1s step-start infinite;
+  }
+  .entry.placeholder { color: var(--border); font-size: 15px; letter-spacing: 1px; font-weight: 400; text-transform: none; }
+  @keyframes blink { 50% { opacity: 0; } }
+
+  .msg { min-height: 20px; font-size: 14px; font-weight: 700; letter-spacing: 1px; margin-bottom: 14px; }
+  .msg.ok { color: var(--correct); }
+  .msg.err { color: var(--wrong); }
+  .msg.big { color: var(--correct); font-size: 16px; }
+
+  .actions { display: flex; gap: 10px; margin-bottom: 24px; }
+  .actions button {
+    padding: 11px 20px;
+    font-size: 14px;
+    font-weight: 700;
+    letter-spacing: 1px;
+    background: transparent;
+    color: var(--text);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    cursor: pointer;
+  }
+  .actions button:hover { border-color: var(--muted); }
+  .actions button.enter { background: var(--correct); border-color: var(--correct); }
+
+  .controls { display: flex; gap: 12px; }
+  .controls button {
+    padding: 10px 18px;
+    font-size: 13px;
+    font-weight: 700;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    background: transparent;
+    color: var(--text);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    cursor: pointer;
+  }
+  .controls button:hover { border-color: var(--muted); }
+
+  .notes {
+    width: 340px;
+    max-width: 100%;
+    margin-top: 34px;
+    padding-top: 16px;
+    border-top: 1px solid var(--border);
+    color: var(--muted);
+    font-size: 13px;
+    line-height: 1.6;
+  }
+  .notes h3 {
+    margin: 0 0 8px;
+    font-size: 12px;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    color: var(--text);
+  }
+  .notes ul { margin: 0; padding-left: 18px; }
+  .notes li { margin-bottom: 5px; }
+  .notes b { color: var(--text); }
+</style>
+</head>
+<body>
+  <a class="back" href="index.html">&larr; Games</a>
+
+  <header>
+    <h1>Anagrams</h1>
+    <p>Unscramble the letters to find a word before time runs out.</p>
+  </header>
+
+  <div class="sizes" id="sizes"></div>
+
+  <div class="scores">
+    <div class="score-box"><div class="label">Time</div><div class="val" id="time">1:30</div></div>
+    <div class="score-box"><div class="label">Score</div><div class="val" id="score">0</div></div>
+    <div class="score-box"><div class="label">Streak</div><div class="val" id="streak">0</div></div>
+  </div>
+
+  <div class="scramble" id="scramble"></div>
+
+  <div class="entry placeholder" id="entry">type your answer</div>
+  <div class="msg" id="msg"></div>
+
+  <div class="actions">
+    <button id="shuffle">Shuffle</button>
+    <button id="clear">Clear</button>
+    <button id="submit" class="enter">Enter</button>
+  </div>
+
+  <div class="controls">
+    <button id="skip">Skip</button>
+    <button id="new">New game</button>
+  </div>
+
+  <div class="notes">
+    <h3>How to play</h3>
+    <ul>
+      <li>Rearrange the scrambled letters into a <b>real word</b> using all of them.</li>
+      <li>Some scrambles have <b>more than one</b> answer &mdash; any valid word counts.</li>
+      <li>Type your guess and press <b>Enter</b>. <b>Shuffle</b> re-jumbles the letters to help you see it.</li>
+      <li>Each solve scores points (longer words score more) and builds your <b>streak</b>. Beat the clock!</li>
+    </ul>
+  </div>
+
+<script>
+(function () {
+  "use strict";
+
+  var DATA = {"5":[{"word":"about","answers":["about"]},{"word":"other","answers":["other"]},{"word":"which","answers":["which"]},{"word":"their","answers":["their"]},{"word":"there","answers":["ether","there","three"]},{"word":"first","answers":["first"]},{"word":"would","answers":["would"]},{"word":"these","answers":["sheet","these"]},{"word":"click","answers":["click"]},{"word":"price","answers":["price"]},{"word":"state","answers":["state","taste","testa"]},{"word":"world","answers":["world"]},{"word":"music","answers":["music"]},{"word":"after","answers":["after"]},{"word":"video","answers":["video"]},{"word":"where","answers":["where"]},{"word":"books","answers":["books"]},{"word":"links","answers":["kilns","links"]},{"word":"years","answers":["sayer","years"]},{"word":"order","answers":["order"]},{"word":"items","answers":["emits","items","metis","mites","smite","times"]},{"word":"group","answers":["group"]},{"word":"under","answers":["under"]},{"word":"games","answers":["games","mages"]},{"word":"could","answers":["cloud","could"]},{"word":"great","answers":["grate","great"]},{"word":"hotel","answers":["hotel"]},{"word":"store","answers":["store"]},{"word":"terms","answers":["terms"]},{"word":"right","answers":["girth","right"]},{"word":"local","answers":["local"]},{"word":"those","answers":["ethos","those"]},{"word":"using","answers":["suing","using"]},{"word":"phone","answers":["phone"]},{"word":"forum","answers":["forum"]},{"word":"based","answers":["based","beads"]},{"word":"black","answers":["black"]},{"word":"check","answers":["check"]},{"word":"index","answers":["index"]},{"word":"being","answers":["begin","being","binge"]},{"word":"women","answers":["women"]},{"word":"today","answers":["today"]},{"word":"south","answers":["shout","south"]},{"word":"pages","answers":["pages"]},{"word":"found","answers":["found"]},{"word":"house","answers":["house"]},{"word":"photo","answers":["photo"]},{"word":"power","answers":["power"]},{"word":"while","answers":["while"]},{"word":"total","answers":["total"]},{"word":"place","answers":["place"]},{"word":"think","answers":["think"]},{"word":"north","answers":["north","thorn"]},{"word":"posts","answers":["posts","spots","stops"]},{"word":"media","answers":["aimed","amide","media"]},{"word":"water","answers":["water"]},{"word":"since","answers":["since"]},{"word":"guide","answers":["guide"]},{"word":"board","answers":["board","broad","dobra"]},{"word":"white","answers":["white"]},{"word":"small","answers":["malls","small"]},{"word":"sites","answers":["sites"]},{"word":"level","answers":["level"]},{"word":"hours","answers":["hours"]},{"word":"image","answers":["image"]},{"word":"shall","answers":["halls","shall"]},{"word":"class","answers":["class"]},{"word":"still","answers":["still"]},{"word":"money","answers":["money"]},{"word":"every","answers":["every"]},{"word":"visit","answers":["visit"]},{"word":"tools","answers":["stool","tools"]},{"word":"reply","answers":["reply"]},{"word":"value","answers":["value"]},{"word":"press","answers":["press"]},{"word":"learn","answers":["learn","renal"]},{"word":"print","answers":["print"]},{"word":"stock","answers":["stock"]},{"word":"point","answers":["pinot","pinto","point"]},{"word":"sales","answers":["sales","seals"]}],"6":[{"word":"search","answers":["arches","chaser","search"]},{"word":"people","answers":["people"]},{"word":"health","answers":["health"]},{"word":"should","answers":["should"]},{"word":"system","answers":["system"]},{"word":"policy","answers":["policy"]},{"word":"number","answers":["number"]},{"word":"please","answers":["asleep","please"]},{"word":"rights","answers":["rights"]},{"word":"public","answers":["public"]},{"word":"school","answers":["school"]},{"word":"review","answers":["review","viewer"]},{"word":"united","answers":["united","untied"]},{"word":"center","answers":["center","centre","recent"]},{"word":"travel","answers":["travel"]},{"word":"report","answers":["porter","report"]},{"word":"member","answers":["member"]},{"word":"before","answers":["before"]},{"word":"hotels","answers":["hostel","hotels"]},{"word":"office","answers":["office"]},{"word":"design","answers":["design","signed"]},{"word":"posted","answers":["depots","posted"]},{"word":"within","answers":["within"]},{"word":"states","answers":["states","tastes"]},{"word":"family","answers":["family"]},{"word":"prices","answers":["prices"]},{"word":"sports","answers":["sports"]},{"word":"county","answers":["county"]},{"word":"access","answers":["access"]},{"word":"change","answers":["change"]},{"word":"rating","answers":["rating"]},{"word":"during","answers":["during"]},{"word":"return","answers":["return","turner"]},{"word":"events","answers":["events"]},{"word":"little","answers":["little"]},{"word":"movies","answers":["movies"]},{"word":"source","answers":["course","crouse","source"]},{"word":"author","answers":["author"]},{"word":"around","answers":["around"]},{"word":"credit","answers":["credit","direct"]},{"word":"estate","answers":["estate"]},{"word":"select","answers":["elects","select"]},{"word":"photos","answers":["photos"]},{"word":"thread","answers":["dearth","hatred","thread"]},{"word":"market","answers":["market"]},{"word":"really","answers":["rallye","really"]},{"word":"action","answers":["action","cation"]},{"word":"series","answers":["series"]},{"word":"second","answers":["second"]},{"word":"forums","answers":["forums"]},{"word":"better","answers":["better"]},{"word":"friend","answers":["finder","friend"]},{"word":"server","answers":["server"]},{"word":"issues","answers":["issues"]},{"word":"street","answers":["retest","setter","street","tester"]},{"word":"things","answers":["nights","things"]},{"word":"person","answers":["person"]},{"word":"mobile","answers":["mobile"]},{"word":"offers","answers":["offers"]},{"word":"stores","answers":["stores"]},{"word":"memory","answers":["memory"]},{"word":"social","answers":["social"]},{"word":"august","answers":["august"]},{"word":"create","answers":["create"]},{"word":"single","answers":["ingles","single"]},{"word":"latest","answers":["latest"]},{"word":"status","answers":["status"]},{"word":"browse","answers":["bowers","browse"]},{"word":"seller","answers":["resell","seller"]},{"word":"always","answers":["always"]},{"word":"result","answers":["luster","lustre","result","ulster"]},{"word":"groups","answers":["groups"]},{"word":"making","answers":["making"]},{"word":"future","answers":["future"]},{"word":"become","answers":["become"]},{"word":"garden","answers":["danger","gander","garden","ranged"]},{"word":"listed","answers":["listed"]},{"word":"energy","answers":["energy"]},{"word":"images","answers":["images"]},{"word":"notice","answers":["notice"]}],"7":[{"word":"contact","answers":["contact"]},{"word":"service","answers":["service"]},{"word":"product","answers":["product"]},{"word":"support","answers":["support"]},{"word":"message","answers":["message"]},{"word":"through","answers":["through"]},{"word":"privacy","answers":["privacy"]},{"word":"company","answers":["company"]},{"word":"general","answers":["enlarge","general"]},{"word":"reviews","answers":["reviews","viewers"]},{"word":"program","answers":["program"]},{"word":"details","answers":["details"]},{"word":"because","answers":["because"]},{"word":"results","answers":["results"]},{"word":"address","answers":["address"]},{"word":"subject","answers":["subject"]},{"word":"between","answers":["between"]},{"word":"special","answers":["special"]},{"word":"project","answers":["project"]},{"word":"version","answers":["version"]},{"word":"section","answers":["notices","section"]},{"word":"related","answers":["alerted","altered","related"]},{"word":"members","answers":["members"]},{"word":"network","answers":["network"]},{"word":"systems","answers":["systems"]},{"word":"without","answers":["without"]},{"word":"current","answers":["current"]},{"word":"control","answers":["control"]},{"word":"history","answers":["history"]},{"word":"account","answers":["account"]},{"word":"digital","answers":["digital"]},{"word":"profile","answers":["profile"]},{"word":"another","answers":["another"]},{"word":"quality","answers":["quality"]},{"word":"listing","answers":["listing"]},{"word":"content","answers":["content"]},{"word":"country","answers":["country"]},{"word":"private","answers":["private"]},{"word":"compare","answers":["compare"]},{"word":"include","answers":["include"]},{"word":"college","answers":["college"]},{"word":"article","answers":["article","recital"]},{"word":"provide","answers":["provide"]},{"word":"process","answers":["corpses","process"]},{"word":"science","answers":["science"]},{"word":"english","answers":["english","shingle"]},{"word":"windows","answers":["windows"]},{"word":"gallery","answers":["allergy","gallery","largely"]},{"word":"however","answers":["however","whoever"]},{"word":"library","answers":["library"]},{"word":"medical","answers":["claimed","decimal","medical"]},{"word":"looking","answers":["looking"]},{"word":"comment","answers":["comment"]},{"word":"working","answers":["working"]},{"word":"against","answers":["against"]},{"word":"payment","answers":["payment"]},{"word":"student","answers":["student","stunted"]},{"word":"problem","answers":["problem"]},{"word":"options","answers":["options","potions"]},{"word":"example","answers":["example"]},{"word":"changes","answers":["changes"]},{"word":"release","answers":["release"]},{"word":"request","answers":["request"]},{"word":"picture","answers":["picture"]},{"word":"meeting","answers":["meeting","teeming"]},{"word":"similar","answers":["similar"]},{"word":"schools","answers":["schools"]},{"word":"million","answers":["million"]},{"word":"popular","answers":["popular"]},{"word":"stories","answers":["stories"]},{"word":"journal","answers":["journal"]},{"word":"reports","answers":["porters","reports"]},{"word":"welcome","answers":["welcome"]},{"word":"central","answers":["central"]},{"word":"council","answers":["council"]},{"word":"archive","answers":["archive"]},{"word":"society","answers":["society"]},{"word":"friends","answers":["finders","friends"]},{"word":"edition","answers":["edition"]},{"word":"further","answers":["further"]}]};
+  var TIME = 90;
+
+  var sizesEl = document.getElementById("sizes");
+  var scrambleEl = document.getElementById("scramble");
+  var entryEl = document.getElementById("entry");
+  var msgEl = document.getElementById("msg");
+  var scoreEl = document.getElementById("score");
+  var streakEl = document.getElementById("streak");
+  var timeEl = document.getElementById("time");
+
+  var len;          // active word length
+  var pool;         // puzzles for this length
+  var order;        // shuffled index order through the pool
+  var orderPos;
+  var puzzle;       // { word, answers }
+  var answerSet;    // {answer:true}
+  var scrambled;    // current display letters
+  var entry = "";
+  var score = 0, streak = 0;
+  var solvedWords;  // Set of answers already used this puzzle isn't needed; single answer ends puzzle
+  var timeLeft = TIME, timer = null, over = false;
+
+  // --- Helpers -------------------------------------------------------------
+
+  function shuffle(a) {
+    for (var i = a.length - 1; i > 0; i--) {
+      var j = Math.floor(Math.random() * (i + 1));
+      var t = a[i]; a[i] = a[j]; a[j] = t;
+    }
+    return a;
+  }
+
+  function scrambleWord(w) {
+    var arr;
+    do {
+      arr = shuffle(w.split(""));
+    } while (arr.join("") === w && w.length > 1);
+    return arr;
+  }
+
+  // --- Setup ---------------------------------------------------------------
+
+  function startLen(L) {
+    len = L;
+    pool = DATA[L];
+    markActive();
+    newGame();
+  }
+
+  function newGame() {
+    order = shuffle(pool.map(function (_, i) { return i; }));
+    orderPos = 0;
+    score = 0;
+    streak = 0;
+    over = false;
+    timeLeft = TIME;
+    startTimer();
+    nextPuzzle();
+    updateScores();
+  }
+
+  function nextPuzzle() {
+    if (orderPos >= order.length) order = shuffle(order); // wrap around, reshuffled
+    puzzle = pool[order[orderPos % order.length]];
+    orderPos++;
+    answerSet = {};
+    puzzle.answers.forEach(function (a) { answerSet[a] = true; });
+    scrambled = scrambleWord(puzzle.word);
+    entry = "";
+    renderScramble();
+    renderEntry();
+    setMsg("", "");
+  }
+
+  function renderScramble() {
+    scrambleEl.innerHTML = "";
+    scrambled.forEach(function (ch) {
+      var d = document.createElement("div");
+      d.className = "letter";
+      d.textContent = ch;
+      scrambleEl.appendChild(d);
+    });
+  }
+
+  function renderEntry() {
+    if (entry === "") {
+      entryEl.className = "entry placeholder";
+      entryEl.textContent = "type your answer";
+    } else {
+      entryEl.className = "entry";
+      entryEl.innerHTML = entry + '<span class="caret"></span>';
+    }
+  }
+
+  function updateScores() {
+    scoreEl.textContent = score;
+    streakEl.textContent = streak;
+  }
+
+  function setMsg(text, kind) {
+    msgEl.textContent = text;
+    msgEl.className = "msg" + (kind ? " " + kind : "");
+  }
+
+  function markActive() {
+    Array.prototype.forEach.call(sizesEl.children, function (b) {
+      b.classList.toggle("active", b.dataset.len === String(len));
+    });
+  }
+
+  // --- Timer ---------------------------------------------------------------
+
+  function startTimer() {
+    if (timer) clearInterval(timer);
+    renderTime();
+    timer = setInterval(function () {
+      timeLeft--;
+      renderTime();
+      if (timeLeft <= 0) { clearInterval(timer); timer = null; endGame(); }
+    }, 1000);
+  }
+
+  function renderTime() {
+    var m = Math.floor(timeLeft / 60);
+    var s = timeLeft % 60;
+    timeEl.textContent = m + ":" + (s < 10 ? "0" + s : s);
+    timeEl.className = "val" + (timeLeft <= 10 ? " low" : "");
+  }
+
+  function endGame() {
+    over = true;
+    entry = "";
+    renderEntry();
+    setMsg("Time! Final score " + score + ".", "big");
+  }
+
+  // --- Play ----------------------------------------------------------------
+
+  function addLetter(ch) {
+    if (over) return;
+    if (entry.length >= len) return;
+    entry += ch;
+    renderEntry();
+    setMsg("", "");
+  }
+
+  function delLetter() {
+    if (over) return;
+    entry = entry.slice(0, -1);
+    renderEntry();
+  }
+
+  function submit() {
+    if (over) return;
+    var w = entry.toLowerCase();
+    if (w.length === 0) return;
+    if (w.length !== len) return fail("Use all " + len + " letters");
+    if (!answerSet[w]) return fail("Not a valid word");
+
+    var gain = len; // 1 point per letter
+    score += gain;
+    streak++;
+    if (streak > 0 && streak % 5 === 0) { score += 5; } // streak bonus
+    updateScores();
+    setMsg("+" + gain + (streak % 5 === 0 ? "  Streak +5! 🔥" : "  Nice!"), "big");
+    setTimeout(function () { if (!over) nextPuzzle(); }, 550);
+  }
+
+  function fail(text) { setMsg(text, "err"); streak = 0; updateScores(); }
+
+  function skip() {
+    if (over) return;
+    streak = 0;
+    updateScores();
+    setMsg("Skipped — was: " + puzzle.word.toUpperCase(), "err");
+    setTimeout(function () { if (!over) nextPuzzle(); }, 700);
+  }
+
+  // --- Events --------------------------------------------------------------
+
+  function buildSizes() {
+    sizesEl.innerHTML = "";
+    Object.keys(DATA).sort().forEach(function (L) {
+      var b = document.createElement("button");
+      b.textContent = L + " letters";
+      b.dataset.len = L;
+      sizesEl.appendChild(b);
+    });
+  }
+
+  sizesEl.addEventListener("click", function (e) {
+    var b = e.target.closest("button");
+    if (b) startLen(Number(b.dataset.len));
+  });
+
+  document.getElementById("shuffle").addEventListener("click", function () {
+    if (over) return;
+    scrambled = scrambleWord(puzzle.word);
+    renderScramble();
+  });
+  document.getElementById("clear").addEventListener("click", function () {
+    if (over) return; entry = ""; renderEntry();
+  });
+  document.getElementById("submit").addEventListener("click", submit);
+  document.getElementById("skip").addEventListener("click", skip);
+  document.getElementById("new").addEventListener("click", newGame);
+
+  document.addEventListener("keydown", function (e) {
+    if (e.key === "Enter") { submit(); e.preventDefault(); }
+    else if (e.key === "Backspace") { delLetter(); e.preventDefault(); }
+    else if (/^[a-zA-Z]$/.test(e.key)) { addLetter(e.key.toLowerCase()); }
+  });
+
+  // --- Boot ----------------------------------------------------------------
+
+  buildSizes();
+  startLen(5);
+})();
+</script>
+</body>
+</html>

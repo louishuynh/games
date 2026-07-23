@@ -1,0 +1,396 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>Math Sprint</title>
+<style>
+  :root {
+    --bg: #121213;
+    --text: #ffffff;
+    --muted: #818384;
+    --border: #3a3a3c;
+    --card: #1a1a1b;
+    --correct: #538d4e;
+    --present: #b59f3b;
+    --wrong: #b03a2e;
+  }
+
+  * { box-sizing: border-box; }
+
+  html, body {
+    margin: 0;
+    min-height: 100%;
+    background: var(--bg);
+    color: var(--text);
+    font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+  }
+
+  body {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 40px 20px 64px;
+  }
+
+  .back {
+    position: fixed;
+    top: 16px;
+    left: 16px;
+    color: var(--muted);
+    text-decoration: none;
+    font-size: 13px;
+    letter-spacing: 1px;
+  }
+  .back:hover { color: var(--text); }
+
+  header { text-align: center; margin-bottom: 22px; }
+  header h1 { margin: 0; font-size: 34px; font-weight: 700; letter-spacing: 4px; text-transform: uppercase; }
+  header p { margin: 8px 0 0; color: var(--muted); font-size: 14px; }
+
+  .screen { width: 100%; max-width: 340px; display: flex; flex-direction: column; align-items: center; }
+  .screen.hidden { display: none; }
+
+  .opt-group { width: 100%; margin-bottom: 20px; }
+  .opt-label { font-size: 12px; letter-spacing: 1px; text-transform: uppercase; color: var(--muted); margin-bottom: 8px; text-align: center; }
+  .opt-row { display: flex; gap: 8px; justify-content: center; }
+  .opt-row button {
+    min-width: 48px; padding: 10px 14px; font-size: 16px; font-weight: 700;
+    background: transparent; color: var(--text); border: 1px solid var(--border);
+    border-radius: 8px; cursor: pointer;
+  }
+  .opt-row button:hover { border-color: var(--muted); }
+  .opt-row button.active { background: var(--correct); border-color: var(--correct); }
+
+  .big-btn {
+    width: 100%; padding: 16px; font-size: 16px; font-weight: 700; letter-spacing: 2px;
+    text-transform: uppercase; background: var(--correct); color: #fff; border: none;
+    border-radius: 12px; cursor: pointer; margin-top: 8px;
+  }
+  .big-btn.ghost { background: transparent; color: var(--text); border: 1px solid var(--border); }
+  .big-btn.ghost:hover { border-color: var(--muted); }
+
+  /* Live stats */
+  .stats { display: flex; gap: 12px; margin-bottom: 20px; width: 100%; }
+  .stat-box {
+    flex: 1; background: var(--card); border: 1px solid var(--border);
+    border-radius: 10px; padding: 8px 6px; text-align: center;
+  }
+  .stat-box .label { font-size: 11px; letter-spacing: 1px; text-transform: uppercase; color: var(--muted); }
+  .stat-box .val { font-size: 22px; font-weight: 700; }
+  .stat-box .val.low { color: var(--wrong); }
+
+  /* Question */
+  .question {
+    font-size: 46px; font-weight: 700; letter-spacing: 1px; margin-bottom: 6px;
+    font-variant-numeric: tabular-nums; min-height: 56px;
+  }
+  .answer-field {
+    font-size: 40px; font-weight: 700; color: var(--present); min-height: 50px;
+    letter-spacing: 2px; margin-bottom: 4px;
+  }
+  .answer-field .caret { display: inline-block; width: 2px; height: 34px; background: var(--muted); vertical-align: middle; animation: blink 1s step-start infinite; }
+  @keyframes blink { 50% { opacity: 0; } }
+  .feedback { min-height: 22px; font-size: 15px; font-weight: 700; letter-spacing: 1px; margin-bottom: 16px; }
+  .feedback.ok { color: var(--correct); }
+  .feedback.bad { color: var(--wrong); }
+
+  /* Number pad */
+  .pad { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; width: 100%; max-width: 280px; }
+  .pad button {
+    padding: 18px 0; font-size: 24px; font-weight: 700; background: var(--card);
+    color: var(--text); border: 1px solid var(--border); border-radius: 10px; cursor: pointer;
+  }
+  .pad button:hover { border-color: var(--muted); }
+  .pad button:active { transform: scale(0.95); }
+  .pad button.wide { grid-column: span 1; font-size: 18px; }
+
+  .summary-big { font-size: 52px; font-weight: 700; color: var(--correct); margin-bottom: 4px; }
+  .summary-line { font-size: 15px; color: var(--muted); letter-spacing: 1px; margin-bottom: 4px; }
+  .best-line { font-size: 14px; color: var(--present); letter-spacing: 1px; margin-bottom: 20px; }
+
+  .notes {
+    width: 100%; max-width: 340px; margin-top: 34px; padding-top: 16px;
+    border-top: 1px solid var(--border); color: var(--muted); font-size: 13px; line-height: 1.6;
+  }
+  .notes h3 { margin: 0 0 8px; font-size: 12px; letter-spacing: 1px; text-transform: uppercase; color: var(--text); }
+  .notes ul { margin: 0; padding-left: 18px; }
+  .notes li { margin-bottom: 5px; }
+  .notes b { color: var(--text); }
+</style>
+</head>
+<body>
+  <a class="back" href="index.html">&larr; Games</a>
+
+  <header>
+    <h1>Math Sprint</h1>
+    <p>Solve as many as you can before the clock runs out.</p>
+  </header>
+
+  <!-- SETUP -->
+  <div class="screen" id="setup">
+    <div class="opt-group">
+      <div class="opt-label">Operations</div>
+      <div class="opt-row" id="opRow"></div>
+    </div>
+    <div class="opt-group">
+      <div class="opt-label">Level</div>
+      <div class="opt-row" id="levelRow"></div>
+    </div>
+    <div class="opt-group">
+      <div class="opt-label">Time</div>
+      <div class="opt-row" id="timeRow"></div>
+    </div>
+    <button class="big-btn" id="start">Start</button>
+  </div>
+
+  <!-- PLAY -->
+  <div class="screen hidden" id="play">
+    <div class="stats">
+      <div class="stat-box"><div class="label">Time</div><div class="val" id="time">0:60</div></div>
+      <div class="stat-box"><div class="label">Score</div><div class="val" id="score">0</div></div>
+      <div class="stat-box"><div class="label">Streak</div><div class="val" id="streak">0</div></div>
+    </div>
+    <div class="question" id="question">7 + 8</div>
+    <div class="answer-field" id="answerField"></div>
+    <div class="feedback" id="feedback"></div>
+    <div class="pad" id="pad"></div>
+  </div>
+
+  <!-- OVER -->
+  <div class="screen hidden" id="over">
+    <div class="summary-big" id="finalScore">0</div>
+    <div class="summary-line" id="finalDetail">correct answers</div>
+    <div class="best-line" id="bestLine"></div>
+    <button class="big-btn" id="again">Play again</button>
+    <button class="big-btn ghost" id="change">Change settings</button>
+  </div>
+
+  <div class="notes">
+    <h3>How to play</h3>
+    <ul>
+      <li>Pick which <b>operations</b> to drill (+ &minus; &times; &divide;), a <b>level</b>, and a time limit.</li>
+      <li>Type each answer on the pad or your <b>keyboard</b>. Correct answers advance automatically.</li>
+      <li>Build a <b>streak</b> for consecutive correct answers; a wrong answer shows the solution and resets it.</li>
+      <li>Score as many as you can before time runs out &mdash; your <b>best</b> is saved.</li>
+    </ul>
+  </div>
+
+<script>
+(function () {
+  "use strict";
+
+  var BEST_KEY = "arcade-mathsprint-best";
+
+  // Level ranges per operation family.
+  var ADD_MAX = { 1: 10, 2: 20, 3: 100 };   // + and −
+  var MUL_MAX = { 1: 6, 2: 10, 3: 12 };      // × and ÷ (table size)
+
+  var ops = { "+": true, "−": false, "×": false, "÷": false };
+  var level = 1;
+  var duration = 60;
+
+  var score = 0, streak = 0, best = 0;
+  var answer = 0, input = "", locked = false;
+  var timeLeft = 0, timer = null;
+
+  var opRow = document.getElementById("opRow");
+  var levelRow = document.getElementById("levelRow");
+  var timeRow = document.getElementById("timeRow");
+  var padEl = document.getElementById("pad");
+  var qEl = document.getElementById("question");
+  var ansEl = document.getElementById("answerField");
+  var fbEl = document.getElementById("feedback");
+  var timeEl = document.getElementById("time");
+  var scoreEl = document.getElementById("score");
+  var streakEl = document.getElementById("streak");
+
+  function rand(lo, hi) { return lo + Math.floor(Math.random() * (hi - lo + 1)); }
+
+  function show(name) {
+    ["setup", "play", "over"].forEach(function (s) {
+      document.getElementById(s).classList.toggle("hidden", s !== name);
+    });
+  }
+
+  // --- Setup UI ------------------------------------------------------------
+
+  function buildSetup() {
+    opRow.innerHTML = "";
+    ["+", "−", "×", "÷"].forEach(function (o) {
+      var b = document.createElement("button");
+      b.textContent = o;
+      b.className = ops[o] ? "active" : "";
+      b.addEventListener("click", function () {
+        ops[o] = !ops[o];
+        if (!Object.keys(ops).some(function (k) { return ops[k]; })) ops[o] = true; // keep >=1
+        buildSetup();
+      });
+      opRow.appendChild(b);
+    });
+    levelRow.innerHTML = "";
+    [1, 2, 3].forEach(function (L) {
+      var b = document.createElement("button");
+      b.textContent = L;
+      b.className = level === L ? "active" : "";
+      b.addEventListener("click", function () { level = L; buildSetup(); });
+      levelRow.appendChild(b);
+    });
+    timeRow.innerHTML = "";
+    [30, 60, 120].forEach(function (t) {
+      var b = document.createElement("button");
+      b.textContent = (t < 60 ? t + "s" : (t / 60) + "m");
+      b.className = duration === t ? "active" : "";
+      b.addEventListener("click", function () { duration = t; buildSetup(); });
+      timeRow.appendChild(b);
+    });
+  }
+
+  function buildPad() {
+    padEl.innerHTML = "";
+    ["1","2","3","4","5","6","7","8","9"].forEach(function (d) {
+      addPad(d, function () { press(d); });
+    });
+    addPad("⌫", function () { backspace(); }, true);
+    addPad("0", function () { press("0"); });
+    addPad("Enter", function () { submit(); }, true);
+  }
+  function addPad(label, fn, wide) {
+    var b = document.createElement("button");
+    b.textContent = label;
+    if (wide) b.className = "wide";
+    b.addEventListener("click", fn);
+    padEl.appendChild(b);
+  }
+
+  // --- Question flow -------------------------------------------------------
+
+  function enabledOps() { return Object.keys(ops).filter(function (o) { return ops[o]; }); }
+
+  function newQuestion() {
+    var list = enabledOps();
+    var op = list[rand(0, list.length - 1)];
+    var a, b;
+    if (op === "+") { var m = ADD_MAX[level]; a = rand(1, m); b = rand(1, m); answer = a + b; }
+    else if (op === "−") { var m2 = ADD_MAX[level]; a = rand(1, m2); b = rand(1, a); answer = a - b; }
+    else if (op === "×") { var t = MUL_MAX[level]; a = rand(1, t); b = rand(1, t); answer = a * b; }
+    else { var t2 = MUL_MAX[level]; b = rand(1, t2); answer = rand(1, t2); a = b * answer; } // ÷ exact
+    qEl.textContent = a + " " + op + " " + b;
+    input = "";
+    renderAnswer();
+  }
+
+  function renderAnswer() {
+    ansEl.innerHTML = input === "" ? '<span class="caret"></span>' : input + '<span class="caret"></span>';
+  }
+
+  function press(d) {
+    if (locked) return;
+    if (input.length >= 4) return;
+    input += d;
+    renderAnswer();
+    check();
+  }
+  function backspace() {
+    if (locked) return;
+    input = input.slice(0, -1);
+    renderAnswer();
+  }
+
+  function check() {
+    if (input === "") return;
+    var val = parseInt(input, 10);
+    if (val === answer) { right(); }
+    else if (input.length >= String(answer).length) { wrong(); }
+  }
+
+  function submit() {
+    if (locked || input === "") return;
+    if (parseInt(input, 10) === answer) right(); else wrong();
+  }
+
+  function right() {
+    score++; streak++;
+    scoreEl.textContent = score;
+    streakEl.textContent = streak;
+    fbEl.textContent = "Correct!";
+    fbEl.className = "feedback ok";
+    newQuestion();
+  }
+
+  function wrong() {
+    locked = true;
+    streak = 0;
+    streakEl.textContent = streak;
+    fbEl.textContent = qEl.textContent + " = " + answer;
+    fbEl.className = "feedback bad";
+    setTimeout(function () {
+      locked = false;
+      fbEl.textContent = "";
+      fbEl.className = "feedback";
+      newQuestion();
+    }, 900);
+  }
+
+  // --- Game lifecycle ------------------------------------------------------
+
+  function startGame() {
+    score = 0; streak = 0; locked = false;
+    scoreEl.textContent = 0; streakEl.textContent = 0;
+    timeLeft = duration;
+    renderTime();
+    fbEl.textContent = ""; fbEl.className = "feedback";
+    newQuestion();
+    show("play");
+    if (timer) clearInterval(timer);
+    timer = setInterval(function () {
+      timeLeft--;
+      renderTime();
+      if (timeLeft <= 0) { clearInterval(timer); timer = null; endGame(); }
+    }, 1000);
+  }
+
+  function renderTime() {
+    var m = Math.floor(timeLeft / 60), s = timeLeft % 60;
+    timeEl.textContent = m + ":" + (s < 10 ? "0" + s : s);
+    timeEl.className = "val" + (timeLeft <= 10 ? " low" : "");
+  }
+
+  function endGame() {
+    locked = true;
+    document.getElementById("finalScore").textContent = score;
+    document.getElementById("finalDetail").textContent =
+      "correct in " + (duration < 60 ? duration + " seconds" : (duration / 60) + " minute" + (duration > 60 ? "s" : ""));
+    if (score > best) {
+      best = score;
+      try { localStorage.setItem(BEST_KEY, best); } catch (e) {}
+      document.getElementById("bestLine").textContent = "New best! 🎉";
+    } else {
+      document.getElementById("bestLine").textContent = "Best: " + best;
+    }
+    show("over");
+  }
+
+  // --- Events --------------------------------------------------------------
+
+  document.getElementById("start").addEventListener("click", startGame);
+  document.getElementById("again").addEventListener("click", startGame);
+  document.getElementById("change").addEventListener("click", function () { show("setup"); });
+
+  document.addEventListener("keydown", function (e) {
+    if (document.getElementById("play").classList.contains("hidden")) return;
+    if (/^[0-9]$/.test(e.key)) press(e.key);
+    else if (e.key === "Backspace") { backspace(); e.preventDefault(); }
+    else if (e.key === "Enter") submit();
+  });
+
+  // --- Boot ----------------------------------------------------------------
+
+  try { best = parseInt(localStorage.getItem(BEST_KEY), 10) || 0; } catch (e) { best = 0; }
+  buildSetup();
+  buildPad();
+  show("setup");
+})();
+</script>
+</body>
+</html>

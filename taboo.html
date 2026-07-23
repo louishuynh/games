@@ -1,0 +1,727 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>Taboo</title>
+<style>
+  :root {
+    --bg: #121213;
+    --text: #ffffff;
+    --muted: #818384;
+    --border: #3a3a3c;
+    --card: #1a1a1b;
+    --correct: #538d4e;
+    --present: #b59f3b;
+    --wrong: #b03a2e;
+  }
+
+  * { box-sizing: border-box; }
+
+  html, body {
+    margin: 0;
+    min-height: 100%;
+    background: var(--bg);
+    color: var(--text);
+    font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+  }
+
+  body {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 40px 20px 64px;
+  }
+
+  .back {
+    position: fixed;
+    top: 16px;
+    left: 16px;
+    color: var(--muted);
+    text-decoration: none;
+    font-size: 13px;
+    letter-spacing: 1px;
+  }
+  .back:hover { color: var(--text); }
+
+  header { text-align: center; margin-bottom: 22px; }
+  header h1 {
+    margin: 0;
+    font-size: 34px;
+    font-weight: 700;
+    letter-spacing: 5px;
+    text-transform: uppercase;
+  }
+  header p { margin: 8px 0 0; color: var(--muted); font-size: 14px; }
+
+  .screen { width: 100%; max-width: 380px; display: flex; flex-direction: column; align-items: center; }
+  .screen.hidden { display: none; }
+
+  /* Scoreboard */
+  .scores {
+    display: flex;
+    gap: 12px;
+    margin-bottom: 22px;
+    width: 100%;
+  }
+  .score-box {
+    flex: 1;
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 10px 8px;
+    text-align: center;
+  }
+  .score-box.active { border-color: var(--correct); }
+  .score-box .label {
+    font-size: 12px;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    color: var(--muted);
+  }
+  .score-box.active .label { color: var(--correct); }
+  .score-box .val { font-size: 28px; font-weight: 700; }
+
+  /* Setup options */
+  .opt-group { width: 100%; margin-bottom: 22px; }
+  .opt-label { font-size: 12px; letter-spacing: 1px; text-transform: uppercase; color: var(--muted); margin-bottom: 8px; text-align: center; }
+  .opt-row { display: flex; gap: 8px; justify-content: center; }
+  .opt-row button {
+    padding: 9px 16px;
+    font-size: 13px;
+    font-weight: 700;
+    letter-spacing: 1px;
+    background: transparent;
+    color: var(--text);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    cursor: pointer;
+  }
+  .opt-row button:hover { border-color: var(--muted); }
+  .opt-row button.active { background: var(--correct); border-color: var(--correct); }
+
+  .big-btn {
+    width: 100%;
+    padding: 16px;
+    font-size: 16px;
+    font-weight: 700;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    background: var(--correct);
+    color: #fff;
+    border: none;
+    border-radius: 12px;
+    cursor: pointer;
+    margin-top: 8px;
+  }
+  .big-btn.ghost { background: transparent; color: var(--text); border: 1px solid var(--border); }
+  .big-btn.ghost:hover { border-color: var(--muted); }
+
+  .turn-title { font-size: 24px; font-weight: 700; letter-spacing: 1px; margin-bottom: 6px; text-align: center; }
+  .turn-sub { color: var(--muted); font-size: 14px; line-height: 1.6; margin-bottom: 24px; text-align: center; }
+
+  /* Timer */
+  .timer {
+    font-size: 44px;
+    font-weight: 700;
+    letter-spacing: 2px;
+    margin-bottom: 14px;
+    font-variant-numeric: tabular-nums;
+  }
+  .timer.low { color: var(--wrong); }
+
+  /* Play card */
+  .play-card {
+    width: 100%;
+    background: #f6f4fa;
+    border: 1px solid #d9cfe8;
+    border-radius: 16px;
+    padding: 0;
+    margin-bottom: 18px;
+    text-align: center;
+    overflow: hidden;
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.35);
+  }
+  .guess-word {
+    font-size: 32px;
+    font-weight: 800;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    color: #fff;
+    background: linear-gradient(135deg, #8e2de2, #6d1fb5);
+    padding: 22px 16px;
+    margin: 0;
+    word-break: break-word;
+  }
+  .taboo-head {
+    font-size: 11px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: #b3261e;
+    padding: 16px 16px 0;
+    margin-bottom: 8px;
+  }
+  .taboo-list { list-style: none; margin: 0; padding: 0 16px 20px; }
+  .taboo-list li {
+    font-size: 19px;
+    font-weight: 700;
+    text-transform: capitalize;
+    padding: 7px 0;
+    color: #3a1d5c;
+    border-bottom: 1px solid #e4dcef;
+  }
+  .taboo-list li:last-child { border-bottom: none; }
+
+  .turn-score { color: var(--muted); font-size: 14px; margin-bottom: 16px; letter-spacing: 1px; }
+
+  .play-buttons { display: flex; gap: 10px; width: 100%; }
+  .play-buttons button {
+    flex: 1;
+    padding: 16px 8px;
+    font-size: 14px;
+    font-weight: 700;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    border: none;
+    border-radius: 12px;
+    cursor: pointer;
+    color: #fff;
+  }
+  .btn-skip { background: #3a3a3c; }
+  .btn-taboo { background: var(--wrong); }
+  .btn-correct { background: var(--correct); }
+  .play-buttons button:active { transform: scale(0.96); }
+
+  .summary-line { font-size: 18px; font-weight: 700; margin-bottom: 8px; text-align: center; }
+  .summary-big { font-size: 40px; font-weight: 700; color: var(--correct); margin-bottom: 6px; text-align: center; }
+
+  .controls { display: flex; gap: 12px; margin-top: 20px; }
+  .controls button {
+    padding: 10px 18px;
+    font-size: 13px;
+    font-weight: 700;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    background: transparent;
+    color: var(--text);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    cursor: pointer;
+  }
+  .controls button:hover { border-color: var(--muted); }
+
+  .notes {
+    width: 100%;
+    max-width: 380px;
+    margin-top: 34px;
+    padding-top: 16px;
+    border-top: 1px solid var(--border);
+    color: var(--muted);
+    font-size: 13px;
+    line-height: 1.6;
+  }
+  .notes h3 {
+    margin: 0 0 8px;
+    font-size: 12px;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    color: var(--text);
+  }
+  .notes ul { margin: 0; padding-left: 18px; }
+  .notes li { margin-bottom: 5px; }
+  .notes b { color: var(--text); }
+</style>
+</head>
+<body>
+  <a class="back" href="index.html">&larr; Games</a>
+
+  <header>
+    <h1>Taboo</h1>
+    <p>Describe the word &mdash; without saying any of the forbidden ones.</p>
+  </header>
+
+  <!-- HOME / SETUP -->
+  <div class="screen" id="home">
+    <div class="opt-group">
+      <div class="opt-label">Round length</div>
+      <div class="opt-row" id="timeOpts"></div>
+    </div>
+    <div class="opt-group">
+      <div class="opt-label">Play to</div>
+      <div class="opt-row" id="targetOpts"></div>
+    </div>
+    <button class="big-btn" id="startGame">Start game</button>
+  </div>
+
+  <!-- READY -->
+  <div class="screen hidden" id="ready">
+    <div class="scores" id="readyScores"></div>
+    <div class="turn-title" id="readyTitle">Team A</div>
+    <div class="turn-sub">Pass the phone to this team's clue-giver.<br>Everyone else &mdash; no peeking!</div>
+    <button class="big-btn" id="startTurn">Start turn</button>
+  </div>
+
+  <!-- PLAY -->
+  <div class="screen hidden" id="play">
+    <div class="timer" id="timer">1:00</div>
+    <div class="play-card">
+      <div class="guess-word" id="guessWord"></div>
+      <div class="taboo-head">Don't say</div>
+      <ul class="taboo-list" id="tabooList"></ul>
+    </div>
+    <div class="turn-score" id="turnScore">This turn: 0</div>
+    <div class="play-buttons">
+      <button class="btn-skip" id="btnSkip">Skip</button>
+      <button class="btn-taboo" id="btnTaboo">Taboo &minus;1</button>
+      <button class="btn-correct" id="btnCorrect">Got it +1</button>
+    </div>
+  </div>
+
+  <!-- SUMMARY -->
+  <div class="screen hidden" id="summary">
+    <div class="summary-line" id="sumTeam">Team A</div>
+    <div class="summary-big" id="sumScore">+0</div>
+    <div class="turn-sub" id="sumDetail"></div>
+    <div class="scores" id="summaryScores"></div>
+    <button class="big-btn" id="nextTurn">Next team</button>
+    <button class="big-btn ghost" id="newGame">New game</button>
+  </div>
+
+  <div class="notes">
+    <h3>How to play</h3>
+    <ul>
+      <li>Two teams take turns. One player is the <b>clue-giver</b> and holds the phone.</li>
+      <li>Describe the big word so your team guesses it &mdash; but you <b>can't say the word itself or any of the forbidden words</b> listed.</li>
+      <li><b>Got it +1</b> when they guess, <b>Taboo &minus;1</b> if you slip up (the other team is watching!), <b>Skip</b> to pass.</li>
+      <li>Get as many as you can before time runs out, then pass to the other team. First to the target score wins.</li>
+    </ul>
+  </div>
+
+<script>
+(function () {
+  "use strict";
+
+  // Curated deck: each card is a word to guess plus its forbidden words.
+  var DECK = [
+    { word: "Elephant", taboo: ["Trunk", "Big", "Grey", "Tusks", "Africa"] },
+    { word: "Penguin", taboo: ["Bird", "Ice", "Antarctica", "Black", "Waddle"] },
+    { word: "Kangaroo", taboo: ["Australia", "Jump", "Pouch", "Hop", "Marsupial"] },
+    { word: "Dolphin", taboo: ["Sea", "Swim", "Mammal", "Smart", "Fin"] },
+    { word: "Spider", taboo: ["Web", "Eight", "Legs", "Insect", "Crawl"] },
+    { word: "Lion", taboo: ["King", "Jungle", "Roar", "Mane", "Cat"] },
+    { word: "Owl", taboo: ["Bird", "Night", "Hoot", "Wise", "Nocturnal"] },
+    { word: "Snake", taboo: ["Slither", "Hiss", "Venom", "Reptile", "Bite"] },
+    { word: "Butterfly", taboo: ["Caterpillar", "Wings", "Cocoon", "Flutter", "Colourful"] },
+    { word: "Shark", taboo: ["Teeth", "Ocean", "Fin", "Jaws", "Predator"] },
+    { word: "Pizza", taboo: ["Cheese", "Italian", "Slice", "Dough", "Topping"] },
+    { word: "Banana", taboo: ["Yellow", "Fruit", "Peel", "Monkey", "Curve"] },
+    { word: "Coffee", taboo: ["Caffeine", "Morning", "Bean", "Cup", "Brew"] },
+    { word: "Chocolate", taboo: ["Sweet", "Brown", "Cocoa", "Bar", "Candy"] },
+    { word: "Bread", taboo: ["Loaf", "Bake", "Toast", "Flour", "Sandwich"] },
+    { word: "Ice cream", taboo: ["Cold", "Cone", "Scoop", "Dessert", "Melt"] },
+    { word: "Cheese", taboo: ["Milk", "Yellow", "Mouse", "Dairy", "Cheddar"] },
+    { word: "Sushi", taboo: ["Japan", "Rice", "Fish", "Roll", "Raw"] },
+    { word: "Popcorn", taboo: ["Cinema", "Corn", "Butter", "Pop", "Snack"] },
+    { word: "Honey", taboo: ["Bee", "Sweet", "Sticky", "Gold", "Hive"] },
+    { word: "Pancake", taboo: ["Flat", "Syrup", "Breakfast", "Flip", "Batter"] },
+    { word: "Spaghetti", taboo: ["Pasta", "Italian", "Sauce", "Noodles", "Fork"] },
+    { word: "Apple", taboo: ["Fruit", "Red", "Tree", "Core", "Crunch"] },
+    { word: "Carrot", taboo: ["Orange", "Vegetable", "Rabbit", "Root", "Crunch"] },
+    { word: "Egg", taboo: ["Chicken", "Shell", "Yolk", "Boil", "Breakfast"] },
+    { word: "Cake", taboo: ["Sweet", "Bake", "Icing", "Birthday", "Slice"] },
+    { word: "Lemon", taboo: ["Sour", "Yellow", "Citrus", "Juice", "Fruit"] },
+    { word: "Watermelon", taboo: ["Fruit", "Green", "Seeds", "Summer", "Juicy"] },
+    { word: "Umbrella", taboo: ["Rain", "Open", "Wet", "Handle", "Shade"] },
+    { word: "Pillow", taboo: ["Sleep", "Soft", "Head", "Bed", "Cushion"] },
+    { word: "Candle", taboo: ["Wax", "Flame", "Light", "Wick", "Birthday"] },
+    { word: "Clock", taboo: ["Time", "Tick", "Hands", "Hour", "Wall"] },
+    { word: "Mirror", taboo: ["Reflection", "Glass", "Look", "Face", "Wall"] },
+    { word: "Scissors", taboo: ["Cut", "Paper", "Sharp", "Blades", "Snip"] },
+    { word: "Toothbrush", taboo: ["Teeth", "Paste", "Clean", "Mouth", "Brush"] },
+    { word: "Broom", taboo: ["Sweep", "Floor", "Witch", "Dust", "Handle"] },
+    { word: "Key", taboo: ["Lock", "Door", "Unlock", "Metal", "Keyring"] },
+    { word: "Soap", taboo: ["Wash", "Bubbles", "Clean", "Bar", "Hands"] },
+    { word: "Telephone", taboo: ["Call", "Ring", "Phone", "Dial", "Talk"] },
+    { word: "Ladder", taboo: ["Climb", "Rungs", "Steps", "Tall", "Reach"] },
+    { word: "Hammer", taboo: ["Nail", "Tool", "Hit", "Bang", "Wood"] },
+    { word: "Suitcase", taboo: ["Travel", "Luggage", "Pack", "Wheels", "Trip"] },
+    { word: "Backpack", taboo: ["Bag", "Straps", "Carry", "School", "Shoulders"] },
+    { word: "Wallet", taboo: ["Money", "Cards", "Pocket", "Cash", "Leather"] },
+    { word: "Compass", taboo: ["Direction", "North", "Needle", "Navigate", "Map"] },
+    { word: "Anchor", taboo: ["Ship", "Sea", "Heavy", "Boat", "Chain"] },
+    { word: "Beach", taboo: ["Sand", "Sea", "Sun", "Waves", "Swim"] },
+    { word: "Library", taboo: ["Books", "Quiet", "Read", "Borrow", "Shelves"] },
+    { word: "Airport", taboo: ["Plane", "Fly", "Gate", "Luggage", "Terminal"] },
+    { word: "Hospital", taboo: ["Doctor", "Sick", "Nurse", "Patient", "Emergency"] },
+    { word: "School", taboo: ["Teacher", "Students", "Class", "Learn", "Lesson"] },
+    { word: "Zoo", taboo: ["Animals", "Cage", "Visit", "Keeper", "Enclosure"] },
+    { word: "Farm", taboo: ["Cow", "Crops", "Tractor", "Field", "Animals"] },
+    { word: "Castle", taboo: ["King", "Moat", "Medieval", "Tower", "Stone"] },
+    { word: "Desert", taboo: ["Sand", "Hot", "Dry", "Camel", "Dune"] },
+    { word: "Volcano", taboo: ["Lava", "Erupt", "Magma", "Mountain", "Ash"] },
+    { word: "Lighthouse", taboo: ["Sea", "Light", "Coast", "Ships", "Tower"] },
+    { word: "Doctor", taboo: ["Hospital", "Patient", "Medicine", "Sick", "Nurse"] },
+    { word: "Chef", taboo: ["Cook", "Kitchen", "Food", "Restaurant", "Hat"] },
+    { word: "Firefighter", taboo: ["Fire", "Hose", "Truck", "Rescue", "Flames"] },
+    { word: "Teacher", taboo: ["School", "Students", "Class", "Lesson", "Board"] },
+    { word: "Pilot", taboo: ["Plane", "Fly", "Cockpit", "Airline", "Captain"] },
+    { word: "Farmer", taboo: ["Crops", "Field", "Tractor", "Animals", "Harvest"] },
+    { word: "Police", taboo: ["Crime", "Arrest", "Uniform", "Law", "Officer"] },
+    { word: "Artist", taboo: ["Paint", "Draw", "Canvas", "Gallery", "Brush"] },
+    { word: "Dentist", taboo: ["Teeth", "Drill", "Mouth", "Cavity", "Chair"] },
+    { word: "Judge", taboo: ["Court", "Law", "Gavel", "Verdict", "Trial"] },
+    { word: "Football", taboo: ["Ball", "Goal", "Kick", "Team", "Pitch"] },
+    { word: "Tennis", taboo: ["Racket", "Court", "Net", "Ball", "Serve"] },
+    { word: "Swimming", taboo: ["Pool", "Water", "Stroke", "Dive", "Lap"] },
+    { word: "Chess", taboo: ["Board", "King", "Checkmate", "Pieces", "Strategy"] },
+    { word: "Skiing", taboo: ["Snow", "Slope", "Mountain", "Poles", "Downhill"] },
+    { word: "Boxing", taboo: ["Punch", "Gloves", "Ring", "Fight", "Knockout"] },
+    { word: "Golf", taboo: ["Club", "Hole", "Ball", "Course", "Swing"] },
+    { word: "Cycling", taboo: ["Bike", "Pedal", "Wheels", "Ride", "Race"] },
+    { word: "Basketball", taboo: ["Hoop", "Dribble", "Court", "Ball", "Dunk"] },
+    { word: "Dancing", taboo: ["Music", "Move", "Steps", "Floor", "Rhythm"] },
+    { word: "Rainbow", taboo: ["Colours", "Rain", "Sky", "Arc", "Seven"] },
+    { word: "Snowman", taboo: ["Snow", "Carrot", "Cold", "Build", "Winter"] },
+    { word: "Thunder", taboo: ["Lightning", "Storm", "Loud", "Sky", "Boom"] },
+    { word: "Mountain", taboo: ["Climb", "Peak", "High", "Snow", "Hill"] },
+    { word: "River", taboo: ["Water", "Flow", "Stream", "Bank", "Fish"] },
+    { word: "Tornado", taboo: ["Wind", "Spin", "Storm", "Funnel", "Twister"] },
+    { word: "Forest", taboo: ["Trees", "Woods", "Green", "Leaves", "Wildlife"] },
+    { word: "Waterfall", taboo: ["Water", "Fall", "Cliff", "Cascade", "River"] },
+    { word: "Island", taboo: ["Sea", "Surrounded", "Water", "Tropical", "Land"] },
+    { word: "Cave", taboo: ["Dark", "Rock", "Underground", "Bats", "Tunnel"] },
+    { word: "Bicycle", taboo: ["Pedal", "Wheels", "Ride", "Two", "Handlebars"] },
+    { word: "Helicopter", taboo: ["Fly", "Blades", "Rotor", "Hover", "Chopper"] },
+    { word: "Submarine", taboo: ["Underwater", "Sea", "Dive", "Sonar", "Navy"] },
+    { word: "Train", taboo: ["Track", "Rail", "Station", "Carriage", "Engine"] },
+    { word: "Rocket", taboo: ["Space", "Launch", "Fuel", "Blast", "NASA"] },
+    { word: "Skateboard", taboo: ["Wheels", "Trick", "Ride", "Ramp", "Board"] },
+    { word: "Balloon", taboo: ["Air", "Float", "Helium", "Pop", "Party"] },
+    { word: "Tractor", taboo: ["Farm", "Field", "Plough", "Wheels", "Engine"] },
+    { word: "Ambulance", taboo: ["Emergency", "Siren", "Hospital", "Patient", "Medic"] },
+    { word: "Canoe", taboo: ["Paddle", "Water", "Boat", "River", "Row"] },
+    { word: "Glasses", taboo: ["Eyes", "See", "Lens", "Frames", "Vision"] },
+    { word: "Gloves", taboo: ["Hands", "Fingers", "Warm", "Pair", "Winter"] },
+    { word: "Hat", taboo: ["Head", "Wear", "Cap", "Brim", "Top"] },
+    { word: "Shoe", taboo: ["Foot", "Lace", "Wear", "Pair", "Sole"] },
+    { word: "Scarf", taboo: ["Neck", "Warm", "Wrap", "Winter", "Wool"] },
+    { word: "Guitar", taboo: ["Strings", "Music", "Strum", "Band", "Play"] },
+    { word: "Camera", taboo: ["Photo", "Picture", "Lens", "Click", "Snap"] },
+    { word: "Birthday", taboo: ["Cake", "Candles", "Party", "Presents", "Age"] },
+    { word: "Wedding", taboo: ["Marriage", "Bride", "Groom", "Ring", "Vows"] },
+    { word: "Ghost", taboo: ["Spooky", "Haunt", "White", "Boo", "Sheet"] },
+    { word: "Robot", taboo: ["Machine", "Metal", "Android", "Mechanical", "Beep"] },
+    { word: "Dragon", taboo: ["Fire", "Mythical", "Wings", "Scales", "Knight"] },
+    { word: "Pirate", taboo: ["Ship", "Treasure", "Parrot", "Sea", "Eyepatch"] },
+    { word: "Wizard", taboo: ["Magic", "Wand", "Spell", "Hat", "Potion"] },
+    { word: "Vampire", taboo: ["Blood", "Fangs", "Night", "Bat", "Coffin"] },
+    { word: "Mermaid", taboo: ["Sea", "Tail", "Fish", "Half", "Ocean"] },
+    { word: "Santa", taboo: ["Christmas", "Presents", "Sleigh", "Beard", "Red"] },
+    { word: "Rainbow trout", taboo: ["Fish", "River", "Colourful", "Catch", "Scales"] },
+    { word: "Toaster", taboo: ["Bread", "Pop", "Kitchen", "Slots", "Hot"] },
+    { word: "Vacuum", taboo: ["Clean", "Carpet", "Dust", "Suck", "Floor"] },
+    { word: "Fridge", taboo: ["Cold", "Kitchen", "Food", "Freeze", "Door"] },
+    { word: "Piano", taboo: ["Keys", "Music", "Black", "White", "Play"] },
+    { word: "Rainforest", taboo: ["Trees", "Amazon", "Wet", "Jungle", "Tropical"] },
+    { word: "Astronaut", taboo: ["Space", "Rocket", "Moon", "Suit", "NASA"] },
+    { word: "Igloo", taboo: ["Ice", "Snow", "Dome", "Eskimo", "Cold"] },
+    { word: "Windmill", taboo: ["Wind", "Blades", "Turn", "Dutch", "Power"] },
+    { word: "Telescope", taboo: ["Stars", "Space", "Lens", "Look", "Sky"] },
+    { word: "Trampoline", taboo: ["Jump", "Bounce", "Springs", "Garden", "Air"] },
+    { word: "Fireworks", taboo: ["Explode", "Sky", "Bang", "Colours", "Celebrate"] },
+    { word: "Cactus", taboo: ["Desert", "Spikes", "Green", "Prickly", "Plant"] },
+    { word: "Octopus", taboo: ["Eight", "Sea", "Tentacles", "Ink", "Arms"] },
+    { word: "Volleyball", taboo: ["Net", "Ball", "Beach", "Spike", "Team"] },
+    { word: "Sunglasses", taboo: ["Eyes", "Sun", "Dark", "Wear", "Summer"] },
+    { word: "Giraffe", taboo: ["Neck", "Tall", "Spots", "Africa", "Leaves"] },
+    { word: "Turtle", taboo: ["Shell", "Slow", "Sea", "Reptile", "Hide"] },
+    { word: "Frog", taboo: ["Green", "Jump", "Pond", "Croak", "Amphibian"] },
+    { word: "Bee", taboo: ["Honey", "Sting", "Buzz", "Hive", "Yellow"] },
+    { word: "Whale", taboo: ["Ocean", "Big", "Mammal", "Blue", "Blow"] },
+    { word: "Rabbit", taboo: ["Hop", "Ears", "Carrot", "Bunny", "Tail"] },
+    { word: "Horse", taboo: ["Ride", "Gallop", "Mane", "Stable", "Hooves"] },
+    { word: "Monkey", taboo: ["Banana", "Jungle", "Swing", "Tail", "Primate"] },
+    { word: "Bear", taboo: ["Honey", "Forest", "Growl", "Hibernate", "Grizzly"] },
+    { word: "Crocodile", taboo: ["Teeth", "River", "Snap", "Reptile", "Green"] },
+    { word: "Peacock", taboo: ["Feathers", "Tail", "Colourful", "Bird", "Strut"] },
+    { word: "Hedgehog", taboo: ["Spikes", "Small", "Curl", "Prickly", "Garden"] },
+    { word: "Camel", taboo: ["Desert", "Hump", "Ride", "Sand", "Thirsty"] },
+    { word: "Squirrel", taboo: ["Nuts", "Tail", "Tree", "Acorn", "Bushy"] },
+    { word: "Flamingo", taboo: ["Pink", "Leg", "Bird", "Stand", "Water"] },
+    { word: "Burger", taboo: ["Bun", "Beef", "Patty", "Fast", "Lettuce"] },
+    { word: "Taco", taboo: ["Shell", "Mexican", "Filling", "Fold", "Salsa"] },
+    { word: "Donut", taboo: ["Ring", "Sugar", "Hole", "Glaze", "Sweet"] },
+    { word: "Noodles", taboo: ["Pasta", "Slurp", "Bowl", "Chopsticks", "Asian"] },
+    { word: "Pineapple", taboo: ["Fruit", "Spiky", "Tropical", "Yellow", "Juice"] },
+    { word: "Strawberry", taboo: ["Red", "Fruit", "Seeds", "Jam", "Sweet"] },
+    { word: "Grapes", taboo: ["Bunch", "Wine", "Purple", "Vine", "Small"] },
+    { word: "Salad", taboo: ["Greens", "Healthy", "Bowl", "Vegetables", "Dressing"] },
+    { word: "Cookie", taboo: ["Biscuit", "Bake", "Chips", "Sweet", "Round"] },
+    { word: "Milkshake", taboo: ["Thick", "Straw", "Cold", "Blend", "Sweet"] },
+    { word: "Corn", taboo: ["Cob", "Yellow", "Kernels", "Field", "Maize"] },
+    { word: "Mushroom", taboo: ["Fungus", "Cap", "Forest", "Pizza", "Stem"] },
+    { word: "Pumpkin", taboo: ["Orange", "Halloween", "Carve", "Gourd", "Pie"] },
+    { word: "Waffle", taboo: ["Syrup", "Squares", "Breakfast", "Iron", "Batter"] },
+    { word: "Computer", taboo: ["Screen", "Keyboard", "Type", "Monitor", "Mouse"] },
+    { word: "Smartphone", taboo: ["Call", "Apps", "Screen", "Touch", "Mobile"] },
+    { word: "Headphones", taboo: ["Ears", "Music", "Listen", "Sound", "Wear"] },
+    { word: "Television", taboo: ["Screen", "Watch", "Remote", "Channel", "Show"] },
+    { word: "Battery", taboo: ["Power", "Charge", "Energy", "Cells", "AA"] },
+    { word: "Internet", taboo: ["Online", "Web", "Browse", "Wifi", "Connect"] },
+    { word: "Password", taboo: ["Secret", "Login", "Account", "Letters", "Secure"] },
+    { word: "Emoji", taboo: ["Face", "Text", "Symbol", "Smiley", "Message"] },
+    { word: "Selfie", taboo: ["Photo", "Camera", "Self", "Phone", "Pose"] },
+    { word: "Drone", taboo: ["Fly", "Camera", "Remote", "Propellers", "Air"] },
+    { word: "Tent", taboo: ["Camp", "Sleep", "Poles", "Outdoor", "Canvas"] },
+    { word: "Campfire", taboo: ["Wood", "Flames", "Marshmallow", "Camp", "Warm"] },
+    { word: "Cloud", taboo: ["Sky", "White", "Fluffy", "Rain", "Float"] },
+    { word: "Star", taboo: ["Sky", "Night", "Shine", "Twinkle", "Space"] },
+    { word: "Moon", taboo: ["Night", "Sky", "Crater", "Orbit", "Full"] },
+    { word: "Sun", taboo: ["Hot", "Bright", "Day", "Sky", "Shine"] },
+    { word: "Leaf", taboo: ["Tree", "Green", "Autumn", "Fall", "Branch"] },
+    { word: "Flower", taboo: ["Petals", "Bloom", "Garden", "Smell", "Bee"] },
+    { word: "Snowflake", taboo: ["Snow", "Ice", "Winter", "Unique", "Fall"] },
+    { word: "Puddle", taboo: ["Rain", "Water", "Splash", "Wet", "Ground"] },
+    { word: "Pencil", taboo: ["Write", "Lead", "Sharpen", "Eraser", "Draw"] },
+    { word: "Notebook", taboo: ["Pages", "Write", "Spiral", "Notes", "Cover"] },
+    { word: "Envelope", taboo: ["Letter", "Stamp", "Seal", "Post", "Mail"] },
+    { word: "Stamp", taboo: ["Post", "Letter", "Stick", "Mail", "Collect"] },
+    { word: "Bucket", taboo: ["Water", "Carry", "Handle", "Plastic", "Fill"] },
+    { word: "Kettle", taboo: ["Boil", "Water", "Tea", "Whistle", "Hot"] },
+    { word: "Blanket", taboo: ["Warm", "Bed", "Cover", "Soft", "Wrap"] },
+    { word: "Curtain", taboo: ["Window", "Hang", "Close", "Fabric", "Drape"] },
+    { word: "Doorbell", taboo: ["Ring", "Press", "Door", "Chime", "Visitor"] },
+    { word: "Torch", taboo: ["Light", "Beam", "Dark", "Batteries", "Shine"] },
+    { word: "Magnet", taboo: ["Attract", "Metal", "North", "Stick", "Pull"] },
+    { word: "Nurse", taboo: ["Hospital", "Care", "Patient", "Doctor", "Scrubs"] },
+    { word: "Scientist", taboo: ["Lab", "Experiment", "Research", "Coat", "Discover"] },
+    { word: "Plumber", taboo: ["Pipes", "Water", "Leak", "Fix", "Wrench"] },
+    { word: "Waiter", taboo: ["Restaurant", "Order", "Serve", "Tray", "Food"] },
+    { word: "Barber", taboo: ["Hair", "Cut", "Shave", "Scissors", "Chair"] },
+    { word: "Magician", taboo: ["Magic", "Trick", "Rabbit", "Hat", "Illusion"] },
+    { word: "Clown", taboo: ["Circus", "Funny", "Nose", "Makeup", "Balloons"] },
+    { word: "Referee", taboo: ["Whistle", "Game", "Rules", "Foul", "Field"] },
+    { word: "Baseball", taboo: ["Bat", "Pitch", "Diamond", "Home", "Run"] },
+    { word: "Bowling", taboo: ["Pins", "Strike", "Lane", "Ball", "Roll"] },
+    { word: "Surfing", taboo: ["Wave", "Board", "Ocean", "Ride", "Balance"] },
+    { word: "Karate", taboo: ["Kick", "Belt", "Martial", "Chop", "Dojo"] },
+    { word: "Fishing", taboo: ["Rod", "Bait", "Catch", "Hook", "River"] },
+    { word: "Yoga", taboo: ["Stretch", "Pose", "Mat", "Calm", "Breathe"] },
+    { word: "Gymnastics", taboo: ["Flip", "Balance", "Beam", "Bars", "Routine"] },
+    { word: "Marathon", taboo: ["Run", "Distance", "Race", "Miles", "Finish"] },
+    { word: "Museum", taboo: ["Art", "Exhibits", "History", "Visit", "Gallery"] },
+    { word: "Bridge", taboo: ["Cross", "River", "Span", "Road", "Arch"] },
+    { word: "Stadium", taboo: ["Crowd", "Game", "Seats", "Sport", "Field"] },
+    { word: "Market", taboo: ["Stalls", "Buy", "Fresh", "Sell", "Shop"] },
+    { word: "Bakery", taboo: ["Bread", "Cakes", "Oven", "Fresh", "Buns"] },
+    { word: "Restaurant", taboo: ["Food", "Menu", "Waiter", "Eat", "Table"] },
+    { word: "Theatre", taboo: ["Stage", "Play", "Actors", "Curtain", "Audience"] },
+    { word: "Cinema", taboo: ["Film", "Screen", "Popcorn", "Seats", "Watch"] },
+    { word: "Park", taboo: ["Grass", "Playground", "Walk", "Trees", "Bench"] },
+    { word: "Hotel", taboo: ["Room", "Stay", "Bed", "Reception", "Holiday"] },
+    { word: "Halloween", taboo: ["Costume", "Pumpkin", "Spooky", "Candy", "October"] },
+    { word: "Christmas", taboo: ["Presents", "Tree", "Santa", "December", "Snow"] },
+    { word: "Easter", taboo: ["Eggs", "Bunny", "Chocolate", "Hunt", "Spring"] },
+    { word: "Carnival", taboo: ["Parade", "Costume", "Floats", "Music", "Festival"] },
+    { word: "Concert", taboo: ["Music", "Band", "Crowd", "Stage", "Live"] },
+    { word: "Unicorn", taboo: ["Horn", "Mythical", "Horse", "Magic", "Rainbow"] },
+    { word: "Dinosaur", taboo: ["Extinct", "Fossil", "Jurassic", "Roar", "Giant"] },
+    { word: "Zombie", taboo: ["Undead", "Brains", "Walk", "Horror", "Groan"] },
+    { word: "Superhero", taboo: ["Cape", "Power", "Save", "Villain", "Mask"] },
+    { word: "Snowball", taboo: ["Snow", "Throw", "Round", "Cold", "Fight"] },
+    { word: "Kite", taboo: ["Fly", "String", "Wind", "Sky", "Tail"] },
+    { word: "Jigsaw", taboo: ["Pieces", "Puzzle", "Solve", "Fit", "Picture"] },
+    { word: "Yo-yo", taboo: ["String", "Spin", "Up", "Down", "Trick"] },
+    { word: "Bubble", taboo: ["Soap", "Float", "Pop", "Round", "Blow"] },
+    { word: "Sandcastle", taboo: ["Beach", "Sand", "Build", "Bucket", "Tower"] }
+  ];
+
+  var TIME_OPTS = [60, 90, 120];
+  var TARGET_OPTS = [15, 20, 30];
+
+  var teams = [{ name: "Team A", score: 0 }, { name: "Team B", score: 0 }];
+  var current = 0;
+  var roundTime = 60;
+  var target = 20;
+
+  var deck = [];      // shuffled cards
+  var deckPos = 0;
+  var card = null;
+  var turnScore = 0, gotCount = 0, tabooCount = 0;
+  var timeLeft = 0, timer = null;
+
+  var el = {
+    home: document.getElementById("home"),
+    ready: document.getElementById("ready"),
+    play: document.getElementById("play"),
+    summary: document.getElementById("summary"),
+    timeOpts: document.getElementById("timeOpts"),
+    targetOpts: document.getElementById("targetOpts"),
+    readyScores: document.getElementById("readyScores"),
+    readyTitle: document.getElementById("readyTitle"),
+    timer: document.getElementById("timer"),
+    guessWord: document.getElementById("guessWord"),
+    tabooList: document.getElementById("tabooList"),
+    turnScore: document.getElementById("turnScore"),
+    sumTeam: document.getElementById("sumTeam"),
+    sumScore: document.getElementById("sumScore"),
+    sumDetail: document.getElementById("sumDetail"),
+    summaryScores: document.getElementById("summaryScores"),
+    nextTurn: document.getElementById("nextTurn")
+  };
+
+  // --- Helpers -------------------------------------------------------------
+
+  function shuffle(a) {
+    for (var i = a.length - 1; i > 0; i--) {
+      var j = Math.floor(Math.random() * (i + 1));
+      var t = a[i]; a[i] = a[j]; a[j] = t;
+    }
+    return a;
+  }
+
+  function show(name) {
+    ["home", "ready", "play", "summary"].forEach(function (s) {
+      el[s].classList.toggle("hidden", s !== name);
+    });
+  }
+
+  function scoreboardHTML(container) {
+    container.innerHTML = "";
+    teams.forEach(function (t, i) {
+      var box = document.createElement("div");
+      box.className = "score-box" + (i === current ? " active" : "");
+      box.innerHTML = "<div class='label'>" + t.name + "</div><div class='val'>" + t.score + "</div>";
+      container.appendChild(box);
+    });
+  }
+
+  // --- Setup ---------------------------------------------------------------
+
+  function buildOpts(container, values, fmt, selected, onPick) {
+    container.innerHTML = "";
+    values.forEach(function (v) {
+      var b = document.createElement("button");
+      b.textContent = fmt(v);
+      b.className = v === selected() ? "active" : "";
+      b.addEventListener("click", function () { onPick(v); buildOptsAll(); });
+      container.appendChild(b);
+    });
+  }
+
+  function buildOptsAll() {
+    buildOpts(el.timeOpts, TIME_OPTS, function (v) { return (v / 60) + " min"; },
+      function () { return roundTime; }, function (v) { roundTime = v; });
+    buildOpts(el.targetOpts, TARGET_OPTS, function (v) { return v + " pts"; },
+      function () { return target; }, function (v) { target = v; });
+  }
+
+  function startGame() {
+    teams[0].score = 0;
+    teams[1].score = 0;
+    current = 0;
+    deck = shuffle(DECK.slice());
+    deckPos = 0;
+    goReady();
+  }
+
+  // --- Turn flow -----------------------------------------------------------
+
+  function goReady() {
+    el.readyTitle.textContent = teams[current].name + "'s turn";
+    scoreboardHTML(el.readyScores);
+    show("ready");
+  }
+
+  function startTurn() {
+    turnScore = 0;
+    gotCount = 0;
+    tabooCount = 0;
+    timeLeft = roundTime;
+    renderTurnScore();
+    nextCard();
+    show("play");
+    if (timer) clearInterval(timer);
+    renderTime();
+    timer = setInterval(function () {
+      timeLeft--;
+      renderTime();
+      if (timeLeft <= 0) { clearInterval(timer); timer = null; endTurn(); }
+    }, 1000);
+  }
+
+  function nextCard() {
+    if (deckPos >= deck.length) { deck = shuffle(deck); deckPos = 0; }
+    card = deck[deckPos++];
+    el.guessWord.textContent = card.word;
+    el.tabooList.innerHTML = "";
+    card.taboo.forEach(function (w) {
+      var li = document.createElement("li");
+      li.textContent = w;
+      el.tabooList.appendChild(li);
+    });
+  }
+
+  function renderTime() {
+    var m = Math.floor(timeLeft / 60), s = timeLeft % 60;
+    el.timer.textContent = m + ":" + (s < 10 ? "0" + s : s);
+    el.timer.className = "timer" + (timeLeft <= 10 ? " low" : "");
+  }
+
+  function renderTurnScore() {
+    el.turnScore.textContent = "This turn: " + turnScore;
+  }
+
+  function correct() { turnScore++; gotCount++; renderTurnScore(); nextCard(); }
+  function taboo() { turnScore--; tabooCount++; renderTurnScore(); nextCard(); }
+  function skip() { nextCard(); }
+
+  function endTurn() {
+    if (timer) { clearInterval(timer); timer = null; }
+    teams[current].score += turnScore;
+    if (teams[current].score < 0) teams[current].score = 0;
+
+    el.sumTeam.textContent = teams[current].name;
+    el.sumScore.textContent = (turnScore >= 0 ? "+" : "") + turnScore;
+    el.sumDetail.innerHTML = gotCount + " guessed &middot; " + tabooCount + " taboo";
+    scoreboardHTML(el.summaryScores);
+
+    // Win check.
+    var winner = teams.filter(function (t) { return t.score >= target; })
+                      .sort(function (a, b) { return b.score - a.score; })[0];
+    if (winner && teams[0].score !== teams[1].score) {
+      el.sumTeam.textContent = winner.name + " wins! 🎉";
+      el.nextTurn.classList.add("hidden");
+    } else {
+      el.nextTurn.classList.remove("hidden");
+      el.nextTurn.textContent = teams[1 - current].name + "'s turn →";
+    }
+    show("summary");
+  }
+
+  function nextTeam() {
+    current = 1 - current;
+    goReady();
+  }
+
+  // --- Events --------------------------------------------------------------
+
+  document.getElementById("startGame").addEventListener("click", startGame);
+  document.getElementById("startTurn").addEventListener("click", startTurn);
+  document.getElementById("btnCorrect").addEventListener("click", correct);
+  document.getElementById("btnTaboo").addEventListener("click", taboo);
+  document.getElementById("btnSkip").addEventListener("click", skip);
+  document.getElementById("nextTurn").addEventListener("click", nextTeam);
+  document.getElementById("newGame").addEventListener("click", function () {
+    el.nextTurn.classList.remove("hidden");
+    show("home");
+  });
+
+  // --- Boot ----------------------------------------------------------------
+
+  buildOptsAll();
+  show("home");
+})();
+</script>
+</body>
+</html>

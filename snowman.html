@@ -1,0 +1,307 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Snowman</title>
+<style>
+  :root {
+    --bg: #121213;
+    --text: #ffffff;
+    --muted: #818384;
+    --border: #3a3a3c;
+    --card: #1a1a1b;
+    --correct: #538d4e;
+    --present: #b59f3b;
+    --wrong: #b03a2e;
+  }
+
+  * { box-sizing: border-box; }
+
+  html, body {
+    margin: 0;
+    min-height: 100%;
+    background: var(--bg);
+    color: var(--text);
+    font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+  }
+
+  body {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 40px 20px 64px;
+  }
+
+  .back {
+    position: fixed;
+    top: 16px;
+    left: 16px;
+    color: var(--muted);
+    text-decoration: none;
+    font-size: 13px;
+    letter-spacing: 1px;
+  }
+  .back:hover { color: var(--text); }
+
+  header { text-align: center; margin-bottom: 12px; }
+  header h1 { margin: 0; font-size: 34px; font-weight: 700; letter-spacing: 5px; text-transform: uppercase; }
+  header p { margin: 8px 0 0; color: var(--muted); font-size: 14px; }
+
+  svg { width: 200px; height: 230px; display: block; margin: 6px 0; }
+
+  .lives { font-size: 13px; color: var(--muted); letter-spacing: 1px; margin-bottom: 10px; }
+
+  .word {
+    display: flex; gap: 8px; flex-wrap: wrap; justify-content: center;
+    margin-bottom: 12px; min-height: 52px;
+  }
+  .letter {
+    width: 34px; border-bottom: 4px solid var(--border);
+    font-size: 30px; font-weight: 700; text-transform: uppercase; text-align: center;
+    padding-bottom: 4px;
+  }
+  .letter.filled { border-bottom-color: var(--correct); }
+
+  .msg { min-height: 26px; font-size: 20px; font-weight: 700; letter-spacing: 1px; margin-bottom: 12px; }
+  .msg.win { color: var(--correct); }
+  .msg.lose { color: var(--wrong); }
+
+  .keyboard { display: flex; flex-direction: column; gap: 7px; align-items: center; margin-bottom: 8px; }
+  .krow { display: flex; gap: 6px; }
+  .key {
+    width: 30px; height: 42px; font-size: 16px; font-weight: 700; text-transform: uppercase;
+    background: var(--card); color: var(--text); border: 1px solid var(--border);
+    border-radius: 6px; cursor: pointer;
+  }
+  .key:hover { border-color: var(--muted); }
+  .key.good { background: var(--correct); border-color: var(--correct); color: #fff; }
+  .key.bad { background: #2a2a2b; color: var(--muted); border-color: #2a2a2b; }
+  .key:disabled { cursor: default; }
+
+  .controls { display: flex; gap: 12px; margin-top: 18px; }
+  .controls button {
+    padding: 11px 20px; font-size: 13px; font-weight: 700; letter-spacing: 1px; text-transform: uppercase;
+    background: transparent; color: var(--text); border: 1px solid var(--border); border-radius: 8px; cursor: pointer;
+  }
+  .controls button:hover { border-color: var(--muted); }
+  .controls button.play { background: var(--correct); border-color: var(--correct); color: #fff; }
+
+  .notes {
+    width: 100%; max-width: 360px; margin-top: 30px; padding-top: 16px;
+    border-top: 1px solid var(--border); color: var(--muted); font-size: 13px; line-height: 1.6;
+  }
+  .notes h3 { margin: 0 0 8px; font-size: 12px; letter-spacing: 1px; text-transform: uppercase; color: var(--text); }
+  .notes ul { margin: 0; padding-left: 18px; }
+  .notes li { margin-bottom: 5px; }
+  .notes b { color: var(--text); }
+</style>
+</head>
+<body>
+  <a class="back" href="index.html">&larr; Games</a>
+
+  <header>
+    <h1>Snowman</h1>
+    <p>Guess the word before the snowman melts!</p>
+  </header>
+
+  <svg viewBox="0 0 200 230" id="snow">
+    <!-- puddle (shown when melted) -->
+    <ellipse id="puddle" cx="100" cy="212" rx="66" ry="12" fill="#5aa9e6" opacity="0.7" style="display:none"></ellipse>
+    <!-- body -->
+    <g id="body">
+      <circle cx="100" cy="180" r="42" fill="#eef4fa" stroke="#c7d6e6" stroke-width="2"></circle>
+      <circle cx="100" cy="122" r="31" fill="#eef4fa" stroke="#c7d6e6" stroke-width="2"></circle>
+      <circle cx="100" cy="78" r="23" fill="#eef4fa" stroke="#c7d6e6" stroke-width="2"></circle>
+    </g>
+    <!-- face + buttons -->
+    <g id="face">
+      <circle cx="92" cy="74" r="2.8" fill="#243447"></circle>
+      <circle cx="108" cy="74" r="2.8" fill="#243447"></circle>
+      <circle cx="90" cy="90" r="1.8" fill="#243447"></circle>
+      <circle cx="100" cy="93" r="1.8" fill="#243447"></circle>
+      <circle cx="110" cy="90" r="1.8" fill="#243447"></circle>
+      <circle cx="100" cy="112" r="3" fill="#243447"></circle>
+      <circle cx="100" cy="124" r="3" fill="#243447"></circle>
+      <circle cx="100" cy="136" r="3" fill="#243447"></circle>
+    </g>
+    <!-- nose -->
+    <polygon id="nose" points="100,80 100,86 120,83" fill="#e6821e"></polygon>
+    <!-- arms -->
+    <line id="armL" x1="72" y1="120" x2="34" y2="102" stroke="#8a5a2b" stroke-width="3" stroke-linecap="round"></line>
+    <line id="armR" x1="128" y1="120" x2="166" y2="102" stroke="#8a5a2b" stroke-width="3" stroke-linecap="round"></line>
+    <!-- hat -->
+    <g id="hat">
+      <rect x="74" y="56" width="52" height="6" rx="2" fill="#243447"></rect>
+      <rect x="84" y="32" width="32" height="26" rx="2" fill="#243447"></rect>
+    </g>
+  </svg>
+
+  <div class="lives" id="lives">Wrong guesses: 0 / 6</div>
+
+  <div class="word" id="word"></div>
+
+  <div class="msg" id="msg"></div>
+
+  <div class="keyboard" id="keyboard"></div>
+
+  <div class="controls">
+    <button id="new" class="play">New word</button>
+  </div>
+
+  <div class="notes">
+    <h3>How to play</h3>
+    <ul>
+      <li>Guess the hidden word one letter at a time by tapping letters or using the keyboard.</li>
+      <li>Right letters fill in the blanks. <b>Wrong</b> letters melt the snowman a little.</li>
+      <li>You have <b>6 wrong guesses</b> &mdash; find the word before the snowman melts away!</li>
+    </ul>
+  </div>
+
+<script>
+(function () {
+  "use strict";
+
+  // Simple, friendly words for young readers.
+  var WORDS = [
+    "apple", "ball", "cat", "dog", "sun", "moon", "star", "tree", "fish", "bird",
+    "frog", "duck", "cow", "pig", "hen", "bee", "ant", "fox", "owl", "bear",
+    "lion", "goat", "seal", "crab", "deer", "wolf", "mouse", "horse", "sheep", "snake",
+    "tiger", "zebra", "panda", "koala", "whale", "shark", "snail", "puppy", "kitten", "bunny",
+    "cake", "milk", "egg", "jam", "rice", "soup", "corn", "pear", "plum", "bean",
+    "bread", "honey", "sugar", "candy", "pizza", "chips", "juice", "water", "grape", "lemon",
+    "melon", "mango", "peach", "berry", "toast", "jelly",
+    "red", "blue", "green", "pink", "black", "white", "brown", "gray", "gold",
+    "hat", "sock", "shoe", "coat", "ring", "boot", "glove", "scarf", "dress", "shirt",
+    "book", "desk", "chair", "bed", "door", "lamp", "clock", "key", "cup", "spoon",
+    "fork", "plate", "bowl", "box", "bag", "kite", "drum", "bell", "doll", "toy",
+    "car", "bus", "van", "boat", "ship", "train", "plane", "bike", "truck",
+    "rain", "snow", "wind", "cloud", "storm",
+    "hand", "foot", "head", "nose", "ear", "eye", "hair", "arm", "leg",
+    "mum", "dad", "baby", "girl", "boy", "king", "queen",
+    "run", "jump", "swim", "sing", "read", "play", "hop", "skip", "clap",
+    "farm", "park", "zoo", "home", "school", "shop", "beach",
+    "happy", "funny", "sunny", "windy", "smile",
+    "grass", "leaf", "flower", "seed", "root", "house", "garden", "river"
+  ];
+
+  var svgWrongMap = [
+    { id: "hat", at: 1 },
+    { id: "armL", at: 2 },
+    { id: "armR", at: 3 },
+    { id: "nose", at: 4 },
+    { id: "face", at: 5 }
+  ];
+  var MAX_WRONG = 6;
+
+  var wordEl = document.getElementById("word");
+  var msgEl = document.getElementById("msg");
+  var kbEl = document.getElementById("keyboard");
+  var livesEl = document.getElementById("lives");
+  var body = document.getElementById("body");
+  var puddle = document.getElementById("puddle");
+
+  var word = "", guessed = {}, wrong = 0, over = false;
+
+  function newWord() {
+    word = WORDS[Math.floor(Math.random() * WORDS.length)];
+    guessed = {};
+    wrong = 0;
+    over = false;
+    renderSnow();
+    renderWord();
+    buildKeyboard();
+    setMsg("", "");
+    livesEl.textContent = "Wrong guesses: 0 / " + MAX_WRONG;
+  }
+
+  function renderWord() {
+    wordEl.innerHTML = "";
+    word.split("").forEach(function (ch) {
+      var d = document.createElement("div");
+      var shown = guessed[ch] || over;
+      d.className = "letter" + (guessed[ch] ? " filled" : "");
+      d.textContent = shown ? ch : "";
+      wordEl.appendChild(d);
+    });
+  }
+
+  function renderSnow() {
+    svgWrongMap.forEach(function (p) {
+      document.getElementById(p.id).style.display = wrong >= p.at ? "none" : "";
+    });
+    var melted = wrong >= MAX_WRONG;
+    body.style.display = melted ? "none" : "";
+    puddle.style.display = melted ? "" : "none";
+  }
+
+  function buildKeyboard() {
+    kbEl.innerHTML = "";
+    ["abcdefghij", "klmnopqrs", "tuvwxyz"].forEach(function (row) {
+      var r = document.createElement("div");
+      r.className = "krow";
+      row.split("").forEach(function (ch) {
+        var b = document.createElement("button");
+        b.className = "key";
+        b.textContent = ch;
+        b.dataset.ch = ch;
+        r.appendChild(b);
+      });
+      kbEl.appendChild(r);
+    });
+  }
+
+  function setMsg(text, kind) {
+    msgEl.textContent = text;
+    msgEl.className = "msg" + (kind ? " " + kind : "");
+  }
+
+  function isWon() {
+    return word.split("").every(function (ch) { return guessed[ch]; });
+  }
+
+  function guess(ch) {
+    if (over || guessed[ch] === true || guessed[ch] === false) return;
+    var inWord = word.indexOf(ch) !== -1;
+    guessed[ch] = inWord;
+
+    var btn = kbEl.querySelector('[data-ch="' + ch + '"]');
+    if (btn) { btn.disabled = true; btn.classList.add(inWord ? "good" : "bad"); }
+
+    if (!inWord) {
+      wrong++;
+      livesEl.textContent = "Wrong guesses: " + wrong + " / " + MAX_WRONG;
+      renderSnow();
+    }
+    renderWord();
+
+    if (isWon()) {
+      over = true;
+      setMsg("You got it! ☃️", "win");
+    } else if (wrong >= MAX_WRONG) {
+      over = true;
+      renderWord();
+      setMsg("Melted! The word was “" + word.toUpperCase() + "”.", "lose");
+    }
+  }
+
+  // --- Events --------------------------------------------------------------
+
+  kbEl.addEventListener("click", function (e) {
+    var b = e.target.closest(".key");
+    if (b && !b.disabled) guess(b.dataset.ch);
+  });
+
+  document.addEventListener("keydown", function (e) {
+    if (/^[a-zA-Z]$/.test(e.key)) guess(e.key.toLowerCase());
+  });
+
+  document.getElementById("new").addEventListener("click", newWord);
+
+  // --- Boot ----------------------------------------------------------------
+
+  newWord();
+})();
+</script>
+</body>
+</html>

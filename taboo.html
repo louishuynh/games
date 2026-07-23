@@ -132,41 +132,72 @@
 
   /* Play card */
   .play-card {
-    width: 100%;
+    position: relative;
+    width: 300px;
+    max-width: 100%;
+    min-height: 440px;
+    margin: 0 auto 18px;
     background: #f6f4fa;
     border: 1px solid #d9cfe8;
-    border-radius: 16px;
+    border-radius: 18px;
     padding: 0;
-    margin-bottom: 18px;
     text-align: center;
     overflow: hidden;
-    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.35);
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.45);
+    display: flex;
+    flex-direction: column;
+    touch-action: none;
+    cursor: grab;
   }
   .guess-word {
-    font-size: 32px;
+    font-size: 42px;
     font-weight: 800;
     letter-spacing: 1px;
     text-transform: uppercase;
     color: #fff;
     background: linear-gradient(135deg, #8e2de2, #6d1fb5);
-    padding: 22px 16px;
+    padding: 30px 16px;
     margin: 0;
     word-break: break-word;
+  }
+  /* Tinder-style swipe hint badges */
+  .swipe-hint {
+    position: absolute;
+    top: 18px;
+    font-size: 16px;
+    font-weight: 800;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    padding: 6px 12px;
+    border: 3px solid;
+    border-radius: 8px;
+    opacity: 0;
+    z-index: 3;
+    pointer-events: none;
+  }
+  .swipe-hint.got { right: 16px; color: var(--correct); border-color: var(--correct); transform: rotate(12deg); }
+  .swipe-hint.skip { left: 16px; color: #b3261e; border-color: #b3261e; transform: rotate(-12deg); }
+  .taboo-wrap {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 8px 0 18px;
   }
   .taboo-head {
     font-size: 11px;
     letter-spacing: 2px;
     text-transform: uppercase;
     color: #b3261e;
-    padding: 16px 16px 0;
-    margin-bottom: 8px;
+    padding: 0 16px;
+    margin-bottom: 10px;
   }
-  .taboo-list { list-style: none; margin: 0; padding: 0 16px 20px; }
+  .taboo-list { list-style: none; margin: 0; padding: 0 22px; }
   .taboo-list li {
-    font-size: 19px;
+    font-size: 23px;
     font-weight: 700;
     text-transform: capitalize;
-    padding: 7px 0;
+    padding: 10px 0;
     color: #3a1d5c;
     border-bottom: 1px solid #e4dcef;
   }
@@ -264,10 +295,14 @@
   <!-- PLAY -->
   <div class="screen hidden" id="play">
     <div class="timer" id="timer">1:00</div>
-    <div class="play-card">
+    <div class="play-card" id="playCard">
+      <div class="swipe-hint got" id="hintGot">Got it</div>
+      <div class="swipe-hint skip" id="hintSkip">Skip</div>
       <div class="guess-word" id="guessWord"></div>
-      <div class="taboo-head">Don't say</div>
-      <ul class="taboo-list" id="tabooList"></ul>
+      <div class="taboo-wrap">
+        <div class="taboo-head">Don't say</div>
+        <ul class="taboo-list" id="tabooList"></ul>
+      </div>
     </div>
     <div class="turn-score" id="turnScore">This turn: 0</div>
     <div class="play-buttons">
@@ -716,6 +751,58 @@
     el.nextTurn.classList.remove("hidden");
     show("home");
   });
+
+  // Swipe the card: right = Got it (+1), left = Skip (Tinder-style).
+  var playCard = document.getElementById("playCard");
+  var hintGot = document.getElementById("hintGot");
+  var hintSkip = document.getElementById("hintSkip");
+  var cardDrag = null, animating = false;
+
+  function setHints(dx) {
+    hintGot.style.opacity = dx > 0 ? Math.min(1, dx / 90) : 0;
+    hintSkip.style.opacity = dx < 0 ? Math.min(1, -dx / 90) : 0;
+  }
+  function resetCard() {
+    playCard.style.transition = "transform 0.2s ease";
+    playCard.style.transform = "";
+    setHints(0);
+  }
+  function flyOut(dir) {
+    animating = true;
+    playCard.style.transition = "transform 0.25s ease, opacity 0.25s ease";
+    playCard.style.transform = "translateX(" + (dir * 600) + "px) rotate(" + (dir * 18) + "deg)";
+    playCard.style.opacity = "0";
+    setTimeout(function () {
+      if (dir > 0) correct(); else skip(); // load next card
+      playCard.style.transition = "none";
+      playCard.style.transform = "";
+      playCard.style.opacity = "";
+      setHints(0);
+      void playCard.offsetWidth;           // reflow before re-enabling transitions
+      playCard.style.transition = "";
+      animating = false;
+    }, 250);
+  }
+
+  playCard.addEventListener("pointerdown", function (e) {
+    if (animating) return;
+    cardDrag = { x: e.clientX, dx: 0 };
+    playCard.style.transition = "none";
+    if (playCard.setPointerCapture) playCard.setPointerCapture(e.pointerId);
+  });
+  document.addEventListener("pointermove", function (e) {
+    if (!cardDrag) return;
+    cardDrag.dx = e.clientX - cardDrag.x;
+    playCard.style.transform = "translateX(" + cardDrag.dx + "px) rotate(" + (cardDrag.dx * 0.04) + "deg)";
+    setHints(cardDrag.dx);
+  });
+  document.addEventListener("pointerup", function () {
+    if (!cardDrag) return;
+    var dx = cardDrag.dx; cardDrag = null;
+    if (Math.abs(dx) > 90) flyOut(dx > 0 ? 1 : -1);
+    else resetCard();
+  });
+  document.addEventListener("pointercancel", function () { cardDrag = null; resetCard(); });
 
   // --- Boot ----------------------------------------------------------------
 

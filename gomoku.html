@@ -1,0 +1,474 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Gomoku</title>
+<style>
+  :root {
+    --bg: #121213;
+    --text: #ffffff;
+    --muted: #818384;
+    --border: #3a3a3c;
+    --card: #1a1a1b;
+    --correct: #538d4e;
+    --present: #b59f3b;
+    --wrong: #b03a2e;
+    --wood: #caa26a;
+    --line: #7a5c34;
+  }
+
+  * { box-sizing: border-box; }
+
+  html, body {
+    margin: 0;
+    min-height: 100%;
+    background: var(--bg);
+    color: var(--text);
+    font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+  }
+
+  body {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 40px 20px 64px;
+  }
+
+  .back {
+    position: fixed;
+    top: 16px;
+    left: 16px;
+    color: var(--muted);
+    text-decoration: none;
+    font-size: 13px;
+    letter-spacing: 1px;
+  }
+  .back:hover { color: var(--text); }
+
+  header { text-align: center; margin-bottom: 18px; }
+  header h1 {
+    margin: 0;
+    font-size: 32px;
+    font-weight: 700;
+    letter-spacing: 4px;
+    text-transform: uppercase;
+  }
+  header p { margin: 8px 0 0; color: var(--muted); font-size: 14px; }
+
+  .sizes { display: flex; gap: 8px; margin-bottom: 18px; }
+  .sizes button {
+    padding: 7px 14px;
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    background: transparent;
+    color: var(--text);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    cursor: pointer;
+  }
+  .sizes button:hover { border-color: var(--muted); }
+  .sizes button.active { background: var(--correct); border-color: var(--correct); }
+
+  .scores {
+    display: flex;
+    gap: 12px;
+    margin-bottom: 18px;
+    width: 320px;
+    max-width: 100%;
+  }
+  .score-box {
+    flex: 1;
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 8px 6px;
+    text-align: center;
+  }
+  .score-box .label {
+    font-size: 11px;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    color: var(--muted);
+  }
+  .score-box .val { font-size: 22px; font-weight: 700; }
+
+  /* Board */
+  .board {
+    display: grid;
+    width: min(94vw, 380px);
+    aspect-ratio: 1 / 1;
+    background: var(--wood);
+    border: 6px solid var(--line);
+    border-radius: 6px;
+    margin-bottom: 8px;
+    touch-action: manipulation;
+  }
+  .cell {
+    position: relative;
+    border: 0.5px solid rgba(90, 64, 30, 0.55);
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .stone {
+    width: 80%;
+    height: 80%;
+    border-radius: 50%;
+  }
+  .stone.b { background: radial-gradient(circle at 34% 30%, #555, #0b0b0b 70%); }
+  .stone.w { background: radial-gradient(circle at 34% 30%, #fff, #b9b9b9 75%); }
+  .cell.last .stone { box-shadow: 0 0 0 2px var(--wrong); }
+  .cell.win .stone { box-shadow: 0 0 0 2px var(--correct); }
+
+  .msg { min-height: 26px; font-size: 18px; font-weight: 700; letter-spacing: 1px; margin: 16px 0 6px; }
+  .msg.b { color: #dcdcdc; }
+  .msg.w { color: var(--present); }
+  .msg.draw { color: var(--muted); }
+
+  .controls { display: flex; gap: 12px; margin-top: 12px; }
+  .controls button {
+    padding: 10px 18px;
+    font-size: 13px;
+    font-weight: 700;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    background: transparent;
+    color: var(--text);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    cursor: pointer;
+  }
+  .controls button:hover { border-color: var(--muted); }
+
+  .notes {
+    width: min(94vw, 380px);
+    margin-top: 34px;
+    padding-top: 16px;
+    border-top: 1px solid var(--border);
+    color: var(--muted);
+    font-size: 13px;
+    line-height: 1.6;
+  }
+  .notes h3 {
+    margin: 0 0 8px;
+    font-size: 12px;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    color: var(--text);
+  }
+  .notes ul { margin: 0; padding-left: 18px; }
+  .notes li { margin-bottom: 5px; }
+  .notes b { color: var(--text); }
+</style>
+</head>
+<body>
+  <a class="back" href="index.html">&larr; Games</a>
+
+  <header>
+    <h1>Gomoku</h1>
+    <p>Five in a row wins. You are black and move first.</p>
+  </header>
+
+  <div class="sizes" id="mode"></div>
+
+  <div class="scores">
+    <div class="score-box"><div class="label">Black</div><div class="val" id="scoreB">0</div></div>
+    <div class="score-box"><div class="label">Draws</div><div class="val" id="scoreD">0</div></div>
+    <div class="score-box"><div class="label">White</div><div class="val" id="scoreW">0</div></div>
+  </div>
+
+  <div class="board" id="board"></div>
+
+  <div class="msg" id="msg"></div>
+
+  <div class="controls">
+    <button id="new">New round</button>
+    <button id="undo">Undo</button>
+  </div>
+
+  <div class="notes">
+    <h3>How to play</h3>
+    <ul>
+      <li>Take turns placing stones on the grid. The first to line up <b>five in a row</b> &mdash; horizontal, vertical or diagonal &mdash; wins.</li>
+      <li><b>vs Computer</b>: you are <b>black</b> and move first against a threat-aware opponent. <b>2 Players</b>: take turns on one device.</li>
+      <li><b>Undo</b> takes back the last move (both moves against the computer).</li>
+      <li>The scoreboard tracks wins across rounds.</li>
+    </ul>
+  </div>
+
+<script>
+(function () {
+  "use strict";
+
+  var N = 15, NEED = 5;
+  var DIRS = [[0,1],[1,0],[1,1],[1,-1]];
+
+  var modeEl = document.getElementById("mode");
+  var boardEl = document.getElementById("board");
+  var msgEl = document.getElementById("msg");
+  var scoreBEl = document.getElementById("scoreB");
+  var scoreWEl = document.getElementById("scoreW");
+  var scoreDEl = document.getElementById("scoreD");
+
+  var grid;          // grid[r][c] = "", "b", "w"
+  var turn;          // "b" or "w"
+  var over;
+  var vsComputer = true;
+  var locked = false;
+  var history;       // [{r,c,who}]
+  var winCells = null;
+  var lastMove = null;
+  var sB = 0, sW = 0, sD = 0;
+
+  // --- Setup ---------------------------------------------------------------
+
+  function newRound() {
+    grid = [];
+    for (var r = 0; r < N; r++) grid.push(new Array(N).fill(""));
+    turn = "b";
+    over = false;
+    locked = false;
+    history = [];
+    winCells = null;
+    lastMove = null;
+    build();
+    render();
+    setMsg(vsComputer ? "Your move" : "Black to move", "b");
+  }
+
+  function build() {
+    boardEl.style.gridTemplateColumns = "repeat(" + N + ", 1fr)";
+    boardEl.innerHTML = "";
+    for (var r = 0; r < N; r++) {
+      for (var c = 0; c < N; c++) {
+        var d = document.createElement("div");
+        d.className = "cell";
+        d.dataset.r = r;
+        d.dataset.c = c;
+        boardEl.appendChild(d);
+      }
+    }
+  }
+
+  function render() {
+    var cells = boardEl.children;
+    for (var i = 0; i < cells.length; i++) {
+      var r = Math.floor(i / N), c = i % N, v = grid[r][c];
+      var cell = cells[i];
+      cell.className = "cell";
+      if (lastMove && lastMove[0] === r && lastMove[1] === c) cell.className += " last";
+      if (winCells && winCells.some(function (p) { return p[0] === r && p[1] === c; })) cell.className += " win";
+      cell.innerHTML = v ? '<div class="stone ' + v + '"></div>' : "";
+    }
+  }
+
+  function setMsg(text, kind) {
+    msgEl.textContent = text;
+    msgEl.className = "msg" + (kind ? " " + kind : "");
+  }
+
+  // --- Win detection -------------------------------------------------------
+
+  function winLineAt(g, r, c, who) {
+    for (var d = 0; d < DIRS.length; d++) {
+      var dr = DIRS[d][0], dc = DIRS[d][1], line = [[r, c]];
+      var k, nr, nc;
+      for (k = 1; k < NEED; k++) {
+        nr = r + dr * k; nc = c + dc * k;
+        if (nr < 0 || nr >= N || nc < 0 || nc >= N || g[nr][nc] !== who) break;
+        line.push([nr, nc]);
+      }
+      for (k = 1; k < NEED; k++) {
+        nr = r - dr * k; nc = c - dc * k;
+        if (nr < 0 || nr >= N || nc < 0 || nc >= N || g[nr][nc] !== who) break;
+        line.push([nr, nc]);
+      }
+      if (line.length >= NEED) return line;
+    }
+    return null;
+  }
+
+  function isFull(g) {
+    for (var r = 0; r < N; r++) for (var c = 0; c < N; c++) if (!g[r][c]) return false;
+    return true;
+  }
+
+  // --- AI: threat-aware 1-ply heuristic ------------------------------------
+
+  // Candidate empties: any empty cell within Chebyshev distance 2 of a stone.
+  function candidates(g) {
+    var seen = {}, out = [];
+    for (var r = 0; r < N; r++) {
+      for (var c = 0; c < N; c++) {
+        if (!g[r][c]) continue;
+        for (var dr = -2; dr <= 2; dr++) {
+          for (var dc = -2; dc <= 2; dc++) {
+            var nr = r + dr, nc = c + dc;
+            if (nr < 0 || nr >= N || nc < 0 || nc >= N) continue;
+            if (g[nr][nc]) continue;
+            var key = nr * N + nc;
+            if (!seen[key]) { seen[key] = 1; out.push([nr, nc]); }
+          }
+        }
+      }
+    }
+    return out;
+  }
+
+  // Value of the best line a player would form by placing at (r,c): scan the
+  // 4 directions, counting the player's run plus how many ends are open.
+  function cellValue(g, r, c, who) {
+    var total = 0;
+    for (var d = 0; d < DIRS.length; d++) {
+      var dr = DIRS[d][0], dc = DIRS[d][1];
+      var count = 1, openEnds = 0, k, nr, nc;
+      // forward
+      for (k = 1; k < NEED; k++) {
+        nr = r + dr * k; nc = c + dc * k;
+        if (nr < 0 || nr >= N || nc < 0 || nc >= N) break;
+        if (g[nr][nc] === who) count++;
+        else { if (!g[nr][nc]) openEnds++; break; }
+      }
+      // backward
+      for (k = 1; k < NEED; k++) {
+        nr = r - dr * k; nc = c - dc * k;
+        if (nr < 0 || nr >= N || nc < 0 || nc >= N) break;
+        if (g[nr][nc] === who) count++;
+        else { if (!g[nr][nc]) openEnds++; break; }
+      }
+      total += lineScore(count, openEnds);
+    }
+    return total;
+  }
+
+  function lineScore(count, openEnds) {
+    if (count >= 5) return 1000000;      // makes five
+    if (openEnds === 0) return 0;         // fully blocked, useless
+    if (count === 4) return openEnds === 2 ? 100000 : 12000; // open/simple four
+    if (count === 3) return openEnds === 2 ? 6000 : 500;     // open three
+    if (count === 2) return openEnds === 2 ? 200 : 30;
+    return openEnds === 2 ? 15 : 5;
+  }
+
+  function computerMove() {
+    var ai = "w", human = "b";
+    var cands = candidates(grid);
+    if (cands.length === 0) { place(7, 7, ai); return; }
+
+    var best = null, bestScore = -1;
+    for (var i = 0; i < cands.length; i++) {
+      var r = cands[i][0], c = cands[i][1];
+      var offense = cellValue(grid, r, c, ai);
+      var defense = cellValue(grid, r, c, human);
+      // Take a win outright; otherwise weigh offense against blocking.
+      var score = Math.max(offense, defense * 0.9) + Math.min(offense, defense) * 0.1;
+      // Small central bias + tiny jitter to vary otherwise-equal moves.
+      score += 4 - (Math.abs(7 - r) + Math.abs(7 - c)) * 0.1;
+      score += Math.random();
+      if (score > bestScore) { bestScore = score; best = [r, c]; }
+    }
+    place(best[0], best[1], ai);
+  }
+
+  // --- Play ----------------------------------------------------------------
+
+  function place(r, c, who) {
+    grid[r][c] = who;
+    history.push({ r: r, c: c, who: who });
+    lastMove = [r, c];
+
+    var win = winLineAt(grid, r, c, who);
+    if (win) {
+      over = true;
+      winCells = win;
+      render();
+      if (who === "b") { sB++; scoreBEl.textContent = sB; }
+      else { sW++; scoreWEl.textContent = sW; }
+      var label = vsComputer ? (who === "b" ? "You win! 🎉" : "Computer wins") : ((who === "b" ? "Black" : "White") + " wins!");
+      setMsg(label, who);
+      return;
+    }
+    if (isFull(grid)) {
+      over = true;
+      render();
+      sD++; scoreDEl.textContent = sD;
+      setMsg("Draw", "draw");
+      return;
+    }
+    turn = who === "b" ? "w" : "b";
+    render();
+    if (!vsComputer) setMsg((turn === "b" ? "Black" : "White") + " to move", turn);
+    else setMsg(turn === "b" ? "Your move" : "Computer thinking…", turn);
+  }
+
+  function clickCell(r, c) {
+    if (over || locked || grid[r][c]) return;
+    if (vsComputer) {
+      if (turn !== "b") return;
+      place(r, c, "b");
+      if (!over) {
+        locked = true;
+        setTimeout(function () { computerMove(); locked = false; }, 180);
+      }
+    } else {
+      place(r, c, turn);
+    }
+  }
+
+  function undo() {
+    if (locked) return;
+    if (history.length === 0) return;
+    var steps = (vsComputer && !over) ? 2 : 1; // undo the pair vs the computer
+    for (var s = 0; s < steps && history.length; s++) {
+      var m = history.pop();
+      grid[m.r][m.c] = "";
+    }
+    over = false;
+    winCells = null;
+    lastMove = history.length ? [history[history.length - 1].r, history[history.length - 1].c] : null;
+    turn = vsComputer ? "b" : (history.length % 2 === 0 ? "b" : "w");
+    render();
+    setMsg(vsComputer ? "Your move" : (turn === "b" ? "Black" : "White") + " to move", turn);
+  }
+
+  // --- Events --------------------------------------------------------------
+
+  function buildMode() {
+    modeEl.innerHTML = "";
+    [["vs Computer", true], ["2 Players", false]].forEach(function (opt) {
+      var b = document.createElement("button");
+      b.textContent = opt[0];
+      b.dataset.vs = opt[1] ? "1" : "0";
+      if (opt[1] === vsComputer) b.className = "active";
+      modeEl.appendChild(b);
+    });
+  }
+
+  modeEl.addEventListener("click", function (e) {
+    var b = e.target.closest("button");
+    if (!b) return;
+    vsComputer = b.dataset.vs === "1";
+    buildMode();
+    newRound();
+  });
+
+  boardEl.addEventListener("click", function (e) {
+    var cell = e.target.closest(".cell");
+    if (cell) clickCell(Number(cell.dataset.r), Number(cell.dataset.c));
+  });
+
+  document.getElementById("new").addEventListener("click", newRound);
+  document.getElementById("undo").addEventListener("click", undo);
+
+  // --- Boot ----------------------------------------------------------------
+
+  buildMode();
+  newRound();
+})();
+</script>
+</body>
+</html>

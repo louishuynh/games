@@ -1,0 +1,486 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>Sketch</title>
+<style>
+  :root {
+    --bg: #121213;
+    --text: #ffffff;
+    --muted: #818384;
+    --border: #3a3a3c;
+    --card: #1a1a1b;
+    --correct: #538d4e;
+    --present: #b59f3b;
+    --wrong: #b03a2e;
+  }
+
+  * { box-sizing: border-box; }
+
+  html, body {
+    margin: 0;
+    min-height: 100%;
+    background: var(--bg);
+    color: var(--text);
+    font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+  }
+
+  body {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 40px 20px 64px;
+  }
+
+  .back {
+    position: fixed;
+    top: 16px;
+    left: 16px;
+    color: var(--muted);
+    text-decoration: none;
+    font-size: 13px;
+    letter-spacing: 1px;
+  }
+  .back:hover { color: var(--text); }
+
+  header { text-align: center; margin-bottom: 22px; }
+  header h1 { margin: 0; font-size: 34px; font-weight: 700; letter-spacing: 5px; text-transform: uppercase; }
+  header p { margin: 8px 0 0; color: var(--muted); font-size: 14px; }
+
+  .screen { width: 100%; max-width: 360px; display: flex; flex-direction: column; align-items: center; }
+  .screen.hidden { display: none; }
+
+  .scores { display: flex; gap: 12px; margin-bottom: 22px; width: 100%; }
+  .score-box {
+    flex: 1; background: var(--card); border: 1px solid var(--border);
+    border-radius: 10px; padding: 10px 8px; text-align: center;
+  }
+  .score-box.active { border-color: var(--correct); }
+  .score-box .label { font-size: 12px; letter-spacing: 1px; text-transform: uppercase; color: var(--muted); }
+  .score-box.active .label { color: var(--correct); }
+  .score-box .val { font-size: 28px; font-weight: 700; }
+
+  .opt-group { width: 100%; margin-bottom: 22px; }
+  .opt-label { font-size: 12px; letter-spacing: 1px; text-transform: uppercase; color: var(--muted); margin-bottom: 8px; text-align: center; }
+  .opt-row { display: flex; gap: 8px; justify-content: center; }
+  .opt-row button {
+    padding: 9px 16px; font-size: 13px; font-weight: 700; letter-spacing: 1px;
+    background: transparent; color: var(--text); border: 1px solid var(--border);
+    border-radius: 8px; cursor: pointer;
+  }
+  .opt-row button:hover { border-color: var(--muted); }
+  .opt-row button.active { background: var(--correct); border-color: var(--correct); }
+
+  .big-btn {
+    width: 100%; padding: 16px; font-size: 16px; font-weight: 700; letter-spacing: 2px;
+    text-transform: uppercase; background: var(--correct); color: #fff; border: none;
+    border-radius: 12px; cursor: pointer; margin-top: 8px;
+  }
+  .big-btn.ghost { background: transparent; color: var(--text); border: 1px solid var(--border); }
+  .big-btn.ghost:hover { border-color: var(--muted); }
+
+  .turn-title { font-size: 24px; font-weight: 700; letter-spacing: 1px; margin-bottom: 6px; text-align: center; }
+  .turn-sub { color: var(--muted); font-size: 14px; line-height: 1.6; margin-bottom: 24px; text-align: center; }
+
+  .timer { font-size: 40px; font-weight: 700; letter-spacing: 2px; margin-bottom: 12px; font-variant-numeric: tabular-nums; }
+  .timer.low { color: var(--wrong); }
+
+  /* Canvas + reveal overlay */
+  .pad-wrap { position: relative; width: 320px; max-width: 100%; margin-bottom: 12px; }
+  #pad {
+    width: 320px; height: 360px; max-width: 100%;
+    background: #ffffff; border-radius: 12px; border: 1px solid var(--border);
+    touch-action: none; display: block; cursor: crosshair;
+  }
+  .reveal {
+    position: absolute; inset: 0; border-radius: 12px;
+    background: rgba(18, 18, 19, 0.96);
+    display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 16px;
+    text-align: center; padding: 20px;
+  }
+  .reveal.hidden { display: none; }
+  .reveal-label { font-size: 12px; letter-spacing: 2px; text-transform: uppercase; color: var(--present); }
+  .reveal-word { font-size: 40px; font-weight: 800; text-transform: uppercase; letter-spacing: 1px; word-break: break-word; }
+  .reveal button {
+    padding: 12px 24px; font-size: 14px; font-weight: 700; letter-spacing: 1px; text-transform: uppercase;
+    background: var(--correct); color: #fff; border: none; border-radius: 10px; cursor: pointer;
+  }
+
+  /* Tools */
+  .tools { display: flex; gap: 8px; align-items: center; margin-bottom: 12px; flex-wrap: wrap; justify-content: center; }
+  .swatch { width: 30px; height: 30px; border-radius: 50%; cursor: pointer; border: 2px solid transparent; }
+  .swatch.active { border-color: #fff; }
+  .tool-btn {
+    padding: 8px 12px; font-size: 12px; font-weight: 700; letter-spacing: 1px; text-transform: uppercase;
+    background: transparent; color: var(--text); border: 1px solid var(--border); border-radius: 8px; cursor: pointer;
+  }
+  .tool-btn:hover { border-color: var(--muted); }
+  .tool-btn.active { border-color: #fff; }
+
+  .turn-score { color: var(--muted); font-size: 14px; margin-bottom: 14px; letter-spacing: 1px; }
+
+  .play-buttons { display: flex; gap: 10px; width: 100%; max-width: 320px; }
+  .play-buttons button {
+    flex: 1; padding: 15px 8px; font-size: 14px; font-weight: 700; letter-spacing: 1px;
+    text-transform: uppercase; border: none; border-radius: 12px; cursor: pointer; color: #fff;
+  }
+  .btn-skip { background: #3a3a3c; }
+  .btn-correct { background: var(--correct); }
+  .play-buttons button:active { transform: scale(0.96); }
+
+  .summary-line { font-size: 18px; font-weight: 700; margin-bottom: 8px; text-align: center; }
+  .summary-big { font-size: 40px; font-weight: 700; color: var(--correct); margin-bottom: 6px; text-align: center; }
+
+  .notes {
+    width: 100%; max-width: 360px; margin-top: 34px; padding-top: 16px;
+    border-top: 1px solid var(--border); color: var(--muted); font-size: 13px; line-height: 1.6;
+  }
+  .notes h3 { margin: 0 0 8px; font-size: 12px; letter-spacing: 1px; text-transform: uppercase; color: var(--text); }
+  .notes ul { margin: 0; padding-left: 18px; }
+  .notes li { margin-bottom: 5px; }
+  .notes b { color: var(--text); }
+</style>
+</head>
+<body>
+  <a class="back" href="index.html">&larr; Games</a>
+
+  <header>
+    <h1>Sketch</h1>
+    <p>Draw the word so your team can guess it &mdash; no letters or numbers!</p>
+  </header>
+
+  <!-- HOME -->
+  <div class="screen" id="home">
+    <div class="opt-group">
+      <div class="opt-label">Round length</div>
+      <div class="opt-row" id="timeOpts"></div>
+    </div>
+    <div class="opt-group">
+      <div class="opt-label">Play to</div>
+      <div class="opt-row" id="targetOpts"></div>
+    </div>
+    <button class="big-btn" id="startGame">Start game</button>
+  </div>
+
+  <!-- READY -->
+  <div class="screen hidden" id="ready">
+    <div class="scores" id="readyScores"></div>
+    <div class="turn-title" id="readyTitle">Team A</div>
+    <div class="turn-sub">Pass the phone to this team's drawer.<br>Everyone else &mdash; get ready to guess!</div>
+    <button class="big-btn" id="startTurn">Start turn</button>
+  </div>
+
+  <!-- PLAY -->
+  <div class="screen hidden" id="play">
+    <div class="timer" id="timer">1:00</div>
+    <div class="pad-wrap">
+      <canvas id="pad" width="320" height="360"></canvas>
+      <div class="reveal" id="reveal">
+        <div class="reveal-label">Drawer only &mdash; no peeking, team!</div>
+        <div class="reveal-word" id="revealWord"></div>
+        <button id="startDraw">Start drawing</button>
+      </div>
+    </div>
+    <div class="tools" id="tools">
+      <div class="swatch" data-color="#111111" style="background:#111"></div>
+      <div class="swatch" data-color="#e05252" style="background:#e05252"></div>
+      <div class="swatch" data-color="#3f8ae0" style="background:#3f8ae0"></div>
+      <div class="swatch" data-color="#4fb14f" style="background:#4fb14f"></div>
+      <div class="swatch" data-color="#e0a020" style="background:#e0a020"></div>
+      <button class="tool-btn" id="eraser">Erase</button>
+      <button class="tool-btn" id="clear">Clear</button>
+      <button class="tool-btn" id="peek">Peek</button>
+    </div>
+    <div class="turn-score" id="turnScore">This turn: 0</div>
+    <div class="play-buttons">
+      <button class="btn-skip" id="btnSkip">Skip</button>
+      <button class="btn-correct" id="btnCorrect">Got it +1</button>
+    </div>
+  </div>
+
+  <!-- SUMMARY -->
+  <div class="screen hidden" id="summary">
+    <div class="summary-line" id="sumTeam">Team A</div>
+    <div class="summary-big" id="sumScore">+0</div>
+    <div class="turn-sub" id="sumDetail"></div>
+    <div class="scores" id="summaryScores"></div>
+    <button class="big-btn" id="nextTurn">Next team</button>
+    <button class="big-btn ghost" id="newGame">New game</button>
+  </div>
+
+  <div class="notes">
+    <h3>How to play</h3>
+    <ul>
+      <li>Two teams take turns. One player is the <b>drawer</b> and secretly sees the word.</li>
+      <li>Draw it on the pad so your team guesses &mdash; <b>no letters, numbers or words</b>, and no talking!</li>
+      <li>Tap <b>Got it +1</b> when they guess, or <b>Skip</b> for a new word. Use <b>Peek</b> to re-check the word privately.</li>
+      <li>Draw as many as you can before time runs out, then pass to the other team. First to the target wins.</li>
+    </ul>
+  </div>
+
+<script>
+(function () {
+  "use strict";
+
+  // Original deck of drawable words.
+  var DECK = [
+    "House", "Tree", "Sun", "Car", "Cat", "Dog", "Fish", "Boat", "Star", "Flower",
+    "Apple", "Banana", "Clock", "Key", "Book", "Chair", "Ladder", "Umbrella", "Snowman", "Rocket",
+    "Robot", "Ghost", "Crown", "Guitar", "Drum", "Balloon", "Kite", "Rainbow", "Cloud", "Mountain",
+    "Bridge", "Castle", "Lighthouse", "Windmill", "Cactus", "Butterfly", "Snake", "Spider", "Elephant", "Giraffe",
+    "Penguin", "Octopus", "Shark", "Whale", "Dolphin", "Turtle", "Frog", "Bee", "Ladybug", "Owl",
+    "Duck", "Pig", "Cow", "Horse", "Rabbit", "Lion", "Bear", "Monkey", "Dinosaur", "Dragon",
+    "Unicorn", "Mermaid", "Pirate", "Wizard", "Clown", "Skull", "Heart", "Anchor", "Sword", "Shield",
+    "Gift", "Candle", "Lamp", "Camera", "Phone", "Television", "Headphones", "Lightbulb", "Magnet", "Compass",
+    "Telescope", "Hammer", "Saw", "Scissors", "Paintbrush", "Pencil", "Envelope", "Map", "Flag", "Tent",
+    "Campfire", "Swing", "Slide", "Trampoline", "Bicycle", "Motorcycle", "Bus", "Train", "Airplane", "Helicopter",
+    "Submarine", "Tractor", "Truck", "Ambulance", "Sailboat", "Skateboard", "Surfboard", "Snowflake", "Igloo", "Volcano",
+    "Island", "Waterfall", "Fountain", "Beehive", "Birdhouse", "Mailbox", "Traffic light", "Stop sign", "Ferris wheel", "Sandcastle",
+    "Treasure chest", "Piggy bank", "Teapot", "Cupcake", "Ice cream", "Pizza", "Hamburger", "Hotdog", "Donut", "Lollipop",
+    "Cheese", "Egg", "Carrot", "Mushroom", "Pineapple", "Strawberry", "Watermelon", "Corn", "Coffee cup", "Wine glass",
+    "Fork", "Spoon", "Cup", "Plate", "Toaster", "Kettle", "Fridge", "Bathtub", "Toilet", "Mirror",
+    "Toothbrush", "Bed", "Pillow", "Sock", "Shoe", "Boot", "Hat", "Glasses", "Tie", "Shirt",
+    "Dress", "Glove", "Scarf", "Backpack", "Suitcase", "Wallet", "Watch", "Ring", "Necklace", "Crown of thorns",
+    "Moon", "Snail", "Crab", "Seahorse", "Jellyfish", "Starfish", "Palm tree", "Mushroom cloud", "Hot air balloon", "Windsock"
+  ];
+
+  var TIME_OPTS = [60, 90, 120];
+  var TARGET_OPTS = [10, 15, 20];
+
+  var teams = [{ name: "Team A", score: 0 }, { name: "Team B", score: 0 }];
+  var current = 0, roundTime = 90, target = 15;
+
+  var deck = [], deckPos = 0, word = "";
+  var turnScore = 0, gotCount = 0, skipCount = 0;
+  var timeLeft = 0, timer = null;
+
+  var color = "#111111", erasing = false;
+
+  var el = {
+    timeOpts: document.getElementById("timeOpts"),
+    targetOpts: document.getElementById("targetOpts"),
+    readyScores: document.getElementById("readyScores"),
+    readyTitle: document.getElementById("readyTitle"),
+    timer: document.getElementById("timer"),
+    reveal: document.getElementById("reveal"),
+    revealWord: document.getElementById("revealWord"),
+    turnScore: document.getElementById("turnScore"),
+    sumTeam: document.getElementById("sumTeam"),
+    sumScore: document.getElementById("sumScore"),
+    sumDetail: document.getElementById("sumDetail"),
+    summaryScores: document.getElementById("summaryScores"),
+    nextTurn: document.getElementById("nextTurn")
+  };
+
+  var canvas = document.getElementById("pad");
+  var ctx = canvas.getContext("2d");
+  var dpr = window.devicePixelRatio || 1;
+  // Scale the backing store for crisp lines; draw in CSS pixels.
+  canvas.width = 320 * dpr;
+  canvas.height = 360 * dpr;
+  ctx.scale(dpr, dpr);
+  ctx.lineCap = "round";
+  ctx.lineJoin = "round";
+
+  function clearPad() {
+    ctx.save();
+    ctx.setTransform(1, 0, 0, 1, 0, 0);
+    ctx.fillStyle = "#ffffff";
+    ctx.fillRect(0, 0, canvas.width, canvas.height);
+    ctx.restore();
+  }
+
+  function shuffle(a) {
+    for (var i = a.length - 1; i > 0; i--) {
+      var j = Math.floor(Math.random() * (i + 1));
+      var t = a[i]; a[i] = a[j]; a[j] = t;
+    }
+    return a;
+  }
+
+  function show(name) {
+    ["home", "ready", "play", "summary"].forEach(function (s) {
+      document.getElementById(s).classList.toggle("hidden", s !== name);
+    });
+  }
+
+  function scoreboardHTML(container) {
+    container.innerHTML = "";
+    teams.forEach(function (t, i) {
+      var box = document.createElement("div");
+      box.className = "score-box" + (i === current ? " active" : "");
+      box.innerHTML = "<div class='label'>" + t.name + "</div><div class='val'>" + t.score + "</div>";
+      container.appendChild(box);
+    });
+  }
+
+  function buildOpts(container, values, fmt, get, set) {
+    container.innerHTML = "";
+    values.forEach(function (v) {
+      var b = document.createElement("button");
+      b.textContent = fmt(v);
+      b.className = v === get() ? "active" : "";
+      b.addEventListener("click", function () { set(v); buildOptsAll(); });
+      container.appendChild(b);
+    });
+  }
+  function buildOptsAll() {
+    buildOpts(el.timeOpts, TIME_OPTS, function (v) { return (v / 60) + " min"; },
+      function () { return roundTime; }, function (v) { roundTime = v; });
+    buildOpts(el.targetOpts, TARGET_OPTS, function (v) { return v + " pts"; },
+      function () { return target; }, function (v) { target = v; });
+  }
+
+  function startGame() {
+    teams[0].score = 0; teams[1].score = 0; current = 0;
+    deck = shuffle(DECK.slice()); deckPos = 0;
+    goReady();
+  }
+
+  function goReady() {
+    el.readyTitle.textContent = teams[current].name + "'s turn";
+    scoreboardHTML(el.readyScores);
+    show("ready");
+  }
+
+  function startTurn() {
+    turnScore = 0; gotCount = 0; skipCount = 0;
+    timeLeft = roundTime;
+    renderTurnScore();
+    renderTime();
+    clearPad();
+    show("play");
+    loadWord();     // reveals first word (timer paused until they start)
+  }
+
+  function loadWord() {
+    if (deckPos >= deck.length) { deck = shuffle(deck); deckPos = 0; }
+    word = deck[deckPos++];
+    clearPad();
+    showReveal();
+  }
+
+  function showReveal() {
+    el.revealWord.textContent = word;
+    el.reveal.classList.remove("hidden");
+    stopTimer();      // pause while the word is on screen
+  }
+
+  function startDraw() {
+    el.reveal.classList.add("hidden");
+    startTimer();
+  }
+
+  function startTimer() {
+    if (timer) return;
+    timer = setInterval(function () {
+      timeLeft--;
+      renderTime();
+      if (timeLeft <= 0) { stopTimer(); endTurn(); }
+    }, 1000);
+  }
+  function stopTimer() { if (timer) { clearInterval(timer); timer = null; } }
+
+  function renderTime() {
+    var m = Math.floor(timeLeft / 60), s = timeLeft % 60;
+    el.timer.textContent = m + ":" + (s < 10 ? "0" + s : s);
+    el.timer.className = "timer" + (timeLeft <= 10 ? " low" : "");
+  }
+
+  function renderTurnScore() { el.turnScore.textContent = "This turn: " + turnScore; }
+
+  function correct() { turnScore++; gotCount++; renderTurnScore(); loadWord(); }
+  function skip() { skipCount++; loadWord(); }
+
+  function endTurn() {
+    stopTimer();
+    el.reveal.classList.add("hidden");
+    teams[current].score += turnScore;
+
+    el.sumTeam.textContent = teams[current].name;
+    el.sumScore.textContent = "+" + turnScore;
+    el.sumDetail.innerHTML = gotCount + " guessed &middot; " + skipCount + " skipped";
+    scoreboardHTML(el.summaryScores);
+
+    var winner = teams.filter(function (t) { return t.score >= target; })
+                      .sort(function (a, b) { return b.score - a.score; })[0];
+    if (winner && teams[0].score !== teams[1].score) {
+      el.sumTeam.textContent = winner.name + " wins! 🎉";
+      el.nextTurn.classList.add("hidden");
+    } else {
+      el.nextTurn.classList.remove("hidden");
+      el.nextTurn.textContent = teams[1 - current].name + "'s turn →";
+    }
+    show("summary");
+  }
+
+  function nextTeam() { current = 1 - current; goReady(); }
+
+  // --- Drawing -------------------------------------------------------------
+
+  var drawing = false, last = null;
+  function pos(e) {
+    var r = canvas.getBoundingClientRect();
+    return { x: e.clientX - r.left, y: e.clientY - r.top };
+  }
+  canvas.addEventListener("pointerdown", function (e) {
+    if (!el.reveal.classList.contains("hidden")) return; // covered by reveal
+    drawing = true; last = pos(e);
+    if (canvas.setPointerCapture) canvas.setPointerCapture(e.pointerId);
+  });
+  canvas.addEventListener("pointermove", function (e) {
+    if (!drawing) return;
+    var p = pos(e);
+    ctx.strokeStyle = erasing ? "#ffffff" : color;
+    ctx.lineWidth = erasing ? 20 : 4;
+    ctx.beginPath();
+    ctx.moveTo(last.x, last.y);
+    ctx.lineTo(p.x, p.y);
+    ctx.stroke();
+    last = p;
+  });
+  canvas.addEventListener("pointerup", function () { drawing = false; });
+  canvas.addEventListener("pointercancel", function () { drawing = false; });
+
+  // --- Tools + events ------------------------------------------------------
+
+  var swatches = document.querySelectorAll(".swatch");
+  function selectColor(c, elm) {
+    color = c; erasing = false;
+    Array.prototype.forEach.call(swatches, function (s) { s.classList.toggle("active", s === elm); });
+    document.getElementById("eraser").classList.remove("active");
+  }
+  Array.prototype.forEach.call(swatches, function (s) {
+    s.addEventListener("click", function () { selectColor(s.dataset.color, s); });
+  });
+  swatches[0].classList.add("active");
+
+  document.getElementById("eraser").addEventListener("click", function () {
+    erasing = true;
+    Array.prototype.forEach.call(swatches, function (s) { s.classList.remove("active"); });
+    this.classList.add("active");
+  });
+  document.getElementById("clear").addEventListener("click", clearPad);
+  document.getElementById("peek").addEventListener("click", showReveal);
+
+  document.getElementById("startGame").addEventListener("click", startGame);
+  document.getElementById("startTurn").addEventListener("click", startTurn);
+  document.getElementById("startDraw").addEventListener("click", startDraw);
+  document.getElementById("btnCorrect").addEventListener("click", correct);
+  document.getElementById("btnSkip").addEventListener("click", skip);
+  document.getElementById("nextTurn").addEventListener("click", nextTeam);
+  document.getElementById("newGame").addEventListener("click", function () {
+    el.nextTurn.classList.remove("hidden");
+    show("home");
+  });
+
+  // --- Boot ----------------------------------------------------------------
+
+  clearPad();
+  buildOptsAll();
+  show("home");
+})();
+</script>
+</body>
+</html>

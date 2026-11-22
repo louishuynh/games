@@ -1,103 +1,464 @@
-id,word,category,level,clue1,clue2,clue3,clue4,clue5
-platypus_animals,platypus,animals,3,Australia,duck,webbed,eggs,monotreme
-octopus_animals,octopus,animals,2,tentacles,ocean,ink,eight,camouflage
-owl_animals,owl,animals,1,hoot,night,feathers,nocturnal,wise
-kangaroo_animals,kangaroo,animals,1,pouch,hop,joey,Australia,marsupial
-chameleon_animals,chameleon,animals,2,lizard,colour,camouflage,tongue,tropical
-penguin_animals,penguin,animals,1,Antarctica,waddle,flightless,ice,tuxedo
-elephant_animals,elephant,animals,1,trunk,tusks,enormous,herd,memory
-butterfly_animals,butterfly,animals,2,caterpillar,chrysalis,wings,metamorphosis,nectar
-dolphin_animals,dolphin,animals,2,ocean,pod,echolocation,flipper,clicks
-koala_animals,koala,animals,1,eucalyptus,marsupial,sleepy,fluffy,Australia
-telescope_space,telescope,space,2,stars,lens,observatory,magnify,astronomer
-astronaut_space,astronaut,space,1,rocket,helmet,spacesuit,orbit,weightless
-planet_space,planet,space,1,orbit,Jupiter,sun,round,solar
-comet_space,comet,space,2,tail,ice,orbit,Halley,streak
-galaxy_space,galaxy,space,2,stars,Milky,spiral,billions,universe
-gravity_space,gravity,space,2,Newton,apple,fall,force,weight
-eclipse_space,eclipse,space,2,moon,shadow,sun,solar,darkness
-rocket_space,rocket,space,1,launch,blast,countdown,fuel,space
-moon_space,moon,space,1,crater,night,phases,tide,orbit
-meteor_space,meteor,space,3,shooting,star,streak,burn,atmosphere
-volcano_nature,volcano,nature,2,lava,erupt,magma,crater,ash
-tornado_nature,tornado,nature,2,twister,funnel,wind,spinning,storm
-rainbow_nature,rainbow,nature,1,colours,arc,prism,sky,storm
-glacier_nature,glacier,nature,3,ice,frozen,slowly,valley,melting
-rainforest_nature,rainforest,nature,2,Amazon,jungle,canopy,tropical,humid
-waterfall_nature,waterfall,nature,1,cliff,cascade,river,plunge,mist
-desert_nature,desert,nature,1,sand,camel,dunes,oasis,dry
-lightning_nature,lightning,nature,1,thunder,bolt,flash,storm,electricity
-coral_reef_nature,coral reef,nature,2,ocean,snorkel,colourful,tropical,polyps
-earthquake_nature,earthquake,nature,2,tremor,shake,fault,tectonic,Richter
-skeleton_body,skeleton,body,1,bones,skull,Halloween,rattle,ribs
-heart_body,heart,body,1,beat,pump,blood,chest,Valentine
-lungs_body,lungs,body,1,breathe,oxygen,chest,inhale,air
-brain_body,brain,body,1,thinking,skull,memory,neurons,intelligent
-stomach_body,stomach,body,1,digest,food,rumble,acid,tummy
-muscle_body,muscle,body,1,strong,flex,biceps,gym,strength
-blood_body,blood,body,2,red,veins,plasma,cells,donate
-tongue_body,tongue,body,1,taste,lick,mouth,speak,buds
-fingerprint_body,fingerprint,body,2,unique,detective,ridges,thumb,ink
-spine_body,spine,body,2,backbone,vertebrae,back,nerves,posture
-avocado_food,avocado,food,2,green,guacamole,toast,pit,creamy
-spaghetti_food,spaghetti,food,1,pasta,noodles,Italy,sauce,twirl
-pancake_food,pancake,food,1,flip,syrup,breakfast,batter,stack
-watermelon_food,watermelon,food,1,seeds,summer,juicy,slice,rind
-honey_food,honey,food,1,bees,sweet,sticky,comb,golden
-chocolate_food,chocolate,food,1,cocoa,melt,sweet,bar,Easter
-sushi_food,sushi,food,2,Japan,rice,seaweed,raw,chopsticks
-popcorn_food,popcorn,food,1,kernels,cinema,butter,movie,salty
-dumpling_food,dumpling,food,2,steamed,dough,filling,Chinese,wrapper
-broccoli_food,broccoli,food,1,green,tree,vegetable,florets,steam
-continent_geography,continent,geography,2,Asia,Africa,landmass,seven,Antarctica
-equator_geography,equator,geography,2,line,hemisphere,tropics,latitude,middle
-capital_city_geography,capital city,geography,2,government,Canberra,country,Paris,main
-island_geography,island,geography,1,surrounded,water,Tasmania,beach,palm
-peninsula_geography,peninsula,geography,3,almost,surrounded,sea,Italy,jutting
-mount_everest_geography,Mount Everest,geography,2,tallest,Himalayas,Nepal,climb,summit
-nile_geography,Nile,geography,2,river,Egypt,longest,Africa,pyramids
-compass_geography,compass,geography,1,north,needle,direction,navigate,magnetic
-pyramid_history,pyramid,history,1,Egypt,pharaoh,tomb,Giza,triangle
-pharaoh_history,pharaoh,history,2,Egypt,king,mummy,tomb,Tutankhamun
-knight_history,knight,history,1,armour,castle,sword,horse,chivalry
-castle_history,castle,history,1,moat,drawbridge,king,fortress,tower
-gladiator_history,gladiator,history,2,arena,Colosseum,fight,Rome,combat
-explorer_history,explorer,history,2,discover,voyage,maps,Columbus,unknown
-printing_press_history,printing press,history,3,Gutenberg,books,ink,type,invention
-archaeologist_history,archaeologist,history,3,dig,ancient,fossils,artefacts,ruins
-uluru_australia,Uluru,australia,2,rock,red,sacred,Anangu,outback
-boomerang_australia,boomerang,australia,1,throw,return,curved,Aboriginal,wood
-sydney_opera_house_australia,Sydney Opera House,australia,1,sails,harbour,concert,Bennelong,white
-great_barrier_reef_australia,Great Barrier Reef,australia,2,coral,Queensland,snorkel,fish,UNESCO
-southern_cross_australia,Southern Cross,australia,3,stars,constellation,flag,night,navigate
-bushfire_australia,bushfire,australia,2,flames,summer,smoke,embers,evacuate
-wombat_australia,wombat,australia,2,burrow,marsupial,cube,stocky,nocturnal
-didgeridoo_australia,didgeridoo,australia,3,instrument,drone,Aboriginal,wooden,breathing
-enormous_language,enormous,language,2,huge,giant,vast,immense,colossal
-synonym_language,synonym,language,3,same,meaning,thesaurus,word,similar
-antonym_language,antonym,language,3,opposite,contrast,hot,cold,meaning
-idiom_language,idiom,language,3,expression,figurative,cat,raining,phrase
-metaphor_language,metaphor,language,3,comparison,figurative,simile,poetry,imagery
-simile_language,simile,language,3,like,as,comparison,figurative,metaphor
-prefix_language,prefix,language,3,beginning,affix,attached,unhappy,word
-alliteration_language,alliteration,language,3,repeated,sounds,tongue,twister,letters
-onomatopoeia_language,onomatopoeia,language,3,sound,buzz,bang,splash,words
-homophone_language,homophone,language,3,sound,there,their,spelling,same
-perimeter_maths,perimeter,maths,2,around,edge,fence,length,distance
-area_maths,area,maths,2,square,covering,surface,units,space
-fraction_maths,fraction,maths,2,part,half,numerator,pizza,whole
-symmetry_maths,symmetry,maths,2,mirror,fold,butterfly,reflection,identical
-angle_maths,angle,maths,2,degrees,corner,protractor,right,turn
-multiply_maths,multiply,maths,2,times,product,groups,tables,repeated
-factor_maths,factor,maths,3,divides,multiply,product,prime,number
-parallel_maths,parallel,maths,2,lines,railway,distance,never,meet
-average_maths,average,maths,3,mean,typical,middle,total,divide
-probability_maths,probability,maths,3,chance,likely,dice,coin,odds
-pattern_thinking,pattern,thinking,1,repeat,sequence,design,stripes,predict
-sequence_thinking,sequence,thinking,2,order,series,next,steps,chain
-analogy_thinking,analogy,thinking,3,comparison,relationship,similar,puzzle,like
-inference_thinking,inference,thinking,3,clues,conclude,hint,reading,evidence
-evidence_thinking,evidence,thinking,3,proof,detective,facts,support,clue
-cause_and_effect_thinking,cause and effect,thinking,3,because,result,reason,consequence,why
-main_idea_thinking,main idea,thinking,3,topic,point,summary,paragraph,central
-odd_one_out_thinking,odd one out,thinking,2,different,belong,group,spot,mismatch
+id,word,category,level,clue1,clue2,clue3,clue4,clue5,tags
+platypus_animals,platypus,animals,3,Australia,duck,webbed,eggs,monotreme,
+octopus_animals,octopus,animals,2,tentacles,ocean,ink,eight,camouflage,codenames
+owl_animals,owl,animals,1,hoot,night,feathers,nocturnal,wise,codenames
+kangaroo_animals,kangaroo,animals,1,pouch,hop,joey,Australia,marsupial,codenames
+chameleon_animals,chameleon,animals,2,lizard,colour,camouflage,tongue,tropical,codenames
+penguin_animals,penguin,animals,1,Antarctica,waddle,flightless,ice,tuxedo,codenames
+elephant_animals,elephant,animals,1,trunk,tusks,enormous,herd,memory,codenames
+butterfly_animals,butterfly,animals,2,caterpillar,chrysalis,wings,metamorphosis,nectar,codenames
+dolphin_animals,dolphin,animals,2,ocean,pod,echolocation,flipper,clicks,codenames
+koala_animals,koala,animals,1,eucalyptus,marsupial,sleepy,fluffy,Australia,codenames
+telescope_space,telescope,space,2,stars,lens,observatory,magnify,astronomer,codenames
+astronaut_space,astronaut,space,1,rocket,helmet,spacesuit,orbit,weightless,
+planet_space,planet,space,1,orbit,Jupiter,sun,round,solar,codenames
+comet_space,comet,space,2,tail,ice,orbit,Halley,streak,codenames
+galaxy_space,galaxy,space,2,stars,Milky,spiral,billions,universe,
+gravity_space,gravity,space,2,Newton,apple,fall,force,weight,
+eclipse_space,eclipse,space,2,moon,shadow,sun,solar,darkness,
+rocket_space,rocket,space,1,launch,blast,countdown,fuel,space,codenames
+moon_space,moon,space,1,crater,night,phases,tide,orbit,codenames
+meteor_space,meteor,space,3,shooting,star,streak,burn,atmosphere,
+volcano_nature,volcano,nature,2,lava,erupt,magma,crater,ash,codenames
+tornado_nature,tornado,nature,2,twister,funnel,wind,spinning,storm,
+rainbow_nature,rainbow,nature,1,colours,arc,prism,sky,storm,codenames
+glacier_nature,glacier,nature,3,ice,frozen,slowly,valley,melting,
+rainforest_nature,rainforest,nature,2,Amazon,jungle,canopy,tropical,humid,
+waterfall_nature,waterfall,nature,1,cliff,cascade,river,plunge,mist,codenames
+desert_nature,desert,nature,1,sand,camel,dunes,oasis,dry,codenames
+lightning_nature,lightning,nature,1,thunder,bolt,flash,storm,electricity,codenames
+coral_reef_nature,coral reef,nature,2,ocean,snorkel,colourful,tropical,polyps,
+earthquake_nature,earthquake,nature,2,tremor,shake,fault,tectonic,Richter,
+skeleton_body,skeleton,body,1,bones,skull,Halloween,rattle,ribs,
+heart_body,heart,body,1,beat,pump,blood,chest,Valentine,codenames
+lungs_body,lungs,body,1,breathe,oxygen,chest,inhale,air,
+brain_body,brain,body,1,thinking,skull,memory,neurons,intelligent,codenames
+stomach_body,stomach,body,1,digest,food,rumble,acid,tummy,
+muscle_body,muscle,body,1,strong,flex,biceps,gym,strength,
+blood_body,blood,body,2,red,veins,plasma,cells,donate,
+tongue_body,tongue,body,1,taste,lick,mouth,speak,buds,codenames
+fingerprint_body,fingerprint,body,2,unique,detective,ridges,thumb,ink,
+spine_body,spine,body,2,backbone,vertebrae,back,nerves,posture,
+avocado_food,avocado,food,2,green,guacamole,toast,pit,creamy,
+spaghetti_food,spaghetti,food,1,pasta,noodles,Italy,sauce,twirl,
+pancake_food,pancake,food,1,flip,syrup,breakfast,batter,stack,
+watermelon_food,watermelon,food,1,seeds,summer,juicy,slice,rind,
+honey_food,honey,food,1,bees,sweet,sticky,comb,golden,codenames
+chocolate_food,chocolate,food,1,cocoa,melt,sweet,bar,Easter,codenames
+sushi_food,sushi,food,2,Japan,rice,seaweed,raw,chopsticks,
+popcorn_food,popcorn,food,1,kernels,cinema,butter,movie,salty,codenames
+dumpling_food,dumpling,food,2,steamed,dough,filling,Chinese,wrapper,
+broccoli_food,broccoli,food,1,green,tree,vegetable,florets,steam,
+continent_geography,continent,geography,2,Asia,Africa,landmass,seven,Antarctica,
+equator_geography,equator,geography,2,line,hemisphere,tropics,latitude,middle,
+capital_city_geography,capital city,geography,2,government,Canberra,country,Paris,main,
+island_geography,island,geography,1,surrounded,water,Tasmania,beach,palm,codenames
+peninsula_geography,peninsula,geography,3,almost,surrounded,sea,Italy,jutting,
+mount_everest_geography,Mount Everest,geography,2,tallest,Himalayas,Nepal,climb,summit,
+nile_geography,Nile,geography,2,river,Egypt,longest,Africa,pyramids,
+compass_geography,compass,geography,1,north,needle,direction,navigate,magnetic,codenames
+pyramid_history,pyramid,history,1,Egypt,pharaoh,tomb,Giza,triangle,
+pharaoh_history,pharaoh,history,2,Egypt,king,mummy,tomb,Tutankhamun,
+knight_history,knight,history,1,armour,castle,sword,horse,chivalry,codenames
+castle_history,castle,history,1,moat,drawbridge,king,fortress,tower,codenames
+gladiator_history,gladiator,history,2,arena,Colosseum,fight,Rome,combat,
+explorer_history,explorer,history,2,discover,voyage,maps,Columbus,unknown,
+printing_press_history,printing press,history,3,Gutenberg,books,ink,type,invention,
+archaeologist_history,archaeologist,history,3,dig,ancient,fossils,artefacts,ruins,
+uluru_australia,Uluru,australia,2,rock,red,sacred,Anangu,outback,
+boomerang_australia,boomerang,australia,1,throw,return,curved,Aboriginal,wood,
+sydney_opera_house_australia,Sydney Opera House,australia,1,sails,harbour,concert,Bennelong,white,
+great_barrier_reef_australia,Great Barrier Reef,australia,2,coral,Queensland,snorkel,fish,UNESCO,
+southern_cross_australia,Southern Cross,australia,3,stars,constellation,flag,night,navigate,
+bushfire_australia,bushfire,australia,2,flames,summer,smoke,embers,evacuate,
+wombat_australia,wombat,australia,2,burrow,marsupial,cube,stocky,nocturnal,
+didgeridoo_australia,didgeridoo,australia,3,instrument,drone,Aboriginal,wooden,breathing,
+enormous_language,enormous,language,2,huge,giant,vast,immense,colossal,
+synonym_language,synonym,language,3,same,meaning,thesaurus,word,similar,
+antonym_language,antonym,language,3,opposite,contrast,hot,cold,meaning,
+idiom_language,idiom,language,3,expression,figurative,cat,raining,phrase,
+metaphor_language,metaphor,language,3,comparison,figurative,simile,poetry,imagery,
+simile_language,simile,language,3,like,as,comparison,figurative,metaphor,
+prefix_language,prefix,language,3,beginning,affix,attached,unhappy,word,
+alliteration_language,alliteration,language,3,repeated,sounds,tongue,twister,letters,
+onomatopoeia_language,onomatopoeia,language,3,sound,buzz,bang,splash,words,
+homophone_language,homophone,language,3,sound,there,their,spelling,same,
+perimeter_maths,perimeter,maths,2,around,edge,fence,length,distance,
+area_maths,area,maths,2,square,covering,surface,units,space,
+fraction_maths,fraction,maths,2,part,half,numerator,pizza,whole,
+symmetry_maths,symmetry,maths,2,mirror,fold,butterfly,reflection,identical,
+angle_maths,angle,maths,2,degrees,corner,protractor,right,turn,
+multiply_maths,multiply,maths,2,times,product,groups,tables,repeated,
+factor_maths,factor,maths,3,divides,multiply,product,prime,number,
+parallel_maths,parallel,maths,2,lines,railway,distance,never,meet,
+average_maths,average,maths,3,mean,typical,middle,total,divide,
+probability_maths,probability,maths,3,chance,likely,dice,coin,odds,
+pattern_thinking,pattern,thinking,1,repeat,sequence,design,stripes,predict,
+sequence_thinking,sequence,thinking,2,order,series,next,steps,chain,
+analogy_thinking,analogy,thinking,3,comparison,relationship,similar,puzzle,like,
+inference_thinking,inference,thinking,3,clues,conclude,hint,reading,evidence,
+evidence_thinking,evidence,thinking,3,proof,detective,facts,support,clue,
+cause_and_effect_thinking,cause and effect,thinking,3,because,result,reason,consequence,why,
+main_idea_thinking,main idea,thinking,3,topic,point,summary,paragraph,central,
+odd_one_out_thinking,odd one out,thinking,2,different,belong,group,spot,mismatch,
+australia_countries,Australia,countries,1,kangaroo,Oceania,Uluru,English,Canberra,
+egypt_countries,Egypt,countries,1,pyramids,Africa,Nile,Arabic,Cairo,
+japan_countries,Japan,countries,1,Asia,Mount Fuji,islands,cherry blossom,Tokyo,
+brazil_countries,Brazil,countries,1,South America,Amazon,toucan,Portuguese,Brasília,
+china_countries,China,countries,1,Asia,panda,Great Wall,Mandarin,Beijing,
+india_countries,India,countries,1,Asia,Taj Mahal,tiger,Hindi,New Delhi,
+france_countries,France,countries,1,Europe,Eiffel Tower,French,Spain,Paris,
+italy_countries,Italy,countries,1,Europe,boot,Colosseum,Italian,Rome,
+spain_countries,Spain,countries,1,Europe,Spanish,Portugal,flamenco,Madrid,
+greece_countries,Greece,countries,2,Europe,Acropolis,Greek,islands,Athens,
+canada_countries,Canada,countries,1,North America,moose,maple leaf,French,Ottawa,
+peru_countries,Peru,countries,2,South America,llama,Machu Picchu,Spanish,Lima,
+kenya_countries,Kenya,countries,2,Africa,safari,Swahili,Maasai,Nairobi,
+norway_countries,Norway,countries,2,Europe,fjords,Vikings,Sweden,Oslo,
+iceland_countries,Iceland,countries,2,Europe,volcanoes,geysers,Northern Lights,Reykjavik,
+new_zealand_countries,New Zealand,countries,1,Oceania,kiwi,Maori,Australia,Wellington,
+germany_countries,Germany,countries,2,Europe,Rhine,Poland,Neuschwanstein,Berlin,
+england_countries,England,countries,1,Europe,Big Ben,English,Scotland,London,
+argentina_countries,Argentina,countries,2,South America,tango,Chile,Patagonia,Buenos Aires,
+thailand_countries,Thailand,countries,2,Asia,elephants,temples,Cambodia,Bangkok,
+morocco_countries,Morocco,countries,3,Africa,Sahara,Arabic,Atlas Mountains,Rabat,
+netherlands_countries,Netherlands,countries,2,Europe,windmills,tulips,Dutch,Amsterdam,
+switzerland_countries,Switzerland,countries,2,Europe,Alps,yodelling,Matterhorn,Bern,
+ireland_countries,Ireland,countries,2,Europe,shamrock,harp,Gaelic,Dublin,
+indonesia_countries,Indonesia,countries,2,Asia,islands,Komodo dragon,orangutan,Jakarta,
+nepal_countries,Nepal,countries,2,Asia,Himalayas,Mount Everest,Sherpa,Kathmandu,
+madagascar_countries,Madagascar,countries,3,Africa,lemurs,island,baobab,Antananarivo,
+fiji_countries,Fiji,countries,3,Oceania,islands,Pacific,coral reefs,Suva,
+chile_countries,Chile,countries,3,South America,Andes,Spanish,Pacific,Santiago,
+tanzania_countries,Tanzania,countries,3,Africa,Kilimanjaro,Serengeti,Swahili,Dodoma,
+paris_capitals,Paris,capitals,1,France,Eiffel Tower,Seine,Louvre,Montmartre,
+london_capitals,London,capitals,1,England,Thames,Big Ben,Tower Bridge,double-decker,
+rome_capitals,Rome,capitals,1,Italy,Colosseum,Vatican,Tiber,Trevi Fountain,
+cairo_capitals,Cairo,capitals,1,Egypt,Nile,pyramids,Sphinx,Giza,
+canberra_capitals,Canberra,capitals,2,Australia,Parliament House,Burley Griffin,Questacon,Molonglo River,
+beijing_capitals,Beijing,capitals,2,China,Forbidden City,Great Wall,Summer Palace,Olympics,
+madrid_capitals,Madrid,capitals,2,Spain,Prado,Royal Palace,Plaza Mayor,Retiro Park,
+athens_capitals,Athens,capitals,2,Greece,Acropolis,Parthenon,Olympics,Athena,
+berlin_capitals,Berlin,capitals,2,Germany,Brandenburg Gate,Spree,TV Tower,Museum Island,
+ottawa_capitals,Ottawa,capitals,2,Canada,Rideau Canal,Parliament Hill,skating,Tulip Festival,
+wellington_capitals,Wellington,capitals,2,New Zealand,harbour,Te Papa,cable car,Cook Strait,
+amsterdam_capitals,Amsterdam,capitals,2,Netherlands,canals,bicycles,Rijksmuseum,Vondelpark,
+copenhagen_capitals,Copenhagen,capitals,2,Denmark,Little Mermaid,Tivoli,Nyhavn,bicycles,
+dublin_capitals,Dublin,capitals,2,Ireland,Liffey,Trinity College,shamrock,Phoenix Park,
+bangkok_capitals,Bangkok,capitals,2,Thailand,Chao Phraya,Grand Palace,tuk-tuk,floating market,
+seoul_capitals,Seoul,capitals,2,South Korea,Han River,Gyeongbokgung,K-pop,Namsan Tower,
+stockholm_capitals,Stockholm,capitals,2,Sweden,islands,Gamla Stan,Vasa,Nobel Prize,
+oslo_capitals,Oslo,capitals,2,Norway,fjord,Viking ships,Holmenkollen,Nobel,
+vienna_capitals,Vienna,capitals,2,Austria,Danube,waltz,Mozart,Schönbrunn,
+lisbon_capitals,Lisbon,capitals,2,Portugal,Tagus,trams,Belém Tower,seven hills,
+nairobi_capitals,Nairobi,capitals,2,Kenya,Africa,safari,giraffe,equator,
+buenos_aires_capitals,Buenos Aires,capitals,2,Argentina,South America,tango,Obelisk,River Plate,
+new_delhi_capitals,New Delhi,capitals,2,India,India Gate,Yamuna,Lotus Temple,Qutub Minar,
+reykjavik_capitals,Reykjavik,capitals,3,Iceland,Hallgrimskirkja,Northern Lights,hot springs,Atlantic Ocean,
+kathmandu_capitals,Kathmandu,capitals,3,Nepal,Himalayas,Durbar Square,Swayambhunath,prayer flags,
+eiffel_tower_cities_landmarks,Eiffel Tower,cities_landmarks,1,Paris,France,iron,lattice,1889,
+great_wall_of_china_cities_landmarks,Great Wall of China,cities_landmarks,2,Asia,ancient,long,watchtowers,Ming dynasty,
+tokyo_cities_landmarks,Tokyo,cities_landmarks,1,Japan,Asia,skyscrapers,Shibuya,Skytree,
+sydney_harbour_bridge_cities_landmarks,Sydney Harbour Bridge,cities_landmarks,1,Australia,coathanger,Opera House,New Year,steel,
+mount_fuji_cities_landmarks,Mount Fuji,cities_landmarks,1,Japan,volcano,snow,Asia,Honshu,
+taj_mahal_cities_landmarks,Taj Mahal,cities_landmarks,1,India,marble,Agra,emperor,monument,
+colosseum_cities_landmarks,Colosseum,cities_landmarks,1,Rome,Italy,gladiators,arena,ancient,
+big_ben_cities_landmarks,Big Ben,cities_landmarks,1,London,clock,bell,England,Westminster,
+statue_of_liberty_cities_landmarks,Statue of Liberty,cities_landmarks,1,New York,torch,America,crown,France,
+golden_gate_bridge_cities_landmarks,Golden Gate Bridge,cities_landmarks,2,San Francisco,California,fog,suspension,America,
+leaning_tower_of_pisa_cities_landmarks,Leaning Tower of Pisa,cities_landmarks,2,Italy,tilting,Tuscany,marble,bells,
+machu_picchu_cities_landmarks,Machu Picchu,cities_landmarks,2,Peru,Incas,Andes,ruins,llamas,
+petra_cities_landmarks,Petra,cities_landmarks,3,Jordan,desert,carved,Treasury,Nabataeans,
+angkor_wat_cities_landmarks,Angkor Wat,cities_landmarks,3,Cambodia,temple,Khmer,jungle,sunrise,
+stonehenge_cities_landmarks,Stonehenge,cities_landmarks,2,England,ancient,circle,Salisbury Plain,solstice,
+mount_kilimanjaro_cities_landmarks,Mount Kilimanjaro,cities_landmarks,2,Tanzania,Africa,volcano,highest,snow,
+niagara_falls_cities_landmarks,Niagara Falls,cities_landmarks,2,Canada,waterfall,Ontario,mist,America,
+amazon_river_cities_landmarks,Amazon River,cities_landmarks,2,South America,rainforest,Brazil,piranha,anaconda,
+grand_canyon_cities_landmarks,Grand Canyon,cities_landmarks,2,Arizona,America,Colorado River,deep,layers,
+pyramids_of_giza_cities_landmarks,Pyramids of Giza,cities_landmarks,1,Egypt,Sphinx,ancient,pharaohs,desert,
+sahara_desert_cities_landmarks,Sahara Desert,cities_landmarks,2,Africa,sand,dunes,camels,hot,
+venice_cities_landmarks,Venice,cities_landmarks,2,Italy,canals,gondola,Rialto,carnival,
+london_eye_cities_landmarks,London Eye,cities_landmarks,1,England,Thames,Ferris wheel,capsules,view,
+bondi_beach_cities_landmarks,Bondi Beach,cities_landmarks,1,Sydney,surfing,Australia,lifeguards,waves,
+blue_mountains_cities_landmarks,Blue Mountains,cities_landmarks,2,Australia,Three Sisters,Katoomba,eucalyptus,hiking,
+melbourne_cities_landmarks,Melbourne,cities_landmarks,1,Victoria,Australia,trams,Yarra,Flinders Street,
+great_ocean_road_cities_landmarks,Great Ocean Road,cities_landmarks,2,Victoria,coast,Twelve Apostles,limestone,Australia,
+kakadu_cities_landmarks,Kakadu,cities_landmarks,3,Northern Territory,crocodiles,wetlands,rock art,national park,
+new_york_cities_landmarks,New York,cities_landmarks,1,America,skyscrapers,Times Square,Central Park,subway,
+dubai_cities_landmarks,Dubai,cities_landmarks,2,UAE,Burj Khalifa,skyscrapers,desert,Palm Jumeirah,
+marie_curie_people,Marie Curie,people,1,scientist,radioactivity,Poland,radium,Nobel Prize,
+albert_einstein_people,Albert Einstein,people,1,scientist,genius,relativity,Germany,violin,
+isaac_newton_people,Isaac Newton,people,2,gravity,apple,scientist,England,prism,
+charles_darwin_people,Charles Darwin,people,2,scientist,evolution,Galapagos,England,Beagle,
+galileo_people,Galileo,people,2,astronomer,telescope,Italy,Jupiter,stars,
+jane_goodall_people,Jane Goodall,people,2,chimpanzees,scientist,Africa,England,Tanzania,
+mae_jemison_people,Mae Jemison,people,2,astronaut,space shuttle,America,doctor,1992,
+neil_armstrong_people,Neil Armstrong,people,1,astronaut,Moon,Apollo,1969,America,
+katherine_johnson_people,Katherine Johnson,people,3,mathematician,NASA,America,orbits,Hidden Figures,
+ada_lovelace_people,Ada Lovelace,people,3,programmer,mathematician,England,computers,Babbage,
+thomas_edison_people,Thomas Edison,people,1,inventor,light bulb,America,phonograph,electricity,
+alexander_graham_bell_people,Alexander Graham Bell,people,2,inventor,telephone,Scotland,sound,teacher,
+wright_brothers_people,Wright Brothers,people,2,aeroplane,inventors,America,Kitty Hawk,1903,
+leonardo_da_vinci_people,Leonardo da Vinci,people,1,Mona Lisa,artist,Italy,inventor,Renaissance,
+vincent_van_gogh_people,Vincent van Gogh,people,2,painter,Starry Night,sunflowers,Netherlands,brushstrokes,
+pablo_picasso_people,Pablo Picasso,people,2,painter,Spain,Cubism,sculptor,1900s,
+frida_kahlo_people,Frida Kahlo,people,2,painter,Mexico,self-portraits,flowers,pet monkeys,
+claude_monet_people,Claude Monet,people,2,painter,France,Impressionism,water lilies,garden,
+yayoi_kusama_people,Yayoi Kusama,people,3,artist,Japan,polka dots,pumpkins,mirrors,
+beethoven_people,Beethoven,people,2,composer,piano,Germany,deaf,symphony,
+mozart_people,Mozart,people,2,composer,piano,Austria,child prodigy,1700s,
+rosa_parks_people,Rosa Parks,people,2,bus,activist,America,civil rights,seat,
+malala_people,Malala,people,2,activist,school,Pakistan,girls,Nobel Prize,
+wangari_maathai_people,Wangari Maathai,people,3,trees,Kenya,planting,environment,Nobel Prize,
+helen_keller_people,Helen Keller,people,2,author,blind,deaf,America,Anne Sullivan,
+florence_nightingale_people,Florence Nightingale,people,2,nurse,lamp,England,hospitals,1800s,
+beatrix_potter_people,Beatrix Potter,people,2,author,Peter Rabbit,England,illustrator,Lake District,
+mem_fox_people,Mem Fox,people,3,author,Australia,Possum Magic,picture books,Koala Lou,
+steve_irwin_people,Steve Irwin,people,1,zookeeper,crocodiles,Australia,wildlife,Crocodile Hunter,
+ash_barty_people,Ash Barty,people,2,tennis,Australia,Wimbledon,champion,cricket,
+cathy_freeman_people,Cathy Freeman,people,2,runner,Australia,Olympics,Sydney,2000,
+don_bradman_people,Don Bradman,people,3,cricket,batter,Australia,record,1930s,
+banjo_paterson_people,Banjo Paterson,people,3,poet,Australia,Waltzing Matilda,bush,Snowy River,
+fred_hollows_people,Fred Hollows,people,3,doctor,eyes,Australia,sight,surgery,
+douglas_mawson_people,Douglas Mawson,people,3,explorer,Antarctica,Australia,scientist,1900s,
+evonne_goolagong_people,Evonne Goolagong,people,3,tennis,Australia,Wimbledon,champion,1970s,
+amelia_earhart_people,Amelia Earhart,people,2,pilot,America,aeroplane,Atlantic Ocean,1930s,
+edmund_hillary_people,Edmund Hillary,people,2,mountaineer,New Zealand,Mount Everest,Tenzing,1953,
+tenzing_norgay_people,Tenzing Norgay,people,3,Sherpa,mountaineer,Everest,Himalayas,1953,
+sally_ride_people,Sally Ride,people,3,astronaut,America,space shuttle,1983,physicist,
+yuri_gagarin_people,Yuri Gagarin,people,2,cosmonaut,space,Russia,1961,Vostok,
+jacques_cousteau_people,Jacques Cousteau,people,3,explorer,ocean,France,Calypso,scuba,
+david_attenborough_people,David Attenborough,people,1,naturalist,documentaries,wildlife,England,narrator,
+usain_bolt_people,Usain Bolt,people,1,sprinter,Jamaica,fastest,Olympics,100 metres,
+serena_williams_people,Serena Williams,people,2,tennis,America,Wimbledon,champion,Venus,
+simone_biles_people,Simone Biles,people,2,gymnast,America,Olympics,flips,champion,
+pele_people,Pelé,people,2,footballer,Brazil,World Cup,goals,legend,
+nadia_comaneci_people,Nadia Comaneci,people,3,gymnast,Romania,perfect ten,Olympics,1976,
+eliud_kipchoge_people,Eliud Kipchoge,people,3,marathon,runner,Kenya,Olympics,record,
+hans_christian_andersen_people,Hans Christian Andersen,people,3,storyteller,Denmark,Little Mermaid,Ugly Duckling,fairy tales,
+bat_codenames,bat,codenames,2,wings,night,cave,cricket,helmet,codenames;multi_meaning
+crane_codenames,crane,codenames,2,bird,lifting,builder,origami,wading,codenames;multi_meaning
+seal_codenames,seal,codenames,2,flippers,ocean,envelope,wax,pup,codenames;multi_meaning
+mouse_codenames,mouse,codenames,1,squeak,cheese,computer,click,tail,codenames;multi_meaning
+duck_codenames,duck,codenames,1,quack,pond,waddle,dodge,feathers,codenames;multi_meaning
+swallow_codenames,swallow,codenames,2,bird,gulp,throat,summer,nest,codenames;multi_meaning
+fly_codenames,fly,codenames,1,insect,wings,sky,buzz,aeroplane,codenames;multi_meaning
+bass_codenames,bass,codenames,3,fish,guitar,low,music,lake,codenames;multi_meaning
+crow_codenames,crow,codenames,1,bird,caw,black,boast,cornfield,codenames;multi_meaning
+bear_codenames,bear,codenames,1,fur,cub,forest,hibernate,carry,codenames;multi_meaning
+bug_codenames,bug,codenames,1,insect,crawl,computer,tiny,ladybird,codenames;multi_meaning
+mole_codenames,mole,codenames,2,burrow,digging,garden,spy,skin,codenames;multi_meaning
+ram_codenames,ram,codenames,3,sheep,horns,male,push,farm,codenames;multi_meaning
+kiwi_codenames,kiwi,codenames,2,bird,fruit,New Zealand,flightless,fuzzy,codenames;multi_meaning
+spider_codenames,spider,codenames,1,web,eight legs,silk,arachnid,scuttle,codenames
+horse_codenames,horse,codenames,1,gallop,saddle,mane,stable,ride,codenames
+rabbit_codenames,rabbit,codenames,1,ears,hop,carrot,burrow,fluffy,codenames
+shark_codenames,shark,codenames,1,fin,teeth,ocean,jaws,fish,codenames
+whale_codenames,whale,codenames,1,blowhole,ocean,huge,song,tail,codenames
+monkey_codenames,monkey,codenames,1,banana,swing,tree,ape,zoo,codenames
+lion_codenames,lion,codenames,1,mane,roar,pride,savannah,king,codenames
+tiger_codenames,tiger,codenames,1,stripes,jungle,roar,big cat,Bengal,codenames
+frog_codenames,frog,codenames,1,pond,croak,hop,tadpole,amphibian,codenames
+snake_codenames,snake,codenames,1,slither,scales,hiss,reptile,coil,codenames
+bee_codenames,bee,codenames,1,buzz,hive,sting,pollen,flowers,codenames
+deer_codenames,deer,codenames,1,antlers,forest,fawn,stag,herd,codenames
+fox_codenames,fox,codenames,1,tail,cunning,den,forest,fur,codenames
+wolf_codenames,wolf,codenames,1,howl,pack,moon,fur,forest,codenames
+giraffe_codenames,giraffe,codenames,1,neck,tall,spots,savannah,Africa,codenames
+zebra_codenames,zebra,codenames,1,stripes,Africa,herd,horse,savannah,codenames
+parrot_codenames,parrot,codenames,1,talk,colourful,feathers,beak,tropical,codenames
+eagle_codenames,eagle,codenames,1,soar,talons,beak,nest,wings,codenames
+camel_codenames,camel,codenames,1,hump,desert,sand,oasis,caravan,codenames
+hedgehog_codenames,hedgehog,codenames,2,spines,curl,garden,hibernate,prickly,codenames
+turtle_codenames,turtle,codenames,1,shell,slow,ocean,reptile,hatch,codenames
+crab_codenames,crab,codenames,1,claws,beach,sideways,shell,sea,codenames
+pen_codenames,pen,codenames,1,ink,write,pig,fence,paper,codenames;multi_meaning
+ruler_codenames,ruler,codenames,1,measure,centimetres,straight,queen,king,codenames;multi_meaning
+tank_codenames,tank,codenames,2,fish,water,fuel,vest,storage,codenames;multi_meaning
+match_codenames,match,codenames,1,fire,game,football,pair,spark,codenames;multi_meaning
+light_codenames,light,codenames,1,lamp,bright,bulb,feather,torch,codenames;multi_meaning
+key_codenames,key,codenames,1,lock,door,piano,map,answer,codenames;multi_meaning
+ring_codenames,ring,codenames,1,finger,bell,phone,circle,jewellery,codenames;multi_meaning
+bowl_codenames,bowl,codenames,1,cereal,dish,soup,cricket,throw,codenames;multi_meaning
+club_codenames,club,codenames,2,golf,members,dance,cards,stick,codenames;multi_meaning
+file_codenames,file,codenames,2,folder,document,computer,nail,cabinet,codenames;multi_meaning
+fan_codenames,fan,codenames,1,cool,blades,supporter,cheer,breeze,codenames;multi_meaning
+bolt_codenames,bolt,codenames,2,lightning,nut,screw,lock,sprint,codenames;multi_meaning
+watch_codenames,watch,codenames,1,wrist,time,strap,look,clock,codenames;multi_meaning
+board_codenames,board,codenames,1,wood,plank,game,meeting,chalk,codenames;multi_meaning
+scale_codenames,scale,codenames,2,fish,weigh,map,piano,dragon,codenames;multi_meaning
+stamp_codenames,stamp,codenames,1,letter,postage,foot,ink,collect,codenames;multi_meaning
+tie_codenames,tie,codenames,1,knot,suit,draw,rope,score,codenames;multi_meaning
+bow_codenames,bow,codenames,1,ribbon,arrow,violin,bend,gift,codenames;multi_meaning
+pad_codenames,pad,codenames,2,paper,paw,cushion,launch,write,codenames;multi_meaning
+cap_codenames,cap,codenames,1,hat,lid,bottle,peak,baseball,codenames;multi_meaning
+racket_codenames,racket,codenames,2,tennis,badminton,noise,loud,strings,codenames;multi_meaning
+saw_codenames,saw,codenames,1,tool,wood,teeth,cut,looked,codenames;multi_meaning
+iron_codenames,iron,codenames,1,metal,clothes,golf,rust,press,codenames;multi_meaning
+plane_codenames,plane,codenames,2,flying,wings,runway,carpenter,smooth,codenames;multi_meaning
+can_codenames,can,codenames,1,tin,able,drink,soup,aluminium,codenames;multi_meaning
+net_codenames,net,codenames,1,fish,tennis,goal,catch,web,codenames;multi_meaning
+letter_codenames,letter,codenames,1,alphabet,post,envelope,write,stamp,codenames;multi_meaning
+trunk_codenames,trunk,codenames,2,elephant,tree,car,luggage,swim,codenames;multi_meaning
+pitcher_codenames,pitcher,codenames,2,jug,baseball,throw,water,ball,codenames;multi_meaning
+boot_codenames,boot,codenames,1,foot,laces,muddy,car,kick,codenames;multi_meaning
+umbrella_codenames,umbrella,codenames,1,rain,handle,open,shelter,wet,codenames
+ladder_codenames,ladder,codenames,1,climb,rungs,steps,roof,painter,codenames
+blanket_codenames,blanket,codenames,1,bed,warm,cosy,wool,cover,codenames
+candle_codenames,candle,codenames,1,wax,flame,wick,birthday,glow,codenames
+mirror_codenames,mirror,codenames,1,reflection,glass,face,bathroom,shine,codenames
+window_codenames,window,codenames,1,glass,curtain,view,frame,open,codenames
+clock_codenames,clock,codenames,1,tick,hands,time,alarm,face,codenames
+basket_codenames,basket,codenames,1,wicker,picnic,shopping,weave,handle,codenames
+bucket_codenames,bucket,codenames,1,sand,water,handle,spade,beach,codenames
+hammer_codenames,hammer,codenames,1,nail,tool,bang,carpenter,mallet,codenames
+scissors_codenames,scissors,codenames,1,cut,blades,paper,snip,hair,codenames
+button_codenames,button,codenames,1,shirt,press,sew,coat,round,codenames
+envelope_codenames,envelope,codenames,1,letter,stamp,post,seal,address,codenames
+pillow_codenames,pillow,codenames,1,bed,soft,sleep,feathers,head,codenames
+balloon_codenames,balloon,codenames,1,helium,party,float,pop,string,codenames
+kite_codenames,kite,codenames,1,wind,string,fly,tail,sky,codenames
+drum_codenames,drum,codenames,1,beat,sticks,band,loud,rhythm,codenames
+piano_codenames,piano,codenames,1,keys,music,grand,pedals,concert,codenames
+guitar_codenames,guitar,codenames,1,strings,strum,music,band,pick,codenames
+trumpet_codenames,trumpet,codenames,1,brass,blow,music,jazz,fanfare,codenames
+bell_codenames,bell,codenames,1,ring,chime,church,ding,school,codenames
+flag_codenames,flag,codenames,1,pole,wave,country,stripes,banner,codenames
+anchor_codenames,anchor,codenames,1,ship,chain,heavy,sea,drop,codenames
+lantern_codenames,lantern,codenames,1,light,flame,camping,festival,glow,codenames
+tent_codenames,tent,codenames,1,camping,canvas,pegs,zip,campsite,codenames
+helmet_codenames,helmet,codenames,1,head,protect,bicycle,safety,visor,codenames
+mitten_codenames,mitten,codenames,1,hand,wool,winter,thumb,warm,codenames
+crown_codenames,crown,codenames,1,king,queen,jewels,gold,royal,codenames
+spoon_codenames,spoon,codenames,1,soup,eat,stir,cutlery,metal,codenames
+teapot_codenames,teapot,codenames,1,tea,spout,pour,lid,china,codenames
+broom_codenames,broom,codenames,1,sweep,witch,bristles,handle,floor,codenames
+towel_codenames,towel,codenames,1,dry,bath,beach,cotton,fluffy,codenames
+camera_codenames,camera,codenames,1,photo,lens,flash,click,picture,codenames
+bicycle_codenames,bicycle,codenames,1,pedals,wheels,ride,handlebars,helmet,codenames
+submarine_codenames,submarine,codenames,2,underwater,periscope,ocean,crew,dive,codenames
+helicopter_codenames,helicopter,codenames,1,rotor,blades,hover,pilot,rescue,codenames
+wheel_codenames,wheel,codenames,1,spin,round,tyre,axle,car,codenames
+bark_codenames,bark,codenames,2,dog,tree,woof,rough,loud,codenames;multi_meaning
+palm_codenames,palm,codenames,1,tree,hand,coconut,fingers,tropical,codenames;multi_meaning
+spring_codenames,spring,codenames,1,season,coil,bounce,flowers,well,codenames;multi_meaning
+shell_codenames,shell,codenames,1,beach,snail,egg,nut,crab,codenames;multi_meaning
+wave_codenames,wave,codenames,1,ocean,hello,hand,surf,tide,codenames;multi_meaning
+rock_codenames,rock,codenames,1,stone,boulder,music,sway,cradle,codenames;multi_meaning
+current_codenames,current,codenames,2,ocean,electricity,flow,wires,present,codenames;multi_meaning
+fall_codenames,fall,codenames,1,autumn,drop,trip,leaves,tumble,codenames;multi_meaning
+plant_codenames,plant,codenames,1,leaf,grow,factory,seed,flowerpot,codenames;multi_meaning
+mine_codenames,mine,codenames,2,coal,gold,dig,underground,belongs,codenames;multi_meaning
+mountain_codenames,mountain,codenames,1,peak,climb,snow,high,valley,codenames
+river_codenames,river,codenames,1,flow,water,bridge,fish,stream,codenames
+forest_codenames,forest,codenames,1,trees,woods,deer,leaves,camping,codenames
+leaf_codenames,leaf,codenames,1,tree,green,autumn,veins,fall,codenames
+cloud_codenames,cloud,codenames,1,sky,rain,fluffy,grey,float,codenames
+snowflake_codenames,snowflake,codenames,1,winter,ice,unique,crystal,melt,codenames
+thunder_codenames,thunder,codenames,1,lightning,storm,rumble,loud,clap,codenames
+pebble_codenames,pebble,codenames,1,stone,beach,smooth,skim,small,codenames
+cave_codenames,cave,codenames,1,bats,dark,stalactite,underground,echo,codenames
+lake_codenames,lake,codenames,1,water,boat,swim,fish,still,codenames
+ocean_codenames,ocean,codenames,1,waves,sea,deep,whales,tide,codenames
+beach_codenames,beach,codenames,1,sand,waves,sun,shells,towel,codenames
+tree_codenames,tree,codenames,1,trunk,branches,leaves,roots,forest,codenames
+flower_codenames,flower,codenames,1,petals,bloom,garden,bee,stem,codenames
+seed_codenames,seed,codenames,1,plant,grow,sunflower,soil,tiny,codenames
+mushroom_codenames,mushroom,codenames,1,toadstool,fungus,forest,damp,spore,codenames
+cactus_codenames,cactus,codenames,1,spikes,desert,prickly,plant,water,codenames
+feather_codenames,feather,codenames,1,bird,quill,soft,light,wing,codenames
+iceberg_codenames,iceberg,codenames,2,ice,floating,Arctic,Antarctica,tip,codenames
+meadow_codenames,meadow,codenames,2,grass,field,wildflowers,butterflies,picnic,codenames
+jungle_codenames,jungle,codenames,1,vines,monkeys,tropical,dense,tiger,codenames
+swamp_codenames,swamp,codenames,2,mud,crocodile,marsh,frogs,bog,codenames
+sand_codenames,sand,codenames,1,beach,grains,dunes,castle,desert,codenames
+moss_codenames,moss,codenames,2,soft,forest,stones,damp,spongy,codenames
+pupil_codenames,pupil,codenames,2,eye,school,student,iris,class,codenames;multi_meaning
+nail_codenames,nail,codenames,1,finger,hammer,toe,polish,carpenter,codenames;multi_meaning
+organ_codenames,organ,codenames,2,body,music,piano,pipes,donor,codenames;multi_meaning
+chest_codenames,chest,codenames,1,treasure,ribs,pirate,body,drawers,codenames;multi_meaning
+temple_codenames,temple,codenames,3,head,forehead,building,ancient,pillars,codenames;multi_meaning
+cell_codenames,cell,codenames,2,body,prison,battery,microscope,phone,codenames;multi_meaning
+finger_codenames,finger,codenames,1,hand,thumb,point,five,knuckle,codenames
+elbow_codenames,elbow,codenames,1,arm,bend,joint,funny bone,nudge,codenames
+knee_codenames,knee,codenames,1,leg,bend,joint,scrape,hinge,codenames
+ankle_codenames,ankle,codenames,1,foot,leg,twist,joint,sock,codenames
+shoulder_codenames,shoulder,codenames,1,arm,blade,carry,shrug,neck,codenames
+eyebrow_codenames,eyebrow,codenames,1,forehead,hair,raise,arch,frown,codenames
+tooth_codenames,tooth,codenames,1,smile,dentist,bite,fairy,mouth,codenames
+hair_codenames,hair,codenames,1,head,brush,comb,curl,salon,codenames
+foot_codenames,foot,codenames,1,toes,walk,shoe,ankle,heel,codenames
+jam_codenames,jam,codenames,1,strawberry,traffic,stuck,toast,squash,codenames;multi_meaning
+mint_codenames,mint,codenames,2,herb,coins,sweet,fresh,money,codenames;multi_meaning
+nut_codenames,nut,codenames,1,squirrel,bolt,shell,crack,almond,codenames;multi_meaning
+punch_codenames,punch,codenames,2,drink,party,hole,fruit,ticket,codenames;multi_meaning
+chip_codenames,chip,codenames,2,potato,crisp,computer,wood,chocolate,codenames;multi_meaning
+date_codenames,date,codenames,2,calendar,day,fruit,palm,month,codenames;multi_meaning
+pepper_codenames,pepper,codenames,2,spice,sneeze,capsicum,grinder,hot,codenames;multi_meaning
+apple_codenames,apple,codenames,1,tree,core,crunchy,orchard,pie,codenames
+banana_codenames,banana,codenames,1,yellow,peel,monkey,bunch,slip,codenames
+cherry_codenames,cherry,codenames,1,pair,stalk,red,stone,pie,codenames
+grape_codenames,grape,codenames,1,vine,bunch,raisin,purple,juice,codenames
+lemon_codenames,lemon,codenames,1,sour,yellow,juice,zest,tangy,codenames
+pumpkin_codenames,pumpkin,codenames,1,Halloween,orange,carve,patch,pie,codenames
+carrot_codenames,carrot,codenames,1,rabbit,orange,root,crunchy,stick,codenames
+potato_codenames,potato,codenames,1,chips,mash,spud,root,baked,codenames
+tomato_codenames,tomato,codenames,1,red,ketchup,salad,sauce,vine,codenames
+cheese_codenames,cheese,codenames,1,mouse,milk,cheddar,melt,slice,codenames
+bread_codenames,bread,codenames,1,toast,loaf,slice,crust,butter,codenames
+egg_codenames,egg,codenames,1,chicken,yolk,shell,breakfast,boiled,codenames
+cookie_codenames,cookie,codenames,1,biscuit,dough,crumbs,oven,jar,codenames
+sandwich_codenames,sandwich,codenames,1,bread,filling,lunch,picnic,toasted,codenames
+soup_codenames,soup,codenames,1,bowl,spoon,hot,broth,ladle,codenames
+pizza_codenames,pizza,codenames,1,cheese,slice,Italy,crust,topping,codenames
+cake_codenames,cake,codenames,1,birthday,candles,icing,slice,bake,codenames
+sugar_codenames,sugar,codenames,1,sweet,cubes,teaspoon,cane,bowl,codenames
+ice_cream_codenames,ice cream,codenames,1,cone,scoop,vanilla,summer,cold,codenames
+bank_codenames,bank,codenames,1,money,river,savings,coins,slope,codenames;multi_meaning
+bridge_codenames,bridge,codenames,1,river,cross,cards,nose,train,codenames;multi_meaning
+post_codenames,post,codenames,1,letter,mail,pole,fence,goal,codenames;multi_meaning
+pole_codenames,pole,codenames,2,north,stick,flag,ski,south,codenames;multi_meaning
+train_codenames,train,codenames,1,station,tracks,carriage,practise,coach,codenames;multi_meaning
+coach_codenames,coach,codenames,1,bus,trainer,team,carriage,whistle,codenames;multi_meaning
+pitch_codenames,pitch,codenames,2,football,tent,throw,cricket,music,codenames;multi_meaning
+sink_codenames,sink,codenames,1,kitchen,tap,float,drain,boat,codenames;multi_meaning
+spot_codenames,spot,codenames,1,dot,see,place,stain,leopard,codenames;multi_meaning
+tip_codenames,tip,codenames,1,money,advice,end,point,rubbish,codenames;multi_meaning
+bar_codenames,bar,codenames,1,chocolate,metal,stripe,music,soap,codenames;multi_meaning
+kid_codenames,kid,codenames,1,child,goat,young,joke,baby,codenames;multi_meaning
+band_codenames,band,codenames,1,music,rubber,group,stripe,drummer,codenames;multi_meaning
+lock_codenames,lock,codenames,1,door,key,hair,canal,safe,codenames;multi_meaning
+track_codenames,track,codenames,1,train,race,song,follow,footprints,codenames;multi_meaning
+lap_codenames,lap,codenames,1,knees,race,track,sit,circle,codenames;multi_meaning
+stable_codenames,stable,codenames,2,horse,steady,barn,hay,balanced,codenames;multi_meaning
+bill_codenames,bill,codenames,2,bird,beak,invoice,money,restaurant,codenames;multi_meaning
+flat_codenames,flat,codenames,2,apartment,level,tyre,smooth,pancake,codenames;multi_meaning
+school_codenames,school,codenames,1,teacher,classroom,bell,students,homework,codenames
+library_codenames,library,codenames,1,books,quiet,librarian,shelves,borrow,codenames
+hospital_codenames,hospital,codenames,1,doctor,nurse,patients,ambulance,ward,codenames
+playground_codenames,playground,codenames,1,swings,slide,children,climbing frame,seesaw,codenames
+farm_codenames,farm,codenames,1,tractor,animals,barn,crops,harvest,codenames
+museum_codenames,museum,codenames,1,exhibits,history,dinosaur bones,guide,gallery,codenames
+circus_codenames,circus,codenames,1,clown,tent,acrobats,ringmaster,elephants,codenames
+zoo_codenames,zoo,codenames,1,animals,keeper,enclosure,visit,giraffes,codenames
+stadium_codenames,stadium,codenames,1,crowd,match,seats,football,pitch,codenames
+kitchen_codenames,kitchen,codenames,1,cooking,oven,fridge,sink,chef,codenames
+garden_codenames,garden,codenames,1,flowers,lawn,shed,plants,grass,codenames
+bedroom_codenames,bedroom,codenames,1,bed,pillow,sleep,wardrobe,lamp,codenames
+airport_codenames,airport,codenames,1,runway,planes,passport,luggage,terminal,codenames
+lighthouse_codenames,lighthouse,codenames,1,beam,coast,ships,tower,rocks,codenames
+dragon_codenames,dragon,codenames,1,fire,wings,scales,knight,cave,codenames
+unicorn_codenames,unicorn,codenames,1,horn,magical,horse,rainbow,mane,codenames
+mermaid_codenames,mermaid,codenames,1,tail,ocean,sea,scales,legend,codenames
+wizard_codenames,wizard,codenames,1,wand,spell,magic,hat,beard,codenames
+fairy_codenames,fairy,codenames,1,wings,wand,tiny,magic,dust,codenames
+giant_codenames,giant,codenames,1,huge,tall,beanstalk,enormous,strong,codenames
+pirate_codenames,pirate,codenames,1,ship,treasure,parrot,eye patch,sail,codenames
+robot_codenames,robot,codenames,1,metal,machine,beep,circuits,android,codenames
+alien_codenames,alien,codenames,1,space,UFO,spaceship,planet,green,codenames
+treasure_codenames,treasure,codenames,1,map,chest,gold,pirate,buried,codenames
+map_codenames,map,codenames,1,atlas,route,compass,treasure,scale,codenames
+coin_codenames,coin,codenames,1,money,toss,heads,silver,pocket,codenames
+diamond_codenames,diamond,codenames,2,sparkle,ring,jewel,baseball,cards,codenames;multi_meaning
+star_codenames,star,codenames,1,twinkle,sky,celebrity,film,sun,codenames;multi_meaning
+sun_codenames,sun,codenames,1,hot,day,shine,summer,rays,codenames

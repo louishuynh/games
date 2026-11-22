@@ -1,7 +1,9 @@
 #!/usr/bin/env python3
 """Convert words.csv to words.json. Run from anywhere: python3 wordwise/build-words.py
 
-Schema per card: { id, word, category, level (1-3), associations: [5 strings] }
+Schema per card:
+  { id, word, category, level (1-3), associations: [5 strings], tags: [strings] }
+The CSV `tags` column is optional and semicolon-separated.
 After changing words.json, bump CACHE in sw.js so installed apps refresh.
 """
 import csv
@@ -26,6 +28,7 @@ with open(here / "words.csv", newline="", encoding="utf-8") as f:
             "category": row["category"],
             "level": level,
             "associations": [row["clue%d" % i] for i in range(1, 6)],
+            "tags": [t for t in (row.get("tags") or "").split(";") if t],
         })
 
 with open(here / "words.json", "w", encoding="utf-8") as f:

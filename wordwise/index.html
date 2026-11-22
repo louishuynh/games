@@ -63,6 +63,7 @@
     font-family: var(--font);
     -webkit-text-size-adjust: 100%;
     -webkit-tap-highlight-color: transparent;
+    overscroll-behavior: none;
   }
   body { min-height: 100dvh; }
 
@@ -95,7 +96,7 @@
 
   /* ---------- Play view ---------- */
   #play {
-    min-height: 100dvh; display: flex; flex-direction: column; overflow-x: clip;
+    height: 100vh; height: 100dvh; display: flex; flex-direction: column; overflow-x: clip;
     padding: env(safe-area-inset-top) env(safe-area-inset-right) env(safe-area-inset-bottom) env(safe-area-inset-left);
   }
   .topbar { display: flex; align-items: center; justify-content: space-between; gap: 8px; padding: 12px 16px; }
@@ -114,16 +115,20 @@
   }
 
   .stage {
-    flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: center;
-    gap: 22px; padding: 4px 16px 20px; touch-action: pan-y; user-select: none; -webkit-user-select: none;
+    flex: 1; min-height: 0; display: flex; flex-direction: column; align-items: center;
+    gap: 14px; padding: 4px 16px 20px; touch-action: pan-y; user-select: none; -webkit-user-select: none;
+  }
+  /* The card takes all the room left over and keeps its 5:7 shape inside it. */
+  .card-area {
+    flex: 1; min-height: 0; width: 100%; display: flex; align-items: center; justify-content: center;
+    container-type: size;
   }
 
   .card {
     --cat: #8e8e93;
     --cat-text: var(--cat);
     container-type: inline-size;
-    width: min(340px, calc(100vw - 32px), calc((100dvh - 270px) * 5 / 7));
-    min-width: 220px;
+    width: min(100cqw, calc(100cqh * 5 / 7), 460px);
     aspect-ratio: 5 / 7;
     background: var(--surface); border-radius: 22px; box-shadow: var(--shadow);
     display: flex; flex-direction: column; padding: 8cqi 7cqi 7cqi; text-align: center;
@@ -139,14 +144,14 @@
   .stamp.yes { left: 7cqi; color: #2e9e5b; }
   .stamp.no { right: 7cqi; color: #d6455d; }
   .card .cat {
-    font-size: 4.6cqi; font-weight: 600; letter-spacing: .14em; text-transform: uppercase; color: var(--cat-text);
+    font-size: 4.4cqi; font-weight: 600; letter-spacing: .14em; text-transform: uppercase; color: var(--cat-text);
   }
   .card ul { flex: 1; list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; justify-content: center; gap: 2.2cqi; }
-  .card li, .card .answer { font-size: clamp(20px, 8.8cqi, 32px); font-weight: 600; line-height: 1.2; overflow-wrap: anywhere; }
+  .card li, .card .answer { font-size: clamp(20px, 9.4cqi, 40px); font-weight: 600; line-height: 1.2; overflow-wrap: anywhere; }
   .card .rule { height: 1px; background: var(--line); margin-bottom: 4.5cqi; }
   .card .answer { color: var(--cat-text); min-height: 2.5em; display: flex; align-items: center; justify-content: center; }
   .card.done { justify-content: center; align-items: center; gap: 24px; --cat-text: var(--text); }
-  .card.done h2 { margin: 0; font-size: clamp(26px, 10cqi, 36px); line-height: 1.2; }
+  .card.done h2 { margin: 0; font-size: clamp(26px, 10cqi, 44px); line-height: 1.2; }
   .card.empty p { margin: auto 0; color: var(--muted); font-size: 20px; }
 
   .controls { display: flex; align-items: center; gap: 10px; }
@@ -248,7 +253,7 @@
   </div>
 
   <div class="stage" id="stage">
-    <article class="card" id="card" aria-live="polite"></article>
+    <div class="card-area"><article class="card" id="card" aria-live="polite"></article></div>
     <div class="controls">
       <button class="pill round" id="backBtn" type="button" aria-label="Previous card"><svg viewBox="0 0 24 24"><path d="M15 18l-6-6 6-6"/></svg></button>
       <button class="pill big" id="skipBtn" type="button">Skip</button>
@@ -355,14 +360,17 @@
   var reduceMotion = window.matchMedia && matchMedia("(prefers-reduced-motion: reduce)").matches;
 
   function clone(c) {
-    return { id: c.id, word: c.word, category: c.category, level: c.level, associations: c.associations.slice() };
+    return { id: c.id, word: c.word, category: c.category, level: c.level,
+             associations: c.associations.slice(), tags: (c.tags || []).slice() };
   }
+  function catLabel(s) { return String(s).replace(/_/g, " "); }
 
   function buildDeck() {
     var map = {}, list = [];
     base.forEach(function (c) {
       if (overlay.deleted[c.id]) return;
-      var card = clone(overlay.edits[c.id] || c);
+      var e = overlay.edits[c.id], card = clone(e || c);
+      if (e && e.tags === undefined) card.tags = (c.tags || []).slice();   // edits saved before tags existed
       map[c.id] = card; list.push(card);
     });
     overlay.added.forEach(function (c) {
@@ -400,7 +408,8 @@
   var CAT_COLORS = {
     animals: "#c9741a", space: "#6c5ce7", nature: "#2e9e5b", body: "#d6455d", food: "#e0612f",
     geography: "#1f7fd1", history: "#9a7b35", australia: "#c4582a", language: "#b04fb5",
-    maths: "#0e8f94", thinking: "#4a5bd1"
+    maths: "#0e8f94", thinking: "#4a5bd1",
+    countries: "#1f7fd1", capitals: "#3a6fd8", cities_landmarks: "#2a8f8f", people: "#c2477f"
   };
   function catColor(name) {
     var n = String(name || "").trim().toLowerCase();
@@ -412,7 +421,7 @@
   }
 
   // ---------------------------------------------------------------- CSV / JSON
-  var COLS = ["id", "word", "category", "level", "clue1", "clue2", "clue3", "clue4", "clue5"];
+  var COLS = ["id", "word", "category", "level", "clue1", "clue2", "clue3", "clue4", "clue5", "tags"];
 
   function csvEsc(s) {
     s = String(s);
@@ -422,7 +431,7 @@
   function toCSV(cards) {
     var lines = [COLS.join(",")];
     cards.forEach(function (c) {
-      lines.push([c.id, c.word, c.category, c.level].concat(c.associations).map(csvEsc).join(","));
+      lines.push([c.id, c.word, c.category, c.level].concat(c.associations, [c.tags.join(";")]).map(csvEsc).join(","));
     });
     return lines.join("\n") + "\n";
   }
@@ -453,7 +462,14 @@
     return rows;
   }
 
-  function slug(s) { return String(s).toLowerCase().replace(/[^a-z0-9]+/g, "_").replace(/^_+|_+$/g, ""); }
+  function slug(s) {
+    return String(s).normalize("NFKD").replace(/[̀-ͯ]/g, "").toLowerCase()
+      .replace(/[^a-z0-9]+/g, "_").replace(/^_+|_+$/g, "");
+  }
+  function parseTags(t) {
+    var a = Array.isArray(t) ? t : String(t == null ? "" : t).split(";");
+    return a.map(function (x) { return String(x).trim(); }).filter(Boolean);
+  }
 
   // Returns an array of normalised cards, or throws Error with a readable message.
   function parseDeck(text) {
@@ -469,7 +485,7 @@
         o = o || {};
         var a = Array.isArray(o.associations) ? o.associations
           : [o.clue1, o.clue2, o.clue3, o.clue4, o.clue5];
-        return { id: o.id, word: o.word, category: o.category, level: o.level, assoc: a };
+        return { id: o.id, word: o.word, category: o.category, level: o.level, assoc: a, tags: o.tags };
       });
     } else {
       var rows = parseCSV(t);
@@ -482,7 +498,7 @@
       raw = rows.map(function (r) {
         var g = function (c) { return idx[c] < 0 ? "" : (r[idx[c]] === undefined ? "" : r[idx[c]]); };
         return { id: g("id"), word: g("word"), category: g("category"), level: g("level"),
-                 assoc: [g("clue1"), g("clue2"), g("clue3"), g("clue4"), g("clue5")] };
+                 assoc: [g("clue1"), g("clue2"), g("clue3"), g("clue4"), g("clue5")], tags: g("tags") };
       });
     }
     if (!raw.length) throw new Error("No cards found.");
@@ -502,7 +518,8 @@
       if (seen[id]) throw new Error("Duplicate id “" + id + "”.");
       seen[id] = true;
       return { id: id, word: word, category: category, level: level,
-               associations: o.assoc.map(function (s) { return String(s == null ? "" : s).trim(); }) };
+               associations: o.assoc.map(function (s) { return String(s == null ? "" : s).trim(); }),
+               tags: parseTags(o.tags) };
     });
   }
 
@@ -562,7 +579,7 @@
     sel.innerHTML = "";
     var all = document.createElement("option"); all.value = ""; all.textContent = "All categories"; sel.appendChild(all);
     cats.forEach(function (c) {
-      var o = document.createElement("option"); o.value = c; o.textContent = c.charAt(0).toUpperCase() + c.slice(1); sel.appendChild(o);
+      var o = document.createElement("option"); o.value = c; o.textContent = catLabel(c).charAt(0).toUpperCase() + catLabel(c).slice(1); sel.appendChild(o);
     });
     sel.value = catFilter;
   }
@@ -592,7 +609,7 @@
     } else {
       var c = byId[queue[pos]];
       card.style.setProperty("--cat", catColor(c.category));
-      var cat = document.createElement("div"); cat.className = "cat"; cat.textContent = c.category;
+      var cat = document.createElement("div"); cat.className = "cat"; cat.textContent = catLabel(c.category);
       var ul = document.createElement("ul");
       c.associations.forEach(function (a) {
         if (!a.trim()) return;
@@ -877,7 +894,7 @@
   });
 
   $("addBtn").addEventListener("click", function () {
-    var c = { id: "card_" + Date.now().toString(36), word: "", category: $("fCat").value, level: 1, associations: ["", "", "", "", ""] };
+    var c = { id: "card_" + Date.now().toString(36), word: "", category: $("fCat").value, level: 1, associations: ["", "", "", "", ""], tags: [] };
     overlay.added.push(clone(c)); saveOverlay(); buildDeck();
     $("q").value = ""; $("fLvl").value = "";
     renderTable();
@@ -974,6 +991,9 @@
   });
 
   if ("serviceWorker" in navigator) {
+    // A new version installs in the background; when it takes over, reload once so the new files are used.
+    var hadController = !!navigator.serviceWorker.controller;
+    navigator.serviceWorker.addEventListener("controllerchange", function () { if (hadController) location.reload(); });
     window.addEventListener("load", function () { navigator.serviceWorker.register("sw.js").catch(function () {}); });
   }
 })();

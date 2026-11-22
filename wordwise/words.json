@@ -10,7 +10,8 @@
    "webbed",
    "eggs",
    "monotreme"
-  ]
+  ],
+  "tags": []
  },
  {
   "id": "octopus_animals",
@@ -23,6 +24,9 @@
    "ink",
    "eight",
    "camouflage"
+  ],
+  "tags": [
+   "codenames"
   ]
  },
  {
@@ -36,6 +40,9 @@
    "feathers",
    "nocturnal",
    "wise"
+  ],
+  "tags": [
+   "codenames"
   ]
  },
  {
@@ -49,6 +56,9 @@
    "joey",
    "Australia",
    "marsupial"
+  ],
+  "tags": [
+   "codenames"
   ]
  },
  {
@@ -62,6 +72,9 @@
    "camouflage",
    "tongue",
    "tropical"
+  ],
+  "tags": [
+   "codenames"
   ]
  },
  {
@@ -75,6 +88,9 @@
    "flightless",
    "ice",
    "tuxedo"
+  ],
+  "tags": [
+   "codenames"
   ]
  },
  {
@@ -88,6 +104,9 @@
    "enormous",
    "herd",
    "memory"
+  ],
+  "tags": [
+   "codenames"
   ]
  },
  {
@@ -101,6 +120,9 @@
    "wings",
    "metamorphosis",
    "nectar"
+  ],
+  "tags": [
+   "codenames"
   ]
  },
  {
@@ -114,6 +136,9 @@
    "echolocation",
    "flipper",
    "clicks"
+  ],
+  "tags": [
+   "codenames"
   ]
  },
  {
@@ -127,6 +152,9 @@
    "sleepy",
    "fluffy",
    "Australia"
+  ],
+  "tags": [
+   "codenames"
   ]
  },
  {
@@ -140,6 +168,9 @@
    "observatory",
    "magnify",
    "astronomer"
+  ],
+  "tags": [
+   "codenames"
   ]
  },
  {
@@ -153,7 +184,8 @@
    "spacesuit",
    "orbit",
    "weightless"
-  ]
+  ],
+  "tags": []
  },
  {
   "id": "planet_space",
@@ -166,6 +198,9 @@
    "sun",
    "round",
    "solar"
+  ],
+  "tags": [
+   "codenames"
   ]
  },
  {
@@ -179,6 +214,9 @@
    "orbit",
    "Halley",
    "streak"
+  ],
+  "tags": [
+   "codenames"
   ]
  },
  {
@@ -192,7 +230,8 @@
    "spiral",
    "billions",
    "universe"
-  ]
+  ],
+  "tags": []
  },
  {
   "id": "gravity_space",
@@ -205,7 +244,8 @@
    "fall",
    "force",
    "weight"
-  ]
+  ],
+  "tags": []
  },
  {
   "id": "eclipse_space",
@@ -218,7 +258,8 @@
    "sun",
    "solar",
    "darkness"
-  ]
+  ],
+  "tags": []
  },
  {
   "id": "rocket_space",
@@ -231,6 +272,9 @@
    "countdown",
    "fuel",
    "space"
+  ],
+  "tags": [
+   "codenames"
   ]
  },
  {
@@ -244,6 +288,9 @@
    "phases",
    "tide",
    "orbit"
+  ],
+  "tags": [
+   "codenames"
   ]
  },
  {
@@ -257,7 +304,8 @@
    "streak",
    "burn",
    "atmosphere"
-  ]
+  ],
+  "tags": []
  },
  {
   "id": "volcano_nature",
@@ -270,6 +318,9 @@
    "magma",
    "crater",
    "ash"
+  ],
+  "tags": [
+   "codenames"
   ]
  },
  {
@@ -283,7 +334,8 @@
    "wind",
    "spinning",
    "storm"
-  ]
+  ],
+  "tags": []
  },
  {
   "id": "rainbow_nature",
@@ -296,6 +348,9 @@
    "prism",
    "sky",
    "storm"
+  ],
+  "tags": [
+   "codenames"
   ]
  },
  {
@@ -309,7 +364,8 @@
    "slowly",
    "valley",
    "melting"
-  ]
+  ],
+  "tags": []
  },
  {
   "id": "rainforest_nature",
@@ -322,7 +378,8 @@
    "canopy",
    "tropical",
    "humid"
-  ]
+  ],
+  "tags": []
  },
  {
   "id": "waterfall_nature",
@@ -335,6 +392,9 @@
    "river",
    "plunge",
    "mist"
+  ],
+  "tags": [
+   "codenames"
   ]
  },
  {
@@ -348,6 +408,9 @@
    "dunes",
    "oasis",
    "dry"
+  ],
+  "tags": [
+   "codenames"
   ]
  },
  {
@@ -361,6 +424,9 @@
    "flash",
    "storm",
    "electricity"
+  ],
+  "tags": [
+   "codenames"
   ]
  },
  {
@@ -374,7 +440,8 @@
    "colourful",
    "tropical",
    "polyps"
-  ]
+  ],
+  "tags": []
  },
  {
   "id": "earthquake_nature",
@@ -387,7 +454,8 @@
    "fault",
    "tectonic",
    "Richter"
-  ]
+  ],
+  "tags": []
  },
  {
   "id": "skeleton_body",
@@ -400,7 +468,8 @@
    "Halloween",
    "rattle",
    "ribs"
-  ]
+  ],
+  "tags": []
  },
  {
   "id": "heart_body",
@@ -413,6 +482,9 @@
    "blood",
    "chest",
    "Valentine"
+  ],
+  "tags": [
+   "codenames"
   ]
  },
  {
@@ -426,7 +498,8 @@
    "chest",
    "inhale",
    "air"
-  ]
+  ],
+  "tags": []
  },
  {
   "id": "brain_body",
@@ -439,6 +512,9 @@
    "memory",
    "neurons",
    "intelligent"
+  ],
+  "tags": [
+   "codenames"
   ]
  },
  {
@@ -452,7 +528,8 @@
    "rumble",
    "acid",
    "tummy"
-  ]
+  ],
+  "tags": []
  },
  {
   "id": "muscle_body",
@@ -465,7 +542,8 @@
    "biceps",
    "gym",
    "strength"
-  ]
+  ],
+  "tags": []
  },
  {
   "id": "blood_body",
@@ -478,7 +556,8 @@
    "plasma",
    "cells",
    "donate"
-  ]
+  ],
+  "tags": []
  },
  {
   "id": "tongue_body",
@@ -491,6 +570,9 @@
    "mouth",
    "speak",
    "buds"
+  ],
+  "tags": [
+   "codenames"
   ]
  },
  {
@@ -504,7 +586,8 @@
    "ridges",
    "thumb",
    "ink"
-  ]
+  ],
+  "tags": []
  },
  {
   "id": "spine_body",
@@ -517,7 +600,8 @@
    "back",
    "nerves",
    "posture"
-  ]
+  ],
+  "tags": []
  },
  {
   "id": "avocado_food",
@@ -530,7 +614,8 @@
    "toast",
    "pit",
    "creamy"
-  ]
+  ],
+  "tags": []
  },
  {
   "id": "spaghetti_food",
@@ -543,7 +628,8 @@
    "Italy",
    "sauce",
    "twirl"
-  ]
+  ],
+  "tags": []
  },
  {
   "id": "pancake_food",
@@ -556,7 +642,8 @@
    "breakfast",
    "batter",
    "stack"
-  ]
+  ],
+  "tags": []
  },
  {
   "id": "watermelon_food",
@@ -569,7 +656,8 @@
    "juicy",
    "slice",
    "rind"
-  ]
+  ],
+  "tags": []
  },
  {
   "id": "honey_food",
@@ -582,6 +670,9 @@
    "sticky",
    "comb",
    "golden"
+  ],
+  "tags": [
+   "codenames"
   ]
  },
  {
@@ -595,6 +686,9 @@
    "sweet",
    "bar",
    "Easter"
+  ],
+  "tags": [
+   "codenames"
   ]
  },
  {
@@ -608,7 +702,8 @@
    "seaweed",
    "raw",
    "chopsticks"
-  ]
+  ],
+  "tags": []
  },
  {
   "id": "popcorn_food",
@@ -621,6 +716,9 @@
    "butter",
    "movie",
    "salty"
+  ],
+  "tags": [
+   "codenames"
   ]
  },
  {
@@ -634,7 +732,8 @@
    "filling",
    "Chinese",
    "wrapper"
-  ]
+  ],
+  "tags": []
  },
  {
   "id": "broccoli_food",
@@ -647,7 +746,8 @@
    "vegetable",
    "florets",
    "steam"
-  ]
+  ],
+  "tags": []
  },
  {
   "id": "continent_geography",
@@ -660,7 +760,8 @@
    "landmass",
    "seven",
    "Antarctica"
-  ]
+  ],
+  "tags": []
  },
  {
   "id": "equator_geography",
@@ -673,7 +774,8 @@
    "tropics",
    "latitude",
    "middle"
-  ]
+  ],
+  "tags": []
  },
  {
   "id": "capital_city_geography",
@@ -686,7 +788,8 @@
    "country",
    "Paris",
    "main"
-  ]
+  ],
+  "tags": []
  },
  {
   "id": "island_geography",
@@ -699,6 +802,9 @@
    "Tasmania",
    "beach",
    "palm"
+  ],
+  "tags": [
+   "codenames"
   ]
  },
  {
@@ -712,7 +818,8 @@
    "sea",
    "Italy",
    "jutting"
-  ]
+  ],
+  "tags": []
  },
  {
   "id": "mount_everest_geography",
@@ -725,7 +832,8 @@
    "Nepal",
    "climb",
    "summit"
-  ]
+  ],
+  "tags": []
  },
  {
   "id": "nile_geography",
@@ -738,7 +846,8 @@
    "longest",
    "Africa",
    "pyramids"
-  ]
+  ],
+  "tags": []
  },
  {
   "id": "compass_geography",
@@ -751,6 +860,9 @@
    "direction",
    "navigate",
    "magnetic"
+  ],
+  "tags": [
+   "codenames"
   ]
  },
  {
@@ -764,7 +876,8 @@
    "tomb",
    "Giza",
    "triangle"
-  ]
+  ],
+  "tags": []
  },
  {
   "id": "pharaoh_history",
@@ -777,7 +890,8 @@
    "mummy",
    "tomb",
    "Tutankhamun"
-  ]
+  ],
+  "tags": []
  },
  {
   "id": "knight_history",
@@ -790,6 +904,9 @@
    "sword",
    "horse",
    "chivalry"
+  ],
+  "tags": [
+   "codenames"
   ]
  },
  {
@@ -803,6 +920,9 @@
    "king",
    "fortress",
    "tower"
+  ],
+  "tags": [
+   "codenames"
   ]
  },
  {
@@ -816,7 +936,8 @@
    "fight",
    "Rome",
    "combat"
-  ]
+  ],
+  "tags": []
  },
  {
   "id": "explorer_history",
@@ -829,7 +950,8 @@
    "maps",
    "Columbus",
    "unknown"
-  ]
+  ],
+  "tags": []
  },
  {
   "id": "printing_press_history",
@@ -842,7 +964,8 @@
    "ink",
    "type",
    "invention"
-  ]
+  ],
+  "tags": []
  },
  {
   "id": "archaeologist_history",
@@ -855,7 +978,8 @@
    "fossils",
    "artefacts",
    "ruins"
-  ]
+  ],
+  "tags": []
  },
  {
   "id": "uluru_australia",
@@ -868,7 +992,8 @@
    "sacred",
    "Anangu",
    "outback"
-  ]
+  ],
+  "tags": []
  },
  {
   "id": "boomerang_australia",
@@ -881,7 +1006,8 @@
    "curved",
    "Aboriginal",
    "wood"
-  ]
+  ],
+  "tags": []
  },
  {
   "id": "sydney_opera_house_australia",
@@ -894,7 +1020,8 @@
    "concert",
    "Bennelong",
    "white"
-  ]
+  ],
+  "tags": []
  },
  {
   "id": "great_barrier_reef_australia",
@@ -907,7 +1034,8 @@
    "snorkel",
    "fish",
    "UNESCO"
-  ]
+  ],
+  "tags": []
  },
  {
   "id": "southern_cross_australia",
@@ -920,7 +1048,8 @@
    "flag",
    "night",
    "navigate"
-  ]
+  ],
+  "tags": []
  },
  {
   "id": "bushfire_australia",
@@ -933,7 +1062,8 @@
    "smoke",
    "embers",
    "evacuate"
-  ]
+  ],
+  "tags": []
  },
  {
   "id": "wombat_australia",
@@ -946,7 +1076,8 @@
    "cube",
    "stocky",
    "nocturnal"
-  ]
+  ],
+  "tags": []
  },
  {
   "id": "didgeridoo_australia",
@@ -959,7 +1090,8 @@
    "Aboriginal",
    "wooden",
    "breathing"
-  ]
+  ],
+  "tags": []
  },
  {
   "id": "enormous_language",
@@ -972,7 +1104,8 @@
    "vast",
    "immense",
    "colossal"
-  ]
+  ],
+  "tags": []
  },
  {
   "id": "synonym_language",
@@ -985,7 +1118,8 @@
    "thesaurus",
    "word",
    "similar"
-  ]
+  ],
+  "tags": []
  },
  {
   "id": "antonym_language",
@@ -998,7 +1132,8 @@
    "hot",
    "cold",
    "meaning"
-  ]
+  ],
+  "tags": []
  },
  {
   "id": "idiom_language",
@@ -1011,7 +1146,8 @@
    "cat",
    "raining",
    "phrase"
-  ]
+  ],
+  "tags": []
  },
  {
   "id": "metaphor_language",
@@ -1024,7 +1160,8 @@
    "simile",
    "poetry",
    "imagery"
-  ]
+  ],
+  "tags": []
  },
  {
   "id": "simile_language",
@@ -1037,7 +1174,8 @@
    "comparison",
    "figurative",
    "metaphor"
-  ]
+  ],
+  "tags": []
  },
  {
   "id": "prefix_language",
@@ -1050,7 +1188,8 @@
    "attached",
    "unhappy",
    "word"
-  ]
+  ],
+  "tags": []
  },
  {
   "id": "alliteration_language",
@@ -1063,7 +1202,8 @@
    "tongue",
    "twister",
    "letters"
-  ]
+  ],
+  "tags": []
  },
  {
   "id": "onomatopoeia_language",
@@ -1076,7 +1216,8 @@
    "bang",
    "splash",
    "words"
-  ]
+  ],
+  "tags": []
  },
  {
   "id": "homophone_language",
@@ -1089,7 +1230,8 @@
    "their",
    "spelling",
    "same"
-  ]
+  ],
+  "tags": []
  },
  {
   "id": "perimeter_maths",
@@ -1102,7 +1244,8 @@
    "fence",
    "length",
    "distance"
-  ]
+  ],
+  "tags": []
  },
  {
   "id": "area_maths",
@@ -1115,7 +1258,8 @@
    "surface",
    "units",
    "space"
-  ]
+  ],
+  "tags": []
  },
  {
   "id": "fraction_maths",
@@ -1128,7 +1272,8 @@
    "numerator",
    "pizza",
    "whole"
-  ]
+  ],
+  "tags": []
  },
  {
   "id": "symmetry_maths",
@@ -1141,7 +1286,8 @@
    "butterfly",
    "reflection",
    "identical"
-  ]
+  ],
+  "tags": []
  },
  {
   "id": "angle_maths",
@@ -1154,7 +1300,8 @@
    "protractor",
    "right",
    "turn"
-  ]
+  ],
+  "tags": []
  },
  {
   "id": "multiply_maths",
@@ -1167,7 +1314,8 @@
    "groups",
    "tables",
    "repeated"
-  ]
+  ],
+  "tags": []
  },
  {
   "id": "factor_maths",
@@ -1180,7 +1328,8 @@
    "product",
    "prime",
    "number"
-  ]
+  ],
+  "tags": []
  },
  {
   "id": "parallel_maths",
@@ -1193,7 +1342,8 @@
    "distance",
    "never",
    "meet"
-  ]
+  ],
+  "tags": []
  },
  {
   "id": "average_maths",
@@ -1206,7 +1356,8 @@
    "middle",
    "total",
    "divide"
-  ]
+  ],
+  "tags": []
  },
  {
   "id": "probability_maths",
@@ -1219,7 +1370,8 @@
    "dice",
    "coin",
    "odds"
-  ]
+  ],
+  "tags": []
  },
  {
   "id": "pattern_thinking",
@@ -1232,7 +1384,8 @@
    "design",
    "stripes",
    "predict"
-  ]
+  ],
+  "tags": []
  },
  {
   "id": "sequence_thinking",
@@ -1245,7 +1398,8 @@
    "next",
    "steps",
    "chain"
-  ]
+  ],
+  "tags": []
  },
  {
   "id": "analogy_thinking",
@@ -1258,7 +1412,8 @@
    "similar",
    "puzzle",
    "like"
-  ]
+  ],
+  "tags": []
  },
  {
   "id": "inference_thinking",
@@ -1271,7 +1426,8 @@
    "hint",
    "reading",
    "evidence"
-  ]
+  ],
+  "tags": []
  },
  {
   "id": "evidence_thinking",
@@ -1284,7 +1440,8 @@
    "facts",
    "support",
    "clue"
-  ]
+  ],
+  "tags": []
  },
  {
   "id": "cause_and_effect_thinking",
@@ -1297,7 +1454,8 @@
    "reason",
    "consequence",
    "why"
-  ]
+  ],
+  "tags": []
  },
  {
   "id": "main_idea_thinking",
@@ -1310,7 +1468,8 @@
    "summary",
    "paragraph",
    "central"
-  ]
+  ],
+  "tags": []
  },
  {
   "id": "odd_one_out_thinking",
@@ -1323,6 +1482,5601 @@
    "group",
    "spot",
    "mismatch"
+  ],
+  "tags": []
+ },
+ {
+  "id": "australia_countries",
+  "word": "Australia",
+  "category": "countries",
+  "level": 1,
+  "associations": [
+   "kangaroo",
+   "Oceania",
+   "Uluru",
+   "English",
+   "Canberra"
+  ],
+  "tags": []
+ },
+ {
+  "id": "egypt_countries",
+  "word": "Egypt",
+  "category": "countries",
+  "level": 1,
+  "associations": [
+   "pyramids",
+   "Africa",
+   "Nile",
+   "Arabic",
+   "Cairo"
+  ],
+  "tags": []
+ },
+ {
+  "id": "japan_countries",
+  "word": "Japan",
+  "category": "countries",
+  "level": 1,
+  "associations": [
+   "Asia",
+   "Mount Fuji",
+   "islands",
+   "cherry blossom",
+   "Tokyo"
+  ],
+  "tags": []
+ },
+ {
+  "id": "brazil_countries",
+  "word": "Brazil",
+  "category": "countries",
+  "level": 1,
+  "associations": [
+   "South America",
+   "Amazon",
+   "toucan",
+   "Portuguese",
+   "Brasília"
+  ],
+  "tags": []
+ },
+ {
+  "id": "china_countries",
+  "word": "China",
+  "category": "countries",
+  "level": 1,
+  "associations": [
+   "Asia",
+   "panda",
+   "Great Wall",
+   "Mandarin",
+   "Beijing"
+  ],
+  "tags": []
+ },
+ {
+  "id": "india_countries",
+  "word": "India",
+  "category": "countries",
+  "level": 1,
+  "associations": [
+   "Asia",
+   "Taj Mahal",
+   "tiger",
+   "Hindi",
+   "New Delhi"
+  ],
+  "tags": []
+ },
+ {
+  "id": "france_countries",
+  "word": "France",
+  "category": "countries",
+  "level": 1,
+  "associations": [
+   "Europe",
+   "Eiffel Tower",
+   "French",
+   "Spain",
+   "Paris"
+  ],
+  "tags": []
+ },
+ {
+  "id": "italy_countries",
+  "word": "Italy",
+  "category": "countries",
+  "level": 1,
+  "associations": [
+   "Europe",
+   "boot",
+   "Colosseum",
+   "Italian",
+   "Rome"
+  ],
+  "tags": []
+ },
+ {
+  "id": "spain_countries",
+  "word": "Spain",
+  "category": "countries",
+  "level": 1,
+  "associations": [
+   "Europe",
+   "Spanish",
+   "Portugal",
+   "flamenco",
+   "Madrid"
+  ],
+  "tags": []
+ },
+ {
+  "id": "greece_countries",
+  "word": "Greece",
+  "category": "countries",
+  "level": 2,
+  "associations": [
+   "Europe",
+   "Acropolis",
+   "Greek",
+   "islands",
+   "Athens"
+  ],
+  "tags": []
+ },
+ {
+  "id": "canada_countries",
+  "word": "Canada",
+  "category": "countries",
+  "level": 1,
+  "associations": [
+   "North America",
+   "moose",
+   "maple leaf",
+   "French",
+   "Ottawa"
+  ],
+  "tags": []
+ },
+ {
+  "id": "peru_countries",
+  "word": "Peru",
+  "category": "countries",
+  "level": 2,
+  "associations": [
+   "South America",
+   "llama",
+   "Machu Picchu",
+   "Spanish",
+   "Lima"
+  ],
+  "tags": []
+ },
+ {
+  "id": "kenya_countries",
+  "word": "Kenya",
+  "category": "countries",
+  "level": 2,
+  "associations": [
+   "Africa",
+   "safari",
+   "Swahili",
+   "Maasai",
+   "Nairobi"
+  ],
+  "tags": []
+ },
+ {
+  "id": "norway_countries",
+  "word": "Norway",
+  "category": "countries",
+  "level": 2,
+  "associations": [
+   "Europe",
+   "fjords",
+   "Vikings",
+   "Sweden",
+   "Oslo"
+  ],
+  "tags": []
+ },
+ {
+  "id": "iceland_countries",
+  "word": "Iceland",
+  "category": "countries",
+  "level": 2,
+  "associations": [
+   "Europe",
+   "volcanoes",
+   "geysers",
+   "Northern Lights",
+   "Reykjavik"
+  ],
+  "tags": []
+ },
+ {
+  "id": "new_zealand_countries",
+  "word": "New Zealand",
+  "category": "countries",
+  "level": 1,
+  "associations": [
+   "Oceania",
+   "kiwi",
+   "Maori",
+   "Australia",
+   "Wellington"
+  ],
+  "tags": []
+ },
+ {
+  "id": "germany_countries",
+  "word": "Germany",
+  "category": "countries",
+  "level": 2,
+  "associations": [
+   "Europe",
+   "Rhine",
+   "Poland",
+   "Neuschwanstein",
+   "Berlin"
+  ],
+  "tags": []
+ },
+ {
+  "id": "england_countries",
+  "word": "England",
+  "category": "countries",
+  "level": 1,
+  "associations": [
+   "Europe",
+   "Big Ben",
+   "English",
+   "Scotland",
+   "London"
+  ],
+  "tags": []
+ },
+ {
+  "id": "argentina_countries",
+  "word": "Argentina",
+  "category": "countries",
+  "level": 2,
+  "associations": [
+   "South America",
+   "tango",
+   "Chile",
+   "Patagonia",
+   "Buenos Aires"
+  ],
+  "tags": []
+ },
+ {
+  "id": "thailand_countries",
+  "word": "Thailand",
+  "category": "countries",
+  "level": 2,
+  "associations": [
+   "Asia",
+   "elephants",
+   "temples",
+   "Cambodia",
+   "Bangkok"
+  ],
+  "tags": []
+ },
+ {
+  "id": "morocco_countries",
+  "word": "Morocco",
+  "category": "countries",
+  "level": 3,
+  "associations": [
+   "Africa",
+   "Sahara",
+   "Arabic",
+   "Atlas Mountains",
+   "Rabat"
+  ],
+  "tags": []
+ },
+ {
+  "id": "netherlands_countries",
+  "word": "Netherlands",
+  "category": "countries",
+  "level": 2,
+  "associations": [
+   "Europe",
+   "windmills",
+   "tulips",
+   "Dutch",
+   "Amsterdam"
+  ],
+  "tags": []
+ },
+ {
+  "id": "switzerland_countries",
+  "word": "Switzerland",
+  "category": "countries",
+  "level": 2,
+  "associations": [
+   "Europe",
+   "Alps",
+   "yodelling",
+   "Matterhorn",
+   "Bern"
+  ],
+  "tags": []
+ },
+ {
+  "id": "ireland_countries",
+  "word": "Ireland",
+  "category": "countries",
+  "level": 2,
+  "associations": [
+   "Europe",
+   "shamrock",
+   "harp",
+   "Gaelic",
+   "Dublin"
+  ],
+  "tags": []
+ },
+ {
+  "id": "indonesia_countries",
+  "word": "Indonesia",
+  "category": "countries",
+  "level": 2,
+  "associations": [
+   "Asia",
+   "islands",
+   "Komodo dragon",
+   "orangutan",
+   "Jakarta"
+  ],
+  "tags": []
+ },
+ {
+  "id": "nepal_countries",
+  "word": "Nepal",
+  "category": "countries",
+  "level": 2,
+  "associations": [
+   "Asia",
+   "Himalayas",
+   "Mount Everest",
+   "Sherpa",
+   "Kathmandu"
+  ],
+  "tags": []
+ },
+ {
+  "id": "madagascar_countries",
+  "word": "Madagascar",
+  "category": "countries",
+  "level": 3,
+  "associations": [
+   "Africa",
+   "lemurs",
+   "island",
+   "baobab",
+   "Antananarivo"
+  ],
+  "tags": []
+ },
+ {
+  "id": "fiji_countries",
+  "word": "Fiji",
+  "category": "countries",
+  "level": 3,
+  "associations": [
+   "Oceania",
+   "islands",
+   "Pacific",
+   "coral reefs",
+   "Suva"
+  ],
+  "tags": []
+ },
+ {
+  "id": "chile_countries",
+  "word": "Chile",
+  "category": "countries",
+  "level": 3,
+  "associations": [
+   "South America",
+   "Andes",
+   "Spanish",
+   "Pacific",
+   "Santiago"
+  ],
+  "tags": []
+ },
+ {
+  "id": "tanzania_countries",
+  "word": "Tanzania",
+  "category": "countries",
+  "level": 3,
+  "associations": [
+   "Africa",
+   "Kilimanjaro",
+   "Serengeti",
+   "Swahili",
+   "Dodoma"
+  ],
+  "tags": []
+ },
+ {
+  "id": "paris_capitals",
+  "word": "Paris",
+  "category": "capitals",
+  "level": 1,
+  "associations": [
+   "France",
+   "Eiffel Tower",
+   "Seine",
+   "Louvre",
+   "Montmartre"
+  ],
+  "tags": []
+ },
+ {
+  "id": "london_capitals",
+  "word": "London",
+  "category": "capitals",
+  "level": 1,
+  "associations": [
+   "England",
+   "Thames",
+   "Big Ben",
+   "Tower Bridge",
+   "double-decker"
+  ],
+  "tags": []
+ },
+ {
+  "id": "rome_capitals",
+  "word": "Rome",
+  "category": "capitals",
+  "level": 1,
+  "associations": [
+   "Italy",
+   "Colosseum",
+   "Vatican",
+   "Tiber",
+   "Trevi Fountain"
+  ],
+  "tags": []
+ },
+ {
+  "id": "cairo_capitals",
+  "word": "Cairo",
+  "category": "capitals",
+  "level": 1,
+  "associations": [
+   "Egypt",
+   "Nile",
+   "pyramids",
+   "Sphinx",
+   "Giza"
+  ],
+  "tags": []
+ },
+ {
+  "id": "canberra_capitals",
+  "word": "Canberra",
+  "category": "capitals",
+  "level": 2,
+  "associations": [
+   "Australia",
+   "Parliament House",
+   "Burley Griffin",
+   "Questacon",
+   "Molonglo River"
+  ],
+  "tags": []
+ },
+ {
+  "id": "beijing_capitals",
+  "word": "Beijing",
+  "category": "capitals",
+  "level": 2,
+  "associations": [
+   "China",
+   "Forbidden City",
+   "Great Wall",
+   "Summer Palace",
+   "Olympics"
+  ],
+  "tags": []
+ },
+ {
+  "id": "madrid_capitals",
+  "word": "Madrid",
+  "category": "capitals",
+  "level": 2,
+  "associations": [
+   "Spain",
+   "Prado",
+   "Royal Palace",
+   "Plaza Mayor",
+   "Retiro Park"
+  ],
+  "tags": []
+ },
+ {
+  "id": "athens_capitals",
+  "word": "Athens",
+  "category": "capitals",
+  "level": 2,
+  "associations": [
+   "Greece",
+   "Acropolis",
+   "Parthenon",
+   "Olympics",
+   "Athena"
+  ],
+  "tags": []
+ },
+ {
+  "id": "berlin_capitals",
+  "word": "Berlin",
+  "category": "capitals",
+  "level": 2,
+  "associations": [
+   "Germany",
+   "Brandenburg Gate",
+   "Spree",
+   "TV Tower",
+   "Museum Island"
+  ],
+  "tags": []
+ },
+ {
+  "id": "ottawa_capitals",
+  "word": "Ottawa",
+  "category": "capitals",
+  "level": 2,
+  "associations": [
+   "Canada",
+   "Rideau Canal",
+   "Parliament Hill",
+   "skating",
+   "Tulip Festival"
+  ],
+  "tags": []
+ },
+ {
+  "id": "wellington_capitals",
+  "word": "Wellington",
+  "category": "capitals",
+  "level": 2,
+  "associations": [
+   "New Zealand",
+   "harbour",
+   "Te Papa",
+   "cable car",
+   "Cook Strait"
+  ],
+  "tags": []
+ },
+ {
+  "id": "amsterdam_capitals",
+  "word": "Amsterdam",
+  "category": "capitals",
+  "level": 2,
+  "associations": [
+   "Netherlands",
+   "canals",
+   "bicycles",
+   "Rijksmuseum",
+   "Vondelpark"
+  ],
+  "tags": []
+ },
+ {
+  "id": "copenhagen_capitals",
+  "word": "Copenhagen",
+  "category": "capitals",
+  "level": 2,
+  "associations": [
+   "Denmark",
+   "Little Mermaid",
+   "Tivoli",
+   "Nyhavn",
+   "bicycles"
+  ],
+  "tags": []
+ },
+ {
+  "id": "dublin_capitals",
+  "word": "Dublin",
+  "category": "capitals",
+  "level": 2,
+  "associations": [
+   "Ireland",
+   "Liffey",
+   "Trinity College",
+   "shamrock",
+   "Phoenix Park"
+  ],
+  "tags": []
+ },
+ {
+  "id": "bangkok_capitals",
+  "word": "Bangkok",
+  "category": "capitals",
+  "level": 2,
+  "associations": [
+   "Thailand",
+   "Chao Phraya",
+   "Grand Palace",
+   "tuk-tuk",
+   "floating market"
+  ],
+  "tags": []
+ },
+ {
+  "id": "seoul_capitals",
+  "word": "Seoul",
+  "category": "capitals",
+  "level": 2,
+  "associations": [
+   "South Korea",
+   "Han River",
+   "Gyeongbokgung",
+   "K-pop",
+   "Namsan Tower"
+  ],
+  "tags": []
+ },
+ {
+  "id": "stockholm_capitals",
+  "word": "Stockholm",
+  "category": "capitals",
+  "level": 2,
+  "associations": [
+   "Sweden",
+   "islands",
+   "Gamla Stan",
+   "Vasa",
+   "Nobel Prize"
+  ],
+  "tags": []
+ },
+ {
+  "id": "oslo_capitals",
+  "word": "Oslo",
+  "category": "capitals",
+  "level": 2,
+  "associations": [
+   "Norway",
+   "fjord",
+   "Viking ships",
+   "Holmenkollen",
+   "Nobel"
+  ],
+  "tags": []
+ },
+ {
+  "id": "vienna_capitals",
+  "word": "Vienna",
+  "category": "capitals",
+  "level": 2,
+  "associations": [
+   "Austria",
+   "Danube",
+   "waltz",
+   "Mozart",
+   "Schönbrunn"
+  ],
+  "tags": []
+ },
+ {
+  "id": "lisbon_capitals",
+  "word": "Lisbon",
+  "category": "capitals",
+  "level": 2,
+  "associations": [
+   "Portugal",
+   "Tagus",
+   "trams",
+   "Belém Tower",
+   "seven hills"
+  ],
+  "tags": []
+ },
+ {
+  "id": "nairobi_capitals",
+  "word": "Nairobi",
+  "category": "capitals",
+  "level": 2,
+  "associations": [
+   "Kenya",
+   "Africa",
+   "safari",
+   "giraffe",
+   "equator"
+  ],
+  "tags": []
+ },
+ {
+  "id": "buenos_aires_capitals",
+  "word": "Buenos Aires",
+  "category": "capitals",
+  "level": 2,
+  "associations": [
+   "Argentina",
+   "South America",
+   "tango",
+   "Obelisk",
+   "River Plate"
+  ],
+  "tags": []
+ },
+ {
+  "id": "new_delhi_capitals",
+  "word": "New Delhi",
+  "category": "capitals",
+  "level": 2,
+  "associations": [
+   "India",
+   "India Gate",
+   "Yamuna",
+   "Lotus Temple",
+   "Qutub Minar"
+  ],
+  "tags": []
+ },
+ {
+  "id": "reykjavik_capitals",
+  "word": "Reykjavik",
+  "category": "capitals",
+  "level": 3,
+  "associations": [
+   "Iceland",
+   "Hallgrimskirkja",
+   "Northern Lights",
+   "hot springs",
+   "Atlantic Ocean"
+  ],
+  "tags": []
+ },
+ {
+  "id": "kathmandu_capitals",
+  "word": "Kathmandu",
+  "category": "capitals",
+  "level": 3,
+  "associations": [
+   "Nepal",
+   "Himalayas",
+   "Durbar Square",
+   "Swayambhunath",
+   "prayer flags"
+  ],
+  "tags": []
+ },
+ {
+  "id": "eiffel_tower_cities_landmarks",
+  "word": "Eiffel Tower",
+  "category": "cities_landmarks",
+  "level": 1,
+  "associations": [
+   "Paris",
+   "France",
+   "iron",
+   "lattice",
+   "1889"
+  ],
+  "tags": []
+ },
+ {
+  "id": "great_wall_of_china_cities_landmarks",
+  "word": "Great Wall of China",
+  "category": "cities_landmarks",
+  "level": 2,
+  "associations": [
+   "Asia",
+   "ancient",
+   "long",
+   "watchtowers",
+   "Ming dynasty"
+  ],
+  "tags": []
+ },
+ {
+  "id": "tokyo_cities_landmarks",
+  "word": "Tokyo",
+  "category": "cities_landmarks",
+  "level": 1,
+  "associations": [
+   "Japan",
+   "Asia",
+   "skyscrapers",
+   "Shibuya",
+   "Skytree"
+  ],
+  "tags": []
+ },
+ {
+  "id": "sydney_harbour_bridge_cities_landmarks",
+  "word": "Sydney Harbour Bridge",
+  "category": "cities_landmarks",
+  "level": 1,
+  "associations": [
+   "Australia",
+   "coathanger",
+   "Opera House",
+   "New Year",
+   "steel"
+  ],
+  "tags": []
+ },
+ {
+  "id": "mount_fuji_cities_landmarks",
+  "word": "Mount Fuji",
+  "category": "cities_landmarks",
+  "level": 1,
+  "associations": [
+   "Japan",
+   "volcano",
+   "snow",
+   "Asia",
+   "Honshu"
+  ],
+  "tags": []
+ },
+ {
+  "id": "taj_mahal_cities_landmarks",
+  "word": "Taj Mahal",
+  "category": "cities_landmarks",
+  "level": 1,
+  "associations": [
+   "India",
+   "marble",
+   "Agra",
+   "emperor",
+   "monument"
+  ],
+  "tags": []
+ },
+ {
+  "id": "colosseum_cities_landmarks",
+  "word": "Colosseum",
+  "category": "cities_landmarks",
+  "level": 1,
+  "associations": [
+   "Rome",
+   "Italy",
+   "gladiators",
+   "arena",
+   "ancient"
+  ],
+  "tags": []
+ },
+ {
+  "id": "big_ben_cities_landmarks",
+  "word": "Big Ben",
+  "category": "cities_landmarks",
+  "level": 1,
+  "associations": [
+   "London",
+   "clock",
+   "bell",
+   "England",
+   "Westminster"
+  ],
+  "tags": []
+ },
+ {
+  "id": "statue_of_liberty_cities_landmarks",
+  "word": "Statue of Liberty",
+  "category": "cities_landmarks",
+  "level": 1,
+  "associations": [
+   "New York",
+   "torch",
+   "America",
+   "crown",
+   "France"
+  ],
+  "tags": []
+ },
+ {
+  "id": "golden_gate_bridge_cities_landmarks",
+  "word": "Golden Gate Bridge",
+  "category": "cities_landmarks",
+  "level": 2,
+  "associations": [
+   "San Francisco",
+   "California",
+   "fog",
+   "suspension",
+   "America"
+  ],
+  "tags": []
+ },
+ {
+  "id": "leaning_tower_of_pisa_cities_landmarks",
+  "word": "Leaning Tower of Pisa",
+  "category": "cities_landmarks",
+  "level": 2,
+  "associations": [
+   "Italy",
+   "tilting",
+   "Tuscany",
+   "marble",
+   "bells"
+  ],
+  "tags": []
+ },
+ {
+  "id": "machu_picchu_cities_landmarks",
+  "word": "Machu Picchu",
+  "category": "cities_landmarks",
+  "level": 2,
+  "associations": [
+   "Peru",
+   "Incas",
+   "Andes",
+   "ruins",
+   "llamas"
+  ],
+  "tags": []
+ },
+ {
+  "id": "petra_cities_landmarks",
+  "word": "Petra",
+  "category": "cities_landmarks",
+  "level": 3,
+  "associations": [
+   "Jordan",
+   "desert",
+   "carved",
+   "Treasury",
+   "Nabataeans"
+  ],
+  "tags": []
+ },
+ {
+  "id": "angkor_wat_cities_landmarks",
+  "word": "Angkor Wat",
+  "category": "cities_landmarks",
+  "level": 3,
+  "associations": [
+   "Cambodia",
+   "temple",
+   "Khmer",
+   "jungle",
+   "sunrise"
+  ],
+  "tags": []
+ },
+ {
+  "id": "stonehenge_cities_landmarks",
+  "word": "Stonehenge",
+  "category": "cities_landmarks",
+  "level": 2,
+  "associations": [
+   "England",
+   "ancient",
+   "circle",
+   "Salisbury Plain",
+   "solstice"
+  ],
+  "tags": []
+ },
+ {
+  "id": "mount_kilimanjaro_cities_landmarks",
+  "word": "Mount Kilimanjaro",
+  "category": "cities_landmarks",
+  "level": 2,
+  "associations": [
+   "Tanzania",
+   "Africa",
+   "volcano",
+   "highest",
+   "snow"
+  ],
+  "tags": []
+ },
+ {
+  "id": "niagara_falls_cities_landmarks",
+  "word": "Niagara Falls",
+  "category": "cities_landmarks",
+  "level": 2,
+  "associations": [
+   "Canada",
+   "waterfall",
+   "Ontario",
+   "mist",
+   "America"
+  ],
+  "tags": []
+ },
+ {
+  "id": "amazon_river_cities_landmarks",
+  "word": "Amazon River",
+  "category": "cities_landmarks",
+  "level": 2,
+  "associations": [
+   "South America",
+   "rainforest",
+   "Brazil",
+   "piranha",
+   "anaconda"
+  ],
+  "tags": []
+ },
+ {
+  "id": "grand_canyon_cities_landmarks",
+  "word": "Grand Canyon",
+  "category": "cities_landmarks",
+  "level": 2,
+  "associations": [
+   "Arizona",
+   "America",
+   "Colorado River",
+   "deep",
+   "layers"
+  ],
+  "tags": []
+ },
+ {
+  "id": "pyramids_of_giza_cities_landmarks",
+  "word": "Pyramids of Giza",
+  "category": "cities_landmarks",
+  "level": 1,
+  "associations": [
+   "Egypt",
+   "Sphinx",
+   "ancient",
+   "pharaohs",
+   "desert"
+  ],
+  "tags": []
+ },
+ {
+  "id": "sahara_desert_cities_landmarks",
+  "word": "Sahara Desert",
+  "category": "cities_landmarks",
+  "level": 2,
+  "associations": [
+   "Africa",
+   "sand",
+   "dunes",
+   "camels",
+   "hot"
+  ],
+  "tags": []
+ },
+ {
+  "id": "venice_cities_landmarks",
+  "word": "Venice",
+  "category": "cities_landmarks",
+  "level": 2,
+  "associations": [
+   "Italy",
+   "canals",
+   "gondola",
+   "Rialto",
+   "carnival"
+  ],
+  "tags": []
+ },
+ {
+  "id": "london_eye_cities_landmarks",
+  "word": "London Eye",
+  "category": "cities_landmarks",
+  "level": 1,
+  "associations": [
+   "England",
+   "Thames",
+   "Ferris wheel",
+   "capsules",
+   "view"
+  ],
+  "tags": []
+ },
+ {
+  "id": "bondi_beach_cities_landmarks",
+  "word": "Bondi Beach",
+  "category": "cities_landmarks",
+  "level": 1,
+  "associations": [
+   "Sydney",
+   "surfing",
+   "Australia",
+   "lifeguards",
+   "waves"
+  ],
+  "tags": []
+ },
+ {
+  "id": "blue_mountains_cities_landmarks",
+  "word": "Blue Mountains",
+  "category": "cities_landmarks",
+  "level": 2,
+  "associations": [
+   "Australia",
+   "Three Sisters",
+   "Katoomba",
+   "eucalyptus",
+   "hiking"
+  ],
+  "tags": []
+ },
+ {
+  "id": "melbourne_cities_landmarks",
+  "word": "Melbourne",
+  "category": "cities_landmarks",
+  "level": 1,
+  "associations": [
+   "Victoria",
+   "Australia",
+   "trams",
+   "Yarra",
+   "Flinders Street"
+  ],
+  "tags": []
+ },
+ {
+  "id": "great_ocean_road_cities_landmarks",
+  "word": "Great Ocean Road",
+  "category": "cities_landmarks",
+  "level": 2,
+  "associations": [
+   "Victoria",
+   "coast",
+   "Twelve Apostles",
+   "limestone",
+   "Australia"
+  ],
+  "tags": []
+ },
+ {
+  "id": "kakadu_cities_landmarks",
+  "word": "Kakadu",
+  "category": "cities_landmarks",
+  "level": 3,
+  "associations": [
+   "Northern Territory",
+   "crocodiles",
+   "wetlands",
+   "rock art",
+   "national park"
+  ],
+  "tags": []
+ },
+ {
+  "id": "new_york_cities_landmarks",
+  "word": "New York",
+  "category": "cities_landmarks",
+  "level": 1,
+  "associations": [
+   "America",
+   "skyscrapers",
+   "Times Square",
+   "Central Park",
+   "subway"
+  ],
+  "tags": []
+ },
+ {
+  "id": "dubai_cities_landmarks",
+  "word": "Dubai",
+  "category": "cities_landmarks",
+  "level": 2,
+  "associations": [
+   "UAE",
+   "Burj Khalifa",
+   "skyscrapers",
+   "desert",
+   "Palm Jumeirah"
+  ],
+  "tags": []
+ },
+ {
+  "id": "marie_curie_people",
+  "word": "Marie Curie",
+  "category": "people",
+  "level": 1,
+  "associations": [
+   "scientist",
+   "radioactivity",
+   "Poland",
+   "radium",
+   "Nobel Prize"
+  ],
+  "tags": []
+ },
+ {
+  "id": "albert_einstein_people",
+  "word": "Albert Einstein",
+  "category": "people",
+  "level": 1,
+  "associations": [
+   "scientist",
+   "genius",
+   "relativity",
+   "Germany",
+   "violin"
+  ],
+  "tags": []
+ },
+ {
+  "id": "isaac_newton_people",
+  "word": "Isaac Newton",
+  "category": "people",
+  "level": 2,
+  "associations": [
+   "gravity",
+   "apple",
+   "scientist",
+   "England",
+   "prism"
+  ],
+  "tags": []
+ },
+ {
+  "id": "charles_darwin_people",
+  "word": "Charles Darwin",
+  "category": "people",
+  "level": 2,
+  "associations": [
+   "scientist",
+   "evolution",
+   "Galapagos",
+   "England",
+   "Beagle"
+  ],
+  "tags": []
+ },
+ {
+  "id": "galileo_people",
+  "word": "Galileo",
+  "category": "people",
+  "level": 2,
+  "associations": [
+   "astronomer",
+   "telescope",
+   "Italy",
+   "Jupiter",
+   "stars"
+  ],
+  "tags": []
+ },
+ {
+  "id": "jane_goodall_people",
+  "word": "Jane Goodall",
+  "category": "people",
+  "level": 2,
+  "associations": [
+   "chimpanzees",
+   "scientist",
+   "Africa",
+   "England",
+   "Tanzania"
+  ],
+  "tags": []
+ },
+ {
+  "id": "mae_jemison_people",
+  "word": "Mae Jemison",
+  "category": "people",
+  "level": 2,
+  "associations": [
+   "astronaut",
+   "space shuttle",
+   "America",
+   "doctor",
+   "1992"
+  ],
+  "tags": []
+ },
+ {
+  "id": "neil_armstrong_people",
+  "word": "Neil Armstrong",
+  "category": "people",
+  "level": 1,
+  "associations": [
+   "astronaut",
+   "Moon",
+   "Apollo",
+   "1969",
+   "America"
+  ],
+  "tags": []
+ },
+ {
+  "id": "katherine_johnson_people",
+  "word": "Katherine Johnson",
+  "category": "people",
+  "level": 3,
+  "associations": [
+   "mathematician",
+   "NASA",
+   "America",
+   "orbits",
+   "Hidden Figures"
+  ],
+  "tags": []
+ },
+ {
+  "id": "ada_lovelace_people",
+  "word": "Ada Lovelace",
+  "category": "people",
+  "level": 3,
+  "associations": [
+   "programmer",
+   "mathematician",
+   "England",
+   "computers",
+   "Babbage"
+  ],
+  "tags": []
+ },
+ {
+  "id": "thomas_edison_people",
+  "word": "Thomas Edison",
+  "category": "people",
+  "level": 1,
+  "associations": [
+   "inventor",
+   "light bulb",
+   "America",
+   "phonograph",
+   "electricity"
+  ],
+  "tags": []
+ },
+ {
+  "id": "alexander_graham_bell_people",
+  "word": "Alexander Graham Bell",
+  "category": "people",
+  "level": 2,
+  "associations": [
+   "inventor",
+   "telephone",
+   "Scotland",
+   "sound",
+   "teacher"
+  ],
+  "tags": []
+ },
+ {
+  "id": "wright_brothers_people",
+  "word": "Wright Brothers",
+  "category": "people",
+  "level": 2,
+  "associations": [
+   "aeroplane",
+   "inventors",
+   "America",
+   "Kitty Hawk",
+   "1903"
+  ],
+  "tags": []
+ },
+ {
+  "id": "leonardo_da_vinci_people",
+  "word": "Leonardo da Vinci",
+  "category": "people",
+  "level": 1,
+  "associations": [
+   "Mona Lisa",
+   "artist",
+   "Italy",
+   "inventor",
+   "Renaissance"
+  ],
+  "tags": []
+ },
+ {
+  "id": "vincent_van_gogh_people",
+  "word": "Vincent van Gogh",
+  "category": "people",
+  "level": 2,
+  "associations": [
+   "painter",
+   "Starry Night",
+   "sunflowers",
+   "Netherlands",
+   "brushstrokes"
+  ],
+  "tags": []
+ },
+ {
+  "id": "pablo_picasso_people",
+  "word": "Pablo Picasso",
+  "category": "people",
+  "level": 2,
+  "associations": [
+   "painter",
+   "Spain",
+   "Cubism",
+   "sculptor",
+   "1900s"
+  ],
+  "tags": []
+ },
+ {
+  "id": "frida_kahlo_people",
+  "word": "Frida Kahlo",
+  "category": "people",
+  "level": 2,
+  "associations": [
+   "painter",
+   "Mexico",
+   "self-portraits",
+   "flowers",
+   "pet monkeys"
+  ],
+  "tags": []
+ },
+ {
+  "id": "claude_monet_people",
+  "word": "Claude Monet",
+  "category": "people",
+  "level": 2,
+  "associations": [
+   "painter",
+   "France",
+   "Impressionism",
+   "water lilies",
+   "garden"
+  ],
+  "tags": []
+ },
+ {
+  "id": "yayoi_kusama_people",
+  "word": "Yayoi Kusama",
+  "category": "people",
+  "level": 3,
+  "associations": [
+   "artist",
+   "Japan",
+   "polka dots",
+   "pumpkins",
+   "mirrors"
+  ],
+  "tags": []
+ },
+ {
+  "id": "beethoven_people",
+  "word": "Beethoven",
+  "category": "people",
+  "level": 2,
+  "associations": [
+   "composer",
+   "piano",
+   "Germany",
+   "deaf",
+   "symphony"
+  ],
+  "tags": []
+ },
+ {
+  "id": "mozart_people",
+  "word": "Mozart",
+  "category": "people",
+  "level": 2,
+  "associations": [
+   "composer",
+   "piano",
+   "Austria",
+   "child prodigy",
+   "1700s"
+  ],
+  "tags": []
+ },
+ {
+  "id": "rosa_parks_people",
+  "word": "Rosa Parks",
+  "category": "people",
+  "level": 2,
+  "associations": [
+   "bus",
+   "activist",
+   "America",
+   "civil rights",
+   "seat"
+  ],
+  "tags": []
+ },
+ {
+  "id": "malala_people",
+  "word": "Malala",
+  "category": "people",
+  "level": 2,
+  "associations": [
+   "activist",
+   "school",
+   "Pakistan",
+   "girls",
+   "Nobel Prize"
+  ],
+  "tags": []
+ },
+ {
+  "id": "wangari_maathai_people",
+  "word": "Wangari Maathai",
+  "category": "people",
+  "level": 3,
+  "associations": [
+   "trees",
+   "Kenya",
+   "planting",
+   "environment",
+   "Nobel Prize"
+  ],
+  "tags": []
+ },
+ {
+  "id": "helen_keller_people",
+  "word": "Helen Keller",
+  "category": "people",
+  "level": 2,
+  "associations": [
+   "author",
+   "blind",
+   "deaf",
+   "America",
+   "Anne Sullivan"
+  ],
+  "tags": []
+ },
+ {
+  "id": "florence_nightingale_people",
+  "word": "Florence Nightingale",
+  "category": "people",
+  "level": 2,
+  "associations": [
+   "nurse",
+   "lamp",
+   "England",
+   "hospitals",
+   "1800s"
+  ],
+  "tags": []
+ },
+ {
+  "id": "beatrix_potter_people",
+  "word": "Beatrix Potter",
+  "category": "people",
+  "level": 2,
+  "associations": [
+   "author",
+   "Peter Rabbit",
+   "England",
+   "illustrator",
+   "Lake District"
+  ],
+  "tags": []
+ },
+ {
+  "id": "mem_fox_people",
+  "word": "Mem Fox",
+  "category": "people",
+  "level": 3,
+  "associations": [
+   "author",
+   "Australia",
+   "Possum Magic",
+   "picture books",
+   "Koala Lou"
+  ],
+  "tags": []
+ },
+ {
+  "id": "steve_irwin_people",
+  "word": "Steve Irwin",
+  "category": "people",
+  "level": 1,
+  "associations": [
+   "zookeeper",
+   "crocodiles",
+   "Australia",
+   "wildlife",
+   "Crocodile Hunter"
+  ],
+  "tags": []
+ },
+ {
+  "id": "ash_barty_people",
+  "word": "Ash Barty",
+  "category": "people",
+  "level": 2,
+  "associations": [
+   "tennis",
+   "Australia",
+   "Wimbledon",
+   "champion",
+   "cricket"
+  ],
+  "tags": []
+ },
+ {
+  "id": "cathy_freeman_people",
+  "word": "Cathy Freeman",
+  "category": "people",
+  "level": 2,
+  "associations": [
+   "runner",
+   "Australia",
+   "Olympics",
+   "Sydney",
+   "2000"
+  ],
+  "tags": []
+ },
+ {
+  "id": "don_bradman_people",
+  "word": "Don Bradman",
+  "category": "people",
+  "level": 3,
+  "associations": [
+   "cricket",
+   "batter",
+   "Australia",
+   "record",
+   "1930s"
+  ],
+  "tags": []
+ },
+ {
+  "id": "banjo_paterson_people",
+  "word": "Banjo Paterson",
+  "category": "people",
+  "level": 3,
+  "associations": [
+   "poet",
+   "Australia",
+   "Waltzing Matilda",
+   "bush",
+   "Snowy River"
+  ],
+  "tags": []
+ },
+ {
+  "id": "fred_hollows_people",
+  "word": "Fred Hollows",
+  "category": "people",
+  "level": 3,
+  "associations": [
+   "doctor",
+   "eyes",
+   "Australia",
+   "sight",
+   "surgery"
+  ],
+  "tags": []
+ },
+ {
+  "id": "douglas_mawson_people",
+  "word": "Douglas Mawson",
+  "category": "people",
+  "level": 3,
+  "associations": [
+   "explorer",
+   "Antarctica",
+   "Australia",
+   "scientist",
+   "1900s"
+  ],
+  "tags": []
+ },
+ {
+  "id": "evonne_goolagong_people",
+  "word": "Evonne Goolagong",
+  "category": "people",
+  "level": 3,
+  "associations": [
+   "tennis",
+   "Australia",
+   "Wimbledon",
+   "champion",
+   "1970s"
+  ],
+  "tags": []
+ },
+ {
+  "id": "amelia_earhart_people",
+  "word": "Amelia Earhart",
+  "category": "people",
+  "level": 2,
+  "associations": [
+   "pilot",
+   "America",
+   "aeroplane",
+   "Atlantic Ocean",
+   "1930s"
+  ],
+  "tags": []
+ },
+ {
+  "id": "edmund_hillary_people",
+  "word": "Edmund Hillary",
+  "category": "people",
+  "level": 2,
+  "associations": [
+   "mountaineer",
+   "New Zealand",
+   "Mount Everest",
+   "Tenzing",
+   "1953"
+  ],
+  "tags": []
+ },
+ {
+  "id": "tenzing_norgay_people",
+  "word": "Tenzing Norgay",
+  "category": "people",
+  "level": 3,
+  "associations": [
+   "Sherpa",
+   "mountaineer",
+   "Everest",
+   "Himalayas",
+   "1953"
+  ],
+  "tags": []
+ },
+ {
+  "id": "sally_ride_people",
+  "word": "Sally Ride",
+  "category": "people",
+  "level": 3,
+  "associations": [
+   "astronaut",
+   "America",
+   "space shuttle",
+   "1983",
+   "physicist"
+  ],
+  "tags": []
+ },
+ {
+  "id": "yuri_gagarin_people",
+  "word": "Yuri Gagarin",
+  "category": "people",
+  "level": 2,
+  "associations": [
+   "cosmonaut",
+   "space",
+   "Russia",
+   "1961",
+   "Vostok"
+  ],
+  "tags": []
+ },
+ {
+  "id": "jacques_cousteau_people",
+  "word": "Jacques Cousteau",
+  "category": "people",
+  "level": 3,
+  "associations": [
+   "explorer",
+   "ocean",
+   "France",
+   "Calypso",
+   "scuba"
+  ],
+  "tags": []
+ },
+ {
+  "id": "david_attenborough_people",
+  "word": "David Attenborough",
+  "category": "people",
+  "level": 1,
+  "associations": [
+   "naturalist",
+   "documentaries",
+   "wildlife",
+   "England",
+   "narrator"
+  ],
+  "tags": []
+ },
+ {
+  "id": "usain_bolt_people",
+  "word": "Usain Bolt",
+  "category": "people",
+  "level": 1,
+  "associations": [
+   "sprinter",
+   "Jamaica",
+   "fastest",
+   "Olympics",
+   "100 metres"
+  ],
+  "tags": []
+ },
+ {
+  "id": "serena_williams_people",
+  "word": "Serena Williams",
+  "category": "people",
+  "level": 2,
+  "associations": [
+   "tennis",
+   "America",
+   "Wimbledon",
+   "champion",
+   "Venus"
+  ],
+  "tags": []
+ },
+ {
+  "id": "simone_biles_people",
+  "word": "Simone Biles",
+  "category": "people",
+  "level": 2,
+  "associations": [
+   "gymnast",
+   "America",
+   "Olympics",
+   "flips",
+   "champion"
+  ],
+  "tags": []
+ },
+ {
+  "id": "pele_people",
+  "word": "Pelé",
+  "category": "people",
+  "level": 2,
+  "associations": [
+   "footballer",
+   "Brazil",
+   "World Cup",
+   "goals",
+   "legend"
+  ],
+  "tags": []
+ },
+ {
+  "id": "nadia_comaneci_people",
+  "word": "Nadia Comaneci",
+  "category": "people",
+  "level": 3,
+  "associations": [
+   "gymnast",
+   "Romania",
+   "perfect ten",
+   "Olympics",
+   "1976"
+  ],
+  "tags": []
+ },
+ {
+  "id": "eliud_kipchoge_people",
+  "word": "Eliud Kipchoge",
+  "category": "people",
+  "level": 3,
+  "associations": [
+   "marathon",
+   "runner",
+   "Kenya",
+   "Olympics",
+   "record"
+  ],
+  "tags": []
+ },
+ {
+  "id": "hans_christian_andersen_people",
+  "word": "Hans Christian Andersen",
+  "category": "people",
+  "level": 3,
+  "associations": [
+   "storyteller",
+   "Denmark",
+   "Little Mermaid",
+   "Ugly Duckling",
+   "fairy tales"
+  ],
+  "tags": []
+ },
+ {
+  "id": "bat_codenames",
+  "word": "bat",
+  "category": "codenames",
+  "level": 2,
+  "associations": [
+   "wings",
+   "night",
+   "cave",
+   "cricket",
+   "helmet"
+  ],
+  "tags": [
+   "codenames",
+   "multi_meaning"
+  ]
+ },
+ {
+  "id": "crane_codenames",
+  "word": "crane",
+  "category": "codenames",
+  "level": 2,
+  "associations": [
+   "bird",
+   "lifting",
+   "builder",
+   "origami",
+   "wading"
+  ],
+  "tags": [
+   "codenames",
+   "multi_meaning"
+  ]
+ },
+ {
+  "id": "seal_codenames",
+  "word": "seal",
+  "category": "codenames",
+  "level": 2,
+  "associations": [
+   "flippers",
+   "ocean",
+   "envelope",
+   "wax",
+   "pup"
+  ],
+  "tags": [
+   "codenames",
+   "multi_meaning"
+  ]
+ },
+ {
+  "id": "mouse_codenames",
+  "word": "mouse",
+  "category": "codenames",
+  "level": 1,
+  "associations": [
+   "squeak",
+   "cheese",
+   "computer",
+   "click",
+   "tail"
+  ],
+  "tags": [
+   "codenames",
+   "multi_meaning"
+  ]
+ },
+ {
+  "id": "duck_codenames",
+  "word": "duck",
+  "category": "codenames",
+  "level": 1,
+  "associations": [
+   "quack",
+   "pond",
+   "waddle",
+   "dodge",
+   "feathers"
+  ],
+  "tags": [
+   "codenames",
+   "multi_meaning"
+  ]
+ },
+ {
+  "id": "swallow_codenames",
+  "word": "swallow",
+  "category": "codenames",
+  "level": 2,
+  "associations": [
+   "bird",
+   "gulp",
+   "throat",
+   "summer",
+   "nest"
+  ],
+  "tags": [
+   "codenames",
+   "multi_meaning"
+  ]
+ },
+ {
+  "id": "fly_codenames",
+  "word": "fly",
+  "category": "codenames",
+  "level": 1,
+  "associations": [
+   "insect",
+   "wings",
+   "sky",
+   "buzz",
+   "aeroplane"
+  ],
+  "tags": [
+   "codenames",
+   "multi_meaning"
+  ]
+ },
+ {
+  "id": "bass_codenames",
+  "word": "bass",
+  "category": "codenames",
+  "level": 3,
+  "associations": [
+   "fish",
+   "guitar",
+   "low",
+   "music",
+   "lake"
+  ],
+  "tags": [
+   "codenames",
+   "multi_meaning"
+  ]
+ },
+ {
+  "id": "crow_codenames",
+  "word": "crow",
+  "category": "codenames",
+  "level": 1,
+  "associations": [
+   "bird",
+   "caw",
+   "black",
+   "boast",
+   "cornfield"
+  ],
+  "tags": [
+   "codenames",
+   "multi_meaning"
+  ]
+ },
+ {
+  "id": "bear_codenames",
+  "word": "bear",
+  "category": "codenames",
+  "level": 1,
+  "associations": [
+   "fur",
+   "cub",
+   "forest",
+   "hibernate",
+   "carry"
+  ],
+  "tags": [
+   "codenames",
+   "multi_meaning"
+  ]
+ },
+ {
+  "id": "bug_codenames",
+  "word": "bug",
+  "category": "codenames",
+  "level": 1,
+  "associations": [
+   "insect",
+   "crawl",
+   "computer",
+   "tiny",
+   "ladybird"
+  ],
+  "tags": [
+   "codenames",
+   "multi_meaning"
+  ]
+ },
+ {
+  "id": "mole_codenames",
+  "word": "mole",
+  "category": "codenames",
+  "level": 2,
+  "associations": [
+   "burrow",
+   "digging",
+   "garden",
+   "spy",
+   "skin"
+  ],
+  "tags": [
+   "codenames",
+   "multi_meaning"
+  ]
+ },
+ {
+  "id": "ram_codenames",
+  "word": "ram",
+  "category": "codenames",
+  "level": 3,
+  "associations": [
+   "sheep",
+   "horns",
+   "male",
+   "push",
+   "farm"
+  ],
+  "tags": [
+   "codenames",
+   "multi_meaning"
+  ]
+ },
+ {
+  "id": "kiwi_codenames",
+  "word": "kiwi",
+  "category": "codenames",
+  "level": 2,
+  "associations": [
+   "bird",
+   "fruit",
+   "New Zealand",
+   "flightless",
+   "fuzzy"
+  ],
+  "tags": [
+   "codenames",
+   "multi_meaning"
+  ]
+ },
+ {
+  "id": "spider_codenames",
+  "word": "spider",
+  "category": "codenames",
+  "level": 1,
+  "associations": [
+   "web",
+   "eight legs",
+   "silk",
+   "arachnid",
+   "scuttle"
+  ],
+  "tags": [
+   "codenames"
+  ]
+ },
+ {
+  "id": "horse_codenames",
+  "word": "horse",
+  "category": "codenames",
+  "level": 1,
+  "associations": [
+   "gallop",
+   "saddle",
+   "mane",
+   "stable",
+   "ride"
+  ],
+  "tags": [
+   "codenames"
+  ]
+ },
+ {
+  "id": "rabbit_codenames",
+  "word": "rabbit",
+  "category": "codenames",
+  "level": 1,
+  "associations": [
+   "ears",
+   "hop",
+   "carrot",
+   "burrow",
+   "fluffy"
+  ],
+  "tags": [
+   "codenames"
+  ]
+ },
+ {
+  "id": "shark_codenames",
+  "word": "shark",
+  "category": "codenames",
+  "level": 1,
+  "associations": [
+   "fin",
+   "teeth",
+   "ocean",
+   "jaws",
+   "fish"
+  ],
+  "tags": [
+   "codenames"
+  ]
+ },
+ {
+  "id": "whale_codenames",
+  "word": "whale",
+  "category": "codenames",
+  "level": 1,
+  "associations": [
+   "blowhole",
+   "ocean",
+   "huge",
+   "song",
+   "tail"
+  ],
+  "tags": [
+   "codenames"
+  ]
+ },
+ {
+  "id": "monkey_codenames",
+  "word": "monkey",
+  "category": "codenames",
+  "level": 1,
+  "associations": [
+   "banana",
+   "swing",
+   "tree",
+   "ape",
+   "zoo"
+  ],
+  "tags": [
+   "codenames"
+  ]
+ },
+ {
+  "id": "lion_codenames",
+  "word": "lion",
+  "category": "codenames",
+  "level": 1,
+  "associations": [
+   "mane",
+   "roar",
+   "pride",
+   "savannah",
+   "king"
+  ],
+  "tags": [
+   "codenames"
+  ]
+ },
+ {
+  "id": "tiger_codenames",
+  "word": "tiger",
+  "category": "codenames",
+  "level": 1,
+  "associations": [
+   "stripes",
+   "jungle",
+   "roar",
+   "big cat",
+   "Bengal"
+  ],
+  "tags": [
+   "codenames"
+  ]
+ },
+ {
+  "id": "frog_codenames",
+  "word": "frog",
+  "category": "codenames",
+  "level": 1,
+  "associations": [
+   "pond",
+   "croak",
+   "hop",
+   "tadpole",
+   "amphibian"
+  ],
+  "tags": [
+   "codenames"
+  ]
+ },
+ {
+  "id": "snake_codenames",
+  "word": "snake",
+  "category": "codenames",
+  "level": 1,
+  "associations": [
+   "slither",
+   "scales",
+   "hiss",
+   "reptile",
+   "coil"
+  ],
+  "tags": [
+   "codenames"
+  ]
+ },
+ {
+  "id": "bee_codenames",
+  "word": "bee",
+  "category": "codenames",
+  "level": 1,
+  "associations": [
+   "buzz",
+   "hive",
+   "sting",
+   "pollen",
+   "flowers"
+  ],
+  "tags": [
+   "codenames"
+  ]
+ },
+ {
+  "id": "deer_codenames",
+  "word": "deer",
+  "category": "codenames",
+  "level": 1,
+  "associations": [
+   "antlers",
+   "forest",
+   "fawn",
+   "stag",
+   "herd"
+  ],
+  "tags": [
+   "codenames"
+  ]
+ },
+ {
+  "id": "fox_codenames",
+  "word": "fox",
+  "category": "codenames",
+  "level": 1,
+  "associations": [
+   "tail",
+   "cunning",
+   "den",
+   "forest",
+   "fur"
+  ],
+  "tags": [
+   "codenames"
+  ]
+ },
+ {
+  "id": "wolf_codenames",
+  "word": "wolf",
+  "category": "codenames",
+  "level": 1,
+  "associations": [
+   "howl",
+   "pack",
+   "moon",
+   "fur",
+   "forest"
+  ],
+  "tags": [
+   "codenames"
+  ]
+ },
+ {
+  "id": "giraffe_codenames",
+  "word": "giraffe",
+  "category": "codenames",
+  "level": 1,
+  "associations": [
+   "neck",
+   "tall",
+   "spots",
+   "savannah",
+   "Africa"
+  ],
+  "tags": [
+   "codenames"
+  ]
+ },
+ {
+  "id": "zebra_codenames",
+  "word": "zebra",
+  "category": "codenames",
+  "level": 1,
+  "associations": [
+   "stripes",
+   "Africa",
+   "herd",
+   "horse",
+   "savannah"
+  ],
+  "tags": [
+   "codenames"
+  ]
+ },
+ {
+  "id": "parrot_codenames",
+  "word": "parrot",
+  "category": "codenames",
+  "level": 1,
+  "associations": [
+   "talk",
+   "colourful",
+   "feathers",
+   "beak",
+   "tropical"
+  ],
+  "tags": [
+   "codenames"
+  ]
+ },
+ {
+  "id": "eagle_codenames",
+  "word": "eagle",
+  "category": "codenames",
+  "level": 1,
+  "associations": [
+   "soar",
+   "talons",
+   "beak",
+   "nest",
+   "wings"
+  ],
+  "tags": [
+   "codenames"
+  ]
+ },
+ {
+  "id": "camel_codenames",
+  "word": "camel",
+  "category": "codenames",
+  "level": 1,
+  "associations": [
+   "hump",
+   "desert",
+   "sand",
+   "oasis",
+   "caravan"
+  ],
+  "tags": [
+   "codenames"
+  ]
+ },
+ {
+  "id": "hedgehog_codenames",
+  "word": "hedgehog",
+  "category": "codenames",
+  "level": 2,
+  "associations": [
+   "spines",
+   "curl",
+   "garden",
+   "hibernate",
+   "prickly"
+  ],
+  "tags": [
+   "codenames"
+  ]
+ },
+ {
+  "id": "turtle_codenames",
+  "word": "turtle",
+  "category": "codenames",
+  "level": 1,
+  "associations": [
+   "shell",
+   "slow",
+   "ocean",
+   "reptile",
+   "hatch"
+  ],
+  "tags": [
+   "codenames"
+  ]
+ },
+ {
+  "id": "crab_codenames",
+  "word": "crab",
+  "category": "codenames",
+  "level": 1,
+  "associations": [
+   "claws",
+   "beach",
+   "sideways",
+   "shell",
+   "sea"
+  ],
+  "tags": [
+   "codenames"
+  ]
+ },
+ {
+  "id": "pen_codenames",
+  "word": "pen",
+  "category": "codenames",
+  "level": 1,
+  "associations": [
+   "ink",
+   "write",
+   "pig",
+   "fence",
+   "paper"
+  ],
+  "tags": [
+   "codenames",
+   "multi_meaning"
+  ]
+ },
+ {
+  "id": "ruler_codenames",
+  "word": "ruler",
+  "category": "codenames",
+  "level": 1,
+  "associations": [
+   "measure",
+   "centimetres",
+   "straight",
+   "queen",
+   "king"
+  ],
+  "tags": [
+   "codenames",
+   "multi_meaning"
+  ]
+ },
+ {
+  "id": "tank_codenames",
+  "word": "tank",
+  "category": "codenames",
+  "level": 2,
+  "associations": [
+   "fish",
+   "water",
+   "fuel",
+   "vest",
+   "storage"
+  ],
+  "tags": [
+   "codenames",
+   "multi_meaning"
+  ]
+ },
+ {
+  "id": "match_codenames",
+  "word": "match",
+  "category": "codenames",
+  "level": 1,
+  "associations": [
+   "fire",
+   "game",
+   "football",
+   "pair",
+   "spark"
+  ],
+  "tags": [
+   "codenames",
+   "multi_meaning"
+  ]
+ },
+ {
+  "id": "light_codenames",
+  "word": "light",
+  "category": "codenames",
+  "level": 1,
+  "associations": [
+   "lamp",
+   "bright",
+   "bulb",
+   "feather",
+   "torch"
+  ],
+  "tags": [
+   "codenames",
+   "multi_meaning"
+  ]
+ },
+ {
+  "id": "key_codenames",
+  "word": "key",
+  "category": "codenames",
+  "level": 1,
+  "associations": [
+   "lock",
+   "door",
+   "piano",
+   "map",
+   "answer"
+  ],
+  "tags": [
+   "codenames",
+   "multi_meaning"
+  ]
+ },
+ {
+  "id": "ring_codenames",
+  "word": "ring",
+  "category": "codenames",
+  "level": 1,
+  "associations": [
+   "finger",
+   "bell",
+   "phone",
+   "circle",
+   "jewellery"
+  ],
+  "tags": [
+   "codenames",
+   "multi_meaning"
+  ]
+ },
+ {
+  "id": "bowl_codenames",
+  "word": "bowl",
+  "category": "codenames",
+  "level": 1,
+  "associations": [
+   "cereal",
+   "dish",
+   "soup",
+   "cricket",
+   "throw"
+  ],
+  "tags": [
+   "codenames",
+   "multi_meaning"
+  ]
+ },
+ {
+  "id": "club_codenames",
+  "word": "club",
+  "category": "codenames",
+  "level": 2,
+  "associations": [
+   "golf",
+   "members",
+   "dance",
+   "cards",
+   "stick"
+  ],
+  "tags": [
+   "codenames",
+   "multi_meaning"
+  ]
+ },
+ {
+  "id": "file_codenames",
+  "word": "file",
+  "category": "codenames",
+  "level": 2,
+  "associations": [
+   "folder",
+   "document",
+   "computer",
+   "nail",
+   "cabinet"
+  ],
+  "tags": [
+   "codenames",
+   "multi_meaning"
+  ]
+ },
+ {
+  "id": "fan_codenames",
+  "word": "fan",
+  "category": "codenames",
+  "level": 1,
+  "associations": [
+   "cool",
+   "blades",
+   "supporter",
+   "cheer",
+   "breeze"
+  ],
+  "tags": [
+   "codenames",
+   "multi_meaning"
+  ]
+ },
+ {
+  "id": "bolt_codenames",
+  "word": "bolt",
+  "category": "codenames",
+  "level": 2,
+  "associations": [
+   "lightning",
+   "nut",
+   "screw",
+   "lock",
+   "sprint"
+  ],
+  "tags": [
+   "codenames",
+   "multi_meaning"
+  ]
+ },
+ {
+  "id": "watch_codenames",
+  "word": "watch",
+  "category": "codenames",
+  "level": 1,
+  "associations": [
+   "wrist",
+   "time",
+   "strap",
+   "look",
+   "clock"
+  ],
+  "tags": [
+   "codenames",
+   "multi_meaning"
+  ]
+ },
+ {
+  "id": "board_codenames",
+  "word": "board",
+  "category": "codenames",
+  "level": 1,
+  "associations": [
+   "wood",
+   "plank",
+   "game",
+   "meeting",
+   "chalk"
+  ],
+  "tags": [
+   "codenames",
+   "multi_meaning"
+  ]
+ },
+ {
+  "id": "scale_codenames",
+  "word": "scale",
+  "category": "codenames",
+  "level": 2,
+  "associations": [
+   "fish",
+   "weigh",
+   "map",
+   "piano",
+   "dragon"
+  ],
+  "tags": [
+   "codenames",
+   "multi_meaning"
+  ]
+ },
+ {
+  "id": "stamp_codenames",
+  "word": "stamp",
+  "category": "codenames",
+  "level": 1,
+  "associations": [
+   "letter",
+   "postage",
+   "foot",
+   "ink",
+   "collect"
+  ],
+  "tags": [
+   "codenames",
+   "multi_meaning"
+  ]
+ },
+ {
+  "id": "tie_codenames",
+  "word": "tie",
+  "category": "codenames",
+  "level": 1,
+  "associations": [
+   "knot",
+   "suit",
+   "draw",
+   "rope",
+   "score"
+  ],
+  "tags": [
+   "codenames",
+   "multi_meaning"
+  ]
+ },
+ {
+  "id": "bow_codenames",
+  "word": "bow",
+  "category": "codenames",
+  "level": 1,
+  "associations": [
+   "ribbon",
+   "arrow",
+   "violin",
+   "bend",
+   "gift"
+  ],
+  "tags": [
+   "codenames",
+   "multi_meaning"
+  ]
+ },
+ {
+  "id": "pad_codenames",
+  "word": "pad",
+  "category": "codenames",
+  "level": 2,
+  "associations": [
+   "paper",
+   "paw",
+   "cushion",
+   "launch",
+   "write"
+  ],
+  "tags": [
+   "codenames",
+   "multi_meaning"
+  ]
+ },
+ {
+  "id": "cap_codenames",
+  "word": "cap",
+  "category": "codenames",
+  "level": 1,
+  "associations": [
+   "hat",
+   "lid",
+   "bottle",
+   "peak",
+   "baseball"
+  ],
+  "tags": [
+   "codenames",
+   "multi_meaning"
+  ]
+ },
+ {
+  "id": "racket_codenames",
+  "word": "racket",
+  "category": "codenames",
+  "level": 2,
+  "associations": [
+   "tennis",
+   "badminton",
+   "noise",
+   "loud",
+   "strings"
+  ],
+  "tags": [
+   "codenames",
+   "multi_meaning"
+  ]
+ },
+ {
+  "id": "saw_codenames",
+  "word": "saw",
+  "category": "codenames",
+  "level": 1,
+  "associations": [
+   "tool",
+   "wood",
+   "teeth",
+   "cut",
+   "looked"
+  ],
+  "tags": [
+   "codenames",
+   "multi_meaning"
+  ]
+ },
+ {
+  "id": "iron_codenames",
+  "word": "iron",
+  "category": "codenames",
+  "level": 1,
+  "associations": [
+   "metal",
+   "clothes",
+   "golf",
+   "rust",
+   "press"
+  ],
+  "tags": [
+   "codenames",
+   "multi_meaning"
+  ]
+ },
+ {
+  "id": "plane_codenames",
+  "word": "plane",
+  "category": "codenames",
+  "level": 2,
+  "associations": [
+   "flying",
+   "wings",
+   "runway",
+   "carpenter",
+   "smooth"
+  ],
+  "tags": [
+   "codenames",
+   "multi_meaning"
+  ]
+ },
+ {
+  "id": "can_codenames",
+  "word": "can",
+  "category": "codenames",
+  "level": 1,
+  "associations": [
+   "tin",
+   "able",
+   "drink",
+   "soup",
+   "aluminium"
+  ],
+  "tags": [
+   "codenames",
+   "multi_meaning"
+  ]
+ },
+ {
+  "id": "net_codenames",
+  "word": "net",
+  "category": "codenames",
+  "level": 1,
+  "associations": [
+   "fish",
+   "tennis",
+   "goal",
+   "catch",
+   "web"
+  ],
+  "tags": [
+   "codenames",
+   "multi_meaning"
+  ]
+ },
+ {
+  "id": "letter_codenames",
+  "word": "letter",
+  "category": "codenames",
+  "level": 1,
+  "associations": [
+   "alphabet",
+   "post",
+   "envelope",
+   "write",
+   "stamp"
+  ],
+  "tags": [
+   "codenames",
+   "multi_meaning"
+  ]
+ },
+ {
+  "id": "trunk_codenames",
+  "word": "trunk",
+  "category": "codenames",
+  "level": 2,
+  "associations": [
+   "elephant",
+   "tree",
+   "car",
+   "luggage",
+   "swim"
+  ],
+  "tags": [
+   "codenames",
+   "multi_meaning"
+  ]
+ },
+ {
+  "id": "pitcher_codenames",
+  "word": "pitcher",
+  "category": "codenames",
+  "level": 2,
+  "associations": [
+   "jug",
+   "baseball",
+   "throw",
+   "water",
+   "ball"
+  ],
+  "tags": [
+   "codenames",
+   "multi_meaning"
+  ]
+ },
+ {
+  "id": "boot_codenames",
+  "word": "boot",
+  "category": "codenames",
+  "level": 1,
+  "associations": [
+   "foot",
+   "laces",
+   "muddy",
+   "car",
+   "kick"
+  ],
+  "tags": [
+   "codenames",
+   "multi_meaning"
+  ]
+ },
+ {
+  "id": "umbrella_codenames",
+  "word": "umbrella",
+  "category": "codenames",
+  "level": 1,
+  "associations": [
+   "rain",
+   "handle",
+   "open",
+   "shelter",
+   "wet"
+  ],
+  "tags": [
+   "codenames"
+  ]
+ },
+ {
+  "id": "ladder_codenames",
+  "word": "ladder",
+  "category": "codenames",
+  "level": 1,
+  "associations": [
+   "climb",
+   "rungs",
+   "steps",
+   "roof",
+   "painter"
+  ],
+  "tags": [
+   "codenames"
+  ]
+ },
+ {
+  "id": "blanket_codenames",
+  "word": "blanket",
+  "category": "codenames",
+  "level": 1,
+  "associations": [
+   "bed",
+   "warm",
+   "cosy",
+   "wool",
+   "cover"
+  ],
+  "tags": [
+   "codenames"
+  ]
+ },
+ {
+  "id": "candle_codenames",
+  "word": "candle",
+  "category": "codenames",
+  "level": 1,
+  "associations": [
+   "wax",
+   "flame",
+   "wick",
+   "birthday",
+   "glow"
+  ],
+  "tags": [
+   "codenames"
+  ]
+ },
+ {
+  "id": "mirror_codenames",
+  "word": "mirror",
+  "category": "codenames",
+  "level": 1,
+  "associations": [
+   "reflection",
+   "glass",
+   "face",
+   "bathroom",
+   "shine"
+  ],
+  "tags": [
+   "codenames"
+  ]
+ },
+ {
+  "id": "window_codenames",
+  "word": "window",
+  "category": "codenames",
+  "level": 1,
+  "associations": [
+   "glass",
+   "curtain",
+   "view",
+   "frame",
+   "open"
+  ],
+  "tags": [
+   "codenames"
+  ]
+ },
+ {
+  "id": "clock_codenames",
+  "word": "clock",
+  "category": "codenames",
+  "level": 1,
+  "associations": [
+   "tick",
+   "hands",
+   "time",
+   "alarm",
+   "face"
+  ],
+  "tags": [
+   "codenames"
+  ]
+ },
+ {
+  "id": "basket_codenames",
+  "word": "basket",
+  "category": "codenames",
+  "level": 1,
+  "associations": [
+   "wicker",
+   "picnic",
+   "shopping",
+   "weave",
+   "handle"
+  ],
+  "tags": [
+   "codenames"
+  ]
+ },
+ {
+  "id": "bucket_codenames",
+  "word": "bucket",
+  "category": "codenames",
+  "level": 1,
+  "associations": [
+   "sand",
+   "water",
+   "handle",
+   "spade",
+   "beach"
+  ],
+  "tags": [
+   "codenames"
+  ]
+ },
+ {
+  "id": "hammer_codenames",
+  "word": "hammer",
+  "category": "codenames",
+  "level": 1,
+  "associations": [
+   "nail",
+   "tool",
+   "bang",
+   "carpenter",
+   "mallet"
+  ],
+  "tags": [
+   "codenames"
+  ]
+ },
+ {
+  "id": "scissors_codenames",
+  "word": "scissors",
+  "category": "codenames",
+  "level": 1,
+  "associations": [
+   "cut",
+   "blades",
+   "paper",
+   "snip",
+   "hair"
+  ],
+  "tags": [
+   "codenames"
+  ]
+ },
+ {
+  "id": "button_codenames",
+  "word": "button",
+  "category": "codenames",
+  "level": 1,
+  "associations": [
+   "shirt",
+   "press",
+   "sew",
+   "coat",
+   "round"
+  ],
+  "tags": [
+   "codenames"
+  ]
+ },
+ {
+  "id": "envelope_codenames",
+  "word": "envelope",
+  "category": "codenames",
+  "level": 1,
+  "associations": [
+   "letter",
+   "stamp",
+   "post",
+   "seal",
+   "address"
+  ],
+  "tags": [
+   "codenames"
+  ]
+ },
+ {
+  "id": "pillow_codenames",
+  "word": "pillow",
+  "category": "codenames",
+  "level": 1,
+  "associations": [
+   "bed",
+   "soft",
+   "sleep",
+   "feathers",
+   "head"
+  ],
+  "tags": [
+   "codenames"
+  ]
+ },
+ {
+  "id": "balloon_codenames",
+  "word": "balloon",
+  "category": "codenames",
+  "level": 1,
+  "associations": [
+   "helium",
+   "party",
+   "float",
+   "pop",
+   "string"
+  ],
+  "tags": [
+   "codenames"
+  ]
+ },
+ {
+  "id": "kite_codenames",
+  "word": "kite",
+  "category": "codenames",
+  "level": 1,
+  "associations": [
+   "wind",
+   "string",
+   "fly",
+   "tail",
+   "sky"
+  ],
+  "tags": [
+   "codenames"
+  ]
+ },
+ {
+  "id": "drum_codenames",
+  "word": "drum",
+  "category": "codenames",
+  "level": 1,
+  "associations": [
+   "beat",
+   "sticks",
+   "band",
+   "loud",
+   "rhythm"
+  ],
+  "tags": [
+   "codenames"
+  ]
+ },
+ {
+  "id": "piano_codenames",
+  "word": "piano",
+  "category": "codenames",
+  "level": 1,
+  "associations": [
+   "keys",
+   "music",
+   "grand",
+   "pedals",
+   "concert"
+  ],
+  "tags": [
+   "codenames"
+  ]
+ },
+ {
+  "id": "guitar_codenames",
+  "word": "guitar",
+  "category": "codenames",
+  "level": 1,
+  "associations": [
+   "strings",
+   "strum",
+   "music",
+   "band",
+   "pick"
+  ],
+  "tags": [
+   "codenames"
+  ]
+ },
+ {
+  "id": "trumpet_codenames",
+  "word": "trumpet",
+  "category": "codenames",
+  "level": 1,
+  "associations": [
+   "brass",
+   "blow",
+   "music",
+   "jazz",
+   "fanfare"
+  ],
+  "tags": [
+   "codenames"
+  ]
+ },
+ {
+  "id": "bell_codenames",
+  "word": "bell",
+  "category": "codenames",
+  "level": 1,
+  "associations": [
+   "ring",
+   "chime",
+   "church",
+   "ding",
+   "school"
+  ],
+  "tags": [
+   "codenames"
+  ]
+ },
+ {
+  "id": "flag_codenames",
+  "word": "flag",
+  "category": "codenames",
+  "level": 1,
+  "associations": [
+   "pole",
+   "wave",
+   "country",
+   "stripes",
+   "banner"
+  ],
+  "tags": [
+   "codenames"
+  ]
+ },
+ {
+  "id": "anchor_codenames",
+  "word": "anchor",
+  "category": "codenames",
+  "level": 1,
+  "associations": [
+   "ship",
+   "chain",
+   "heavy",
+   "sea",
+   "drop"
+  ],
+  "tags": [
+   "codenames"
+  ]
+ },
+ {
+  "id": "lantern_codenames",
+  "word": "lantern",
+  "category": "codenames",
+  "level": 1,
+  "associations": [
+   "light",
+   "flame",
+   "camping",
+   "festival",
+   "glow"
+  ],
+  "tags": [
+   "codenames"
+  ]
+ },
+ {
+  "id": "tent_codenames",
+  "word": "tent",
+  "category": "codenames",
+  "level": 1,
+  "associations": [
+   "camping",
+   "canvas",
+   "pegs",
+   "zip",
+   "campsite"
+  ],
+  "tags": [
+   "codenames"
+  ]
+ },
+ {
+  "id": "helmet_codenames",
+  "word": "helmet",
+  "category": "codenames",
+  "level": 1,
+  "associations": [
+   "head",
+   "protect",
+   "bicycle",
+   "safety",
+   "visor"
+  ],
+  "tags": [
+   "codenames"
+  ]
+ },
+ {
+  "id": "mitten_codenames",
+  "word": "mitten",
+  "category": "codenames",
+  "level": 1,
+  "associations": [
+   "hand",
+   "wool",
+   "winter",
+   "thumb",
+   "warm"
+  ],
+  "tags": [
+   "codenames"
+  ]
+ },
+ {
+  "id": "crown_codenames",
+  "word": "crown",
+  "category": "codenames",
+  "level": 1,
+  "associations": [
+   "king",
+   "queen",
+   "jewels",
+   "gold",
+   "royal"
+  ],
+  "tags": [
+   "codenames"
+  ]
+ },
+ {
+  "id": "spoon_codenames",
+  "word": "spoon",
+  "category": "codenames",
+  "level": 1,
+  "associations": [
+   "soup",
+   "eat",
+   "stir",
+   "cutlery",
+   "metal"
+  ],
+  "tags": [
+   "codenames"
+  ]
+ },
+ {
+  "id": "teapot_codenames",
+  "word": "teapot",
+  "category": "codenames",
+  "level": 1,
+  "associations": [
+   "tea",
+   "spout",
+   "pour",
+   "lid",
+   "china"
+  ],
+  "tags": [
+   "codenames"
+  ]
+ },
+ {
+  "id": "broom_codenames",
+  "word": "broom",
+  "category": "codenames",
+  "level": 1,
+  "associations": [
+   "sweep",
+   "witch",
+   "bristles",
+   "handle",
+   "floor"
+  ],
+  "tags": [
+   "codenames"
+  ]
+ },
+ {
+  "id": "towel_codenames",
+  "word": "towel",
+  "category": "codenames",
+  "level": 1,
+  "associations": [
+   "dry",
+   "bath",
+   "beach",
+   "cotton",
+   "fluffy"
+  ],
+  "tags": [
+   "codenames"
+  ]
+ },
+ {
+  "id": "camera_codenames",
+  "word": "camera",
+  "category": "codenames",
+  "level": 1,
+  "associations": [
+   "photo",
+   "lens",
+   "flash",
+   "click",
+   "picture"
+  ],
+  "tags": [
+   "codenames"
+  ]
+ },
+ {
+  "id": "bicycle_codenames",
+  "word": "bicycle",
+  "category": "codenames",
+  "level": 1,
+  "associations": [
+   "pedals",
+   "wheels",
+   "ride",
+   "handlebars",
+   "helmet"
+  ],
+  "tags": [
+   "codenames"
+  ]
+ },
+ {
+  "id": "submarine_codenames",
+  "word": "submarine",
+  "category": "codenames",
+  "level": 2,
+  "associations": [
+   "underwater",
+   "periscope",
+   "ocean",
+   "crew",
+   "dive"
+  ],
+  "tags": [
+   "codenames"
+  ]
+ },
+ {
+  "id": "helicopter_codenames",
+  "word": "helicopter",
+  "category": "codenames",
+  "level": 1,
+  "associations": [
+   "rotor",
+   "blades",
+   "hover",
+   "pilot",
+   "rescue"
+  ],
+  "tags": [
+   "codenames"
+  ]
+ },
+ {
+  "id": "wheel_codenames",
+  "word": "wheel",
+  "category": "codenames",
+  "level": 1,
+  "associations": [
+   "spin",
+   "round",
+   "tyre",
+   "axle",
+   "car"
+  ],
+  "tags": [
+   "codenames"
+  ]
+ },
+ {
+  "id": "bark_codenames",
+  "word": "bark",
+  "category": "codenames",
+  "level": 2,
+  "associations": [
+   "dog",
+   "tree",
+   "woof",
+   "rough",
+   "loud"
+  ],
+  "tags": [
+   "codenames",
+   "multi_meaning"
+  ]
+ },
+ {
+  "id": "palm_codenames",
+  "word": "palm",
+  "category": "codenames",
+  "level": 1,
+  "associations": [
+   "tree",
+   "hand",
+   "coconut",
+   "fingers",
+   "tropical"
+  ],
+  "tags": [
+   "codenames",
+   "multi_meaning"
+  ]
+ },
+ {
+  "id": "spring_codenames",
+  "word": "spring",
+  "category": "codenames",
+  "level": 1,
+  "associations": [
+   "season",
+   "coil",
+   "bounce",
+   "flowers",
+   "well"
+  ],
+  "tags": [
+   "codenames",
+   "multi_meaning"
+  ]
+ },
+ {
+  "id": "shell_codenames",
+  "word": "shell",
+  "category": "codenames",
+  "level": 1,
+  "associations": [
+   "beach",
+   "snail",
+   "egg",
+   "nut",
+   "crab"
+  ],
+  "tags": [
+   "codenames",
+   "multi_meaning"
+  ]
+ },
+ {
+  "id": "wave_codenames",
+  "word": "wave",
+  "category": "codenames",
+  "level": 1,
+  "associations": [
+   "ocean",
+   "hello",
+   "hand",
+   "surf",
+   "tide"
+  ],
+  "tags": [
+   "codenames",
+   "multi_meaning"
+  ]
+ },
+ {
+  "id": "rock_codenames",
+  "word": "rock",
+  "category": "codenames",
+  "level": 1,
+  "associations": [
+   "stone",
+   "boulder",
+   "music",
+   "sway",
+   "cradle"
+  ],
+  "tags": [
+   "codenames",
+   "multi_meaning"
+  ]
+ },
+ {
+  "id": "current_codenames",
+  "word": "current",
+  "category": "codenames",
+  "level": 2,
+  "associations": [
+   "ocean",
+   "electricity",
+   "flow",
+   "wires",
+   "present"
+  ],
+  "tags": [
+   "codenames",
+   "multi_meaning"
+  ]
+ },
+ {
+  "id": "fall_codenames",
+  "word": "fall",
+  "category": "codenames",
+  "level": 1,
+  "associations": [
+   "autumn",
+   "drop",
+   "trip",
+   "leaves",
+   "tumble"
+  ],
+  "tags": [
+   "codenames",
+   "multi_meaning"
+  ]
+ },
+ {
+  "id": "plant_codenames",
+  "word": "plant",
+  "category": "codenames",
+  "level": 1,
+  "associations": [
+   "leaf",
+   "grow",
+   "factory",
+   "seed",
+   "flowerpot"
+  ],
+  "tags": [
+   "codenames",
+   "multi_meaning"
+  ]
+ },
+ {
+  "id": "mine_codenames",
+  "word": "mine",
+  "category": "codenames",
+  "level": 2,
+  "associations": [
+   "coal",
+   "gold",
+   "dig",
+   "underground",
+   "belongs"
+  ],
+  "tags": [
+   "codenames",
+   "multi_meaning"
+  ]
+ },
+ {
+  "id": "mountain_codenames",
+  "word": "mountain",
+  "category": "codenames",
+  "level": 1,
+  "associations": [
+   "peak",
+   "climb",
+   "snow",
+   "high",
+   "valley"
+  ],
+  "tags": [
+   "codenames"
+  ]
+ },
+ {
+  "id": "river_codenames",
+  "word": "river",
+  "category": "codenames",
+  "level": 1,
+  "associations": [
+   "flow",
+   "water",
+   "bridge",
+   "fish",
+   "stream"
+  ],
+  "tags": [
+   "codenames"
+  ]
+ },
+ {
+  "id": "forest_codenames",
+  "word": "forest",
+  "category": "codenames",
+  "level": 1,
+  "associations": [
+   "trees",
+   "woods",
+   "deer",
+   "leaves",
+   "camping"
+  ],
+  "tags": [
+   "codenames"
+  ]
+ },
+ {
+  "id": "leaf_codenames",
+  "word": "leaf",
+  "category": "codenames",
+  "level": 1,
+  "associations": [
+   "tree",
+   "green",
+   "autumn",
+   "veins",
+   "fall"
+  ],
+  "tags": [
+   "codenames"
+  ]
+ },
+ {
+  "id": "cloud_codenames",
+  "word": "cloud",
+  "category": "codenames",
+  "level": 1,
+  "associations": [
+   "sky",
+   "rain",
+   "fluffy",
+   "grey",
+   "float"
+  ],
+  "tags": [
+   "codenames"
+  ]
+ },
+ {
+  "id": "snowflake_codenames",
+  "word": "snowflake",
+  "category": "codenames",
+  "level": 1,
+  "associations": [
+   "winter",
+   "ice",
+   "unique",
+   "crystal",
+   "melt"
+  ],
+  "tags": [
+   "codenames"
+  ]
+ },
+ {
+  "id": "thunder_codenames",
+  "word": "thunder",
+  "category": "codenames",
+  "level": 1,
+  "associations": [
+   "lightning",
+   "storm",
+   "rumble",
+   "loud",
+   "clap"
+  ],
+  "tags": [
+   "codenames"
+  ]
+ },
+ {
+  "id": "pebble_codenames",
+  "word": "pebble",
+  "category": "codenames",
+  "level": 1,
+  "associations": [
+   "stone",
+   "beach",
+   "smooth",
+   "skim",
+   "small"
+  ],
+  "tags": [
+   "codenames"
+  ]
+ },
+ {
+  "id": "cave_codenames",
+  "word": "cave",
+  "category": "codenames",
+  "level": 1,
+  "associations": [
+   "bats",
+   "dark",
+   "stalactite",
+   "underground",
+   "echo"
+  ],
+  "tags": [
+   "codenames"
+  ]
+ },
+ {
+  "id": "lake_codenames",
+  "word": "lake",
+  "category": "codenames",
+  "level": 1,
+  "associations": [
+   "water",
+   "boat",
+   "swim",
+   "fish",
+   "still"
+  ],
+  "tags": [
+   "codenames"
+  ]
+ },
+ {
+  "id": "ocean_codenames",
+  "word": "ocean",
+  "category": "codenames",
+  "level": 1,
+  "associations": [
+   "waves",
+   "sea",
+   "deep",
+   "whales",
+   "tide"
+  ],
+  "tags": [
+   "codenames"
+  ]
+ },
+ {
+  "id": "beach_codenames",
+  "word": "beach",
+  "category": "codenames",
+  "level": 1,
+  "associations": [
+   "sand",
+   "waves",
+   "sun",
+   "shells",
+   "towel"
+  ],
+  "tags": [
+   "codenames"
+  ]
+ },
+ {
+  "id": "tree_codenames",
+  "word": "tree",
+  "category": "codenames",
+  "level": 1,
+  "associations": [
+   "trunk",
+   "branches",
+   "leaves",
+   "roots",
+   "forest"
+  ],
+  "tags": [
+   "codenames"
+  ]
+ },
+ {
+  "id": "flower_codenames",
+  "word": "flower",
+  "category": "codenames",
+  "level": 1,
+  "associations": [
+   "petals",
+   "bloom",
+   "garden",
+   "bee",
+   "stem"
+  ],
+  "tags": [
+   "codenames"
+  ]
+ },
+ {
+  "id": "seed_codenames",
+  "word": "seed",
+  "category": "codenames",
+  "level": 1,
+  "associations": [
+   "plant",
+   "grow",
+   "sunflower",
+   "soil",
+   "tiny"
+  ],
+  "tags": [
+   "codenames"
+  ]
+ },
+ {
+  "id": "mushroom_codenames",
+  "word": "mushroom",
+  "category": "codenames",
+  "level": 1,
+  "associations": [
+   "toadstool",
+   "fungus",
+   "forest",
+   "damp",
+   "spore"
+  ],
+  "tags": [
+   "codenames"
+  ]
+ },
+ {
+  "id": "cactus_codenames",
+  "word": "cactus",
+  "category": "codenames",
+  "level": 1,
+  "associations": [
+   "spikes",
+   "desert",
+   "prickly",
+   "plant",
+   "water"
+  ],
+  "tags": [
+   "codenames"
+  ]
+ },
+ {
+  "id": "feather_codenames",
+  "word": "feather",
+  "category": "codenames",
+  "level": 1,
+  "associations": [
+   "bird",
+   "quill",
+   "soft",
+   "light",
+   "wing"
+  ],
+  "tags": [
+   "codenames"
+  ]
+ },
+ {
+  "id": "iceberg_codenames",
+  "word": "iceberg",
+  "category": "codenames",
+  "level": 2,
+  "associations": [
+   "ice",
+   "floating",
+   "Arctic",
+   "Antarctica",
+   "tip"
+  ],
+  "tags": [
+   "codenames"
+  ]
+ },
+ {
+  "id": "meadow_codenames",
+  "word": "meadow",
+  "category": "codenames",
+  "level": 2,
+  "associations": [
+   "grass",
+   "field",
+   "wildflowers",
+   "butterflies",
+   "picnic"
+  ],
+  "tags": [
+   "codenames"
+  ]
+ },
+ {
+  "id": "jungle_codenames",
+  "word": "jungle",
+  "category": "codenames",
+  "level": 1,
+  "associations": [
+   "vines",
+   "monkeys",
+   "tropical",
+   "dense",
+   "tiger"
+  ],
+  "tags": [
+   "codenames"
+  ]
+ },
+ {
+  "id": "swamp_codenames",
+  "word": "swamp",
+  "category": "codenames",
+  "level": 2,
+  "associations": [
+   "mud",
+   "crocodile",
+   "marsh",
+   "frogs",
+   "bog"
+  ],
+  "tags": [
+   "codenames"
+  ]
+ },
+ {
+  "id": "sand_codenames",
+  "word": "sand",
+  "category": "codenames",
+  "level": 1,
+  "associations": [
+   "beach",
+   "grains",
+   "dunes",
+   "castle",
+   "desert"
+  ],
+  "tags": [
+   "codenames"
+  ]
+ },
+ {
+  "id": "moss_codenames",
+  "word": "moss",
+  "category": "codenames",
+  "level": 2,
+  "associations": [
+   "soft",
+   "forest",
+   "stones",
+   "damp",
+   "spongy"
+  ],
+  "tags": [
+   "codenames"
+  ]
+ },
+ {
+  "id": "pupil_codenames",
+  "word": "pupil",
+  "category": "codenames",
+  "level": 2,
+  "associations": [
+   "eye",
+   "school",
+   "student",
+   "iris",
+   "class"
+  ],
+  "tags": [
+   "codenames",
+   "multi_meaning"
+  ]
+ },
+ {
+  "id": "nail_codenames",
+  "word": "nail",
+  "category": "codenames",
+  "level": 1,
+  "associations": [
+   "finger",
+   "hammer",
+   "toe",
+   "polish",
+   "carpenter"
+  ],
+  "tags": [
+   "codenames",
+   "multi_meaning"
+  ]
+ },
+ {
+  "id": "organ_codenames",
+  "word": "organ",
+  "category": "codenames",
+  "level": 2,
+  "associations": [
+   "body",
+   "music",
+   "piano",
+   "pipes",
+   "donor"
+  ],
+  "tags": [
+   "codenames",
+   "multi_meaning"
+  ]
+ },
+ {
+  "id": "chest_codenames",
+  "word": "chest",
+  "category": "codenames",
+  "level": 1,
+  "associations": [
+   "treasure",
+   "ribs",
+   "pirate",
+   "body",
+   "drawers"
+  ],
+  "tags": [
+   "codenames",
+   "multi_meaning"
+  ]
+ },
+ {
+  "id": "temple_codenames",
+  "word": "temple",
+  "category": "codenames",
+  "level": 3,
+  "associations": [
+   "head",
+   "forehead",
+   "building",
+   "ancient",
+   "pillars"
+  ],
+  "tags": [
+   "codenames",
+   "multi_meaning"
+  ]
+ },
+ {
+  "id": "cell_codenames",
+  "word": "cell",
+  "category": "codenames",
+  "level": 2,
+  "associations": [
+   "body",
+   "prison",
+   "battery",
+   "microscope",
+   "phone"
+  ],
+  "tags": [
+   "codenames",
+   "multi_meaning"
+  ]
+ },
+ {
+  "id": "finger_codenames",
+  "word": "finger",
+  "category": "codenames",
+  "level": 1,
+  "associations": [
+   "hand",
+   "thumb",
+   "point",
+   "five",
+   "knuckle"
+  ],
+  "tags": [
+   "codenames"
+  ]
+ },
+ {
+  "id": "elbow_codenames",
+  "word": "elbow",
+  "category": "codenames",
+  "level": 1,
+  "associations": [
+   "arm",
+   "bend",
+   "joint",
+   "funny bone",
+   "nudge"
+  ],
+  "tags": [
+   "codenames"
+  ]
+ },
+ {
+  "id": "knee_codenames",
+  "word": "knee",
+  "category": "codenames",
+  "level": 1,
+  "associations": [
+   "leg",
+   "bend",
+   "joint",
+   "scrape",
+   "hinge"
+  ],
+  "tags": [
+   "codenames"
+  ]
+ },
+ {
+  "id": "ankle_codenames",
+  "word": "ankle",
+  "category": "codenames",
+  "level": 1,
+  "associations": [
+   "foot",
+   "leg",
+   "twist",
+   "joint",
+   "sock"
+  ],
+  "tags": [
+   "codenames"
+  ]
+ },
+ {
+  "id": "shoulder_codenames",
+  "word": "shoulder",
+  "category": "codenames",
+  "level": 1,
+  "associations": [
+   "arm",
+   "blade",
+   "carry",
+   "shrug",
+   "neck"
+  ],
+  "tags": [
+   "codenames"
+  ]
+ },
+ {
+  "id": "eyebrow_codenames",
+  "word": "eyebrow",
+  "category": "codenames",
+  "level": 1,
+  "associations": [
+   "forehead",
+   "hair",
+   "raise",
+   "arch",
+   "frown"
+  ],
+  "tags": [
+   "codenames"
+  ]
+ },
+ {
+  "id": "tooth_codenames",
+  "word": "tooth",
+  "category": "codenames",
+  "level": 1,
+  "associations": [
+   "smile",
+   "dentist",
+   "bite",
+   "fairy",
+   "mouth"
+  ],
+  "tags": [
+   "codenames"
+  ]
+ },
+ {
+  "id": "hair_codenames",
+  "word": "hair",
+  "category": "codenames",
+  "level": 1,
+  "associations": [
+   "head",
+   "brush",
+   "comb",
+   "curl",
+   "salon"
+  ],
+  "tags": [
+   "codenames"
+  ]
+ },
+ {
+  "id": "foot_codenames",
+  "word": "foot",
+  "category": "codenames",
+  "level": 1,
+  "associations": [
+   "toes",
+   "walk",
+   "shoe",
+   "ankle",
+   "heel"
+  ],
+  "tags": [
+   "codenames"
+  ]
+ },
+ {
+  "id": "jam_codenames",
+  "word": "jam",
+  "category": "codenames",
+  "level": 1,
+  "associations": [
+   "strawberry",
+   "traffic",
+   "stuck",
+   "toast",
+   "squash"
+  ],
+  "tags": [
+   "codenames",
+   "multi_meaning"
+  ]
+ },
+ {
+  "id": "mint_codenames",
+  "word": "mint",
+  "category": "codenames",
+  "level": 2,
+  "associations": [
+   "herb",
+   "coins",
+   "sweet",
+   "fresh",
+   "money"
+  ],
+  "tags": [
+   "codenames",
+   "multi_meaning"
+  ]
+ },
+ {
+  "id": "nut_codenames",
+  "word": "nut",
+  "category": "codenames",
+  "level": 1,
+  "associations": [
+   "squirrel",
+   "bolt",
+   "shell",
+   "crack",
+   "almond"
+  ],
+  "tags": [
+   "codenames",
+   "multi_meaning"
+  ]
+ },
+ {
+  "id": "punch_codenames",
+  "word": "punch",
+  "category": "codenames",
+  "level": 2,
+  "associations": [
+   "drink",
+   "party",
+   "hole",
+   "fruit",
+   "ticket"
+  ],
+  "tags": [
+   "codenames",
+   "multi_meaning"
+  ]
+ },
+ {
+  "id": "chip_codenames",
+  "word": "chip",
+  "category": "codenames",
+  "level": 2,
+  "associations": [
+   "potato",
+   "crisp",
+   "computer",
+   "wood",
+   "chocolate"
+  ],
+  "tags": [
+   "codenames",
+   "multi_meaning"
+  ]
+ },
+ {
+  "id": "date_codenames",
+  "word": "date",
+  "category": "codenames",
+  "level": 2,
+  "associations": [
+   "calendar",
+   "day",
+   "fruit",
+   "palm",
+   "month"
+  ],
+  "tags": [
+   "codenames",
+   "multi_meaning"
+  ]
+ },
+ {
+  "id": "pepper_codenames",
+  "word": "pepper",
+  "category": "codenames",
+  "level": 2,
+  "associations": [
+   "spice",
+   "sneeze",
+   "capsicum",
+   "grinder",
+   "hot"
+  ],
+  "tags": [
+   "codenames",
+   "multi_meaning"
+  ]
+ },
+ {
+  "id": "apple_codenames",
+  "word": "apple",
+  "category": "codenames",
+  "level": 1,
+  "associations": [
+   "tree",
+   "core",
+   "crunchy",
+   "orchard",
+   "pie"
+  ],
+  "tags": [
+   "codenames"
+  ]
+ },
+ {
+  "id": "banana_codenames",
+  "word": "banana",
+  "category": "codenames",
+  "level": 1,
+  "associations": [
+   "yellow",
+   "peel",
+   "monkey",
+   "bunch",
+   "slip"
+  ],
+  "tags": [
+   "codenames"
+  ]
+ },
+ {
+  "id": "cherry_codenames",
+  "word": "cherry",
+  "category": "codenames",
+  "level": 1,
+  "associations": [
+   "pair",
+   "stalk",
+   "red",
+   "stone",
+   "pie"
+  ],
+  "tags": [
+   "codenames"
+  ]
+ },
+ {
+  "id": "grape_codenames",
+  "word": "grape",
+  "category": "codenames",
+  "level": 1,
+  "associations": [
+   "vine",
+   "bunch",
+   "raisin",
+   "purple",
+   "juice"
+  ],
+  "tags": [
+   "codenames"
+  ]
+ },
+ {
+  "id": "lemon_codenames",
+  "word": "lemon",
+  "category": "codenames",
+  "level": 1,
+  "associations": [
+   "sour",
+   "yellow",
+   "juice",
+   "zest",
+   "tangy"
+  ],
+  "tags": [
+   "codenames"
+  ]
+ },
+ {
+  "id": "pumpkin_codenames",
+  "word": "pumpkin",
+  "category": "codenames",
+  "level": 1,
+  "associations": [
+   "Halloween",
+   "orange",
+   "carve",
+   "patch",
+   "pie"
+  ],
+  "tags": [
+   "codenames"
+  ]
+ },
+ {
+  "id": "carrot_codenames",
+  "word": "carrot",
+  "category": "codenames",
+  "level": 1,
+  "associations": [
+   "rabbit",
+   "orange",
+   "root",
+   "crunchy",
+   "stick"
+  ],
+  "tags": [
+   "codenames"
+  ]
+ },
+ {
+  "id": "potato_codenames",
+  "word": "potato",
+  "category": "codenames",
+  "level": 1,
+  "associations": [
+   "chips",
+   "mash",
+   "spud",
+   "root",
+   "baked"
+  ],
+  "tags": [
+   "codenames"
+  ]
+ },
+ {
+  "id": "tomato_codenames",
+  "word": "tomato",
+  "category": "codenames",
+  "level": 1,
+  "associations": [
+   "red",
+   "ketchup",
+   "salad",
+   "sauce",
+   "vine"
+  ],
+  "tags": [
+   "codenames"
+  ]
+ },
+ {
+  "id": "cheese_codenames",
+  "word": "cheese",
+  "category": "codenames",
+  "level": 1,
+  "associations": [
+   "mouse",
+   "milk",
+   "cheddar",
+   "melt",
+   "slice"
+  ],
+  "tags": [
+   "codenames"
+  ]
+ },
+ {
+  "id": "bread_codenames",
+  "word": "bread",
+  "category": "codenames",
+  "level": 1,
+  "associations": [
+   "toast",
+   "loaf",
+   "slice",
+   "crust",
+   "butter"
+  ],
+  "tags": [
+   "codenames"
+  ]
+ },
+ {
+  "id": "egg_codenames",
+  "word": "egg",
+  "category": "codenames",
+  "level": 1,
+  "associations": [
+   "chicken",
+   "yolk",
+   "shell",
+   "breakfast",
+   "boiled"
+  ],
+  "tags": [
+   "codenames"
+  ]
+ },
+ {
+  "id": "cookie_codenames",
+  "word": "cookie",
+  "category": "codenames",
+  "level": 1,
+  "associations": [
+   "biscuit",
+   "dough",
+   "crumbs",
+   "oven",
+   "jar"
+  ],
+  "tags": [
+   "codenames"
+  ]
+ },
+ {
+  "id": "sandwich_codenames",
+  "word": "sandwich",
+  "category": "codenames",
+  "level": 1,
+  "associations": [
+   "bread",
+   "filling",
+   "lunch",
+   "picnic",
+   "toasted"
+  ],
+  "tags": [
+   "codenames"
+  ]
+ },
+ {
+  "id": "soup_codenames",
+  "word": "soup",
+  "category": "codenames",
+  "level": 1,
+  "associations": [
+   "bowl",
+   "spoon",
+   "hot",
+   "broth",
+   "ladle"
+  ],
+  "tags": [
+   "codenames"
+  ]
+ },
+ {
+  "id": "pizza_codenames",
+  "word": "pizza",
+  "category": "codenames",
+  "level": 1,
+  "associations": [
+   "cheese",
+   "slice",
+   "Italy",
+   "crust",
+   "topping"
+  ],
+  "tags": [
+   "codenames"
+  ]
+ },
+ {
+  "id": "cake_codenames",
+  "word": "cake",
+  "category": "codenames",
+  "level": 1,
+  "associations": [
+   "birthday",
+   "candles",
+   "icing",
+   "slice",
+   "bake"
+  ],
+  "tags": [
+   "codenames"
+  ]
+ },
+ {
+  "id": "sugar_codenames",
+  "word": "sugar",
+  "category": "codenames",
+  "level": 1,
+  "associations": [
+   "sweet",
+   "cubes",
+   "teaspoon",
+   "cane",
+   "bowl"
+  ],
+  "tags": [
+   "codenames"
+  ]
+ },
+ {
+  "id": "ice_cream_codenames",
+  "word": "ice cream",
+  "category": "codenames",
+  "level": 1,
+  "associations": [
+   "cone",
+   "scoop",
+   "vanilla",
+   "summer",
+   "cold"
+  ],
+  "tags": [
+   "codenames"
+  ]
+ },
+ {
+  "id": "bank_codenames",
+  "word": "bank",
+  "category": "codenames",
+  "level": 1,
+  "associations": [
+   "money",
+   "river",
+   "savings",
+   "coins",
+   "slope"
+  ],
+  "tags": [
+   "codenames",
+   "multi_meaning"
+  ]
+ },
+ {
+  "id": "bridge_codenames",
+  "word": "bridge",
+  "category": "codenames",
+  "level": 1,
+  "associations": [
+   "river",
+   "cross",
+   "cards",
+   "nose",
+   "train"
+  ],
+  "tags": [
+   "codenames",
+   "multi_meaning"
+  ]
+ },
+ {
+  "id": "post_codenames",
+  "word": "post",
+  "category": "codenames",
+  "level": 1,
+  "associations": [
+   "letter",
+   "mail",
+   "pole",
+   "fence",
+   "goal"
+  ],
+  "tags": [
+   "codenames",
+   "multi_meaning"
+  ]
+ },
+ {
+  "id": "pole_codenames",
+  "word": "pole",
+  "category": "codenames",
+  "level": 2,
+  "associations": [
+   "north",
+   "stick",
+   "flag",
+   "ski",
+   "south"
+  ],
+  "tags": [
+   "codenames",
+   "multi_meaning"
+  ]
+ },
+ {
+  "id": "train_codenames",
+  "word": "train",
+  "category": "codenames",
+  "level": 1,
+  "associations": [
+   "station",
+   "tracks",
+   "carriage",
+   "practise",
+   "coach"
+  ],
+  "tags": [
+   "codenames",
+   "multi_meaning"
+  ]
+ },
+ {
+  "id": "coach_codenames",
+  "word": "coach",
+  "category": "codenames",
+  "level": 1,
+  "associations": [
+   "bus",
+   "trainer",
+   "team",
+   "carriage",
+   "whistle"
+  ],
+  "tags": [
+   "codenames",
+   "multi_meaning"
+  ]
+ },
+ {
+  "id": "pitch_codenames",
+  "word": "pitch",
+  "category": "codenames",
+  "level": 2,
+  "associations": [
+   "football",
+   "tent",
+   "throw",
+   "cricket",
+   "music"
+  ],
+  "tags": [
+   "codenames",
+   "multi_meaning"
+  ]
+ },
+ {
+  "id": "sink_codenames",
+  "word": "sink",
+  "category": "codenames",
+  "level": 1,
+  "associations": [
+   "kitchen",
+   "tap",
+   "float",
+   "drain",
+   "boat"
+  ],
+  "tags": [
+   "codenames",
+   "multi_meaning"
+  ]
+ },
+ {
+  "id": "spot_codenames",
+  "word": "spot",
+  "category": "codenames",
+  "level": 1,
+  "associations": [
+   "dot",
+   "see",
+   "place",
+   "stain",
+   "leopard"
+  ],
+  "tags": [
+   "codenames",
+   "multi_meaning"
+  ]
+ },
+ {
+  "id": "tip_codenames",
+  "word": "tip",
+  "category": "codenames",
+  "level": 1,
+  "associations": [
+   "money",
+   "advice",
+   "end",
+   "point",
+   "rubbish"
+  ],
+  "tags": [
+   "codenames",
+   "multi_meaning"
+  ]
+ },
+ {
+  "id": "bar_codenames",
+  "word": "bar",
+  "category": "codenames",
+  "level": 1,
+  "associations": [
+   "chocolate",
+   "metal",
+   "stripe",
+   "music",
+   "soap"
+  ],
+  "tags": [
+   "codenames",
+   "multi_meaning"
+  ]
+ },
+ {
+  "id": "kid_codenames",
+  "word": "kid",
+  "category": "codenames",
+  "level": 1,
+  "associations": [
+   "child",
+   "goat",
+   "young",
+   "joke",
+   "baby"
+  ],
+  "tags": [
+   "codenames",
+   "multi_meaning"
+  ]
+ },
+ {
+  "id": "band_codenames",
+  "word": "band",
+  "category": "codenames",
+  "level": 1,
+  "associations": [
+   "music",
+   "rubber",
+   "group",
+   "stripe",
+   "drummer"
+  ],
+  "tags": [
+   "codenames",
+   "multi_meaning"
+  ]
+ },
+ {
+  "id": "lock_codenames",
+  "word": "lock",
+  "category": "codenames",
+  "level": 1,
+  "associations": [
+   "door",
+   "key",
+   "hair",
+   "canal",
+   "safe"
+  ],
+  "tags": [
+   "codenames",
+   "multi_meaning"
+  ]
+ },
+ {
+  "id": "track_codenames",
+  "word": "track",
+  "category": "codenames",
+  "level": 1,
+  "associations": [
+   "train",
+   "race",
+   "song",
+   "follow",
+   "footprints"
+  ],
+  "tags": [
+   "codenames",
+   "multi_meaning"
+  ]
+ },
+ {
+  "id": "lap_codenames",
+  "word": "lap",
+  "category": "codenames",
+  "level": 1,
+  "associations": [
+   "knees",
+   "race",
+   "track",
+   "sit",
+   "circle"
+  ],
+  "tags": [
+   "codenames",
+   "multi_meaning"
+  ]
+ },
+ {
+  "id": "stable_codenames",
+  "word": "stable",
+  "category": "codenames",
+  "level": 2,
+  "associations": [
+   "horse",
+   "steady",
+   "barn",
+   "hay",
+   "balanced"
+  ],
+  "tags": [
+   "codenames",
+   "multi_meaning"
+  ]
+ },
+ {
+  "id": "bill_codenames",
+  "word": "bill",
+  "category": "codenames",
+  "level": 2,
+  "associations": [
+   "bird",
+   "beak",
+   "invoice",
+   "money",
+   "restaurant"
+  ],
+  "tags": [
+   "codenames",
+   "multi_meaning"
+  ]
+ },
+ {
+  "id": "flat_codenames",
+  "word": "flat",
+  "category": "codenames",
+  "level": 2,
+  "associations": [
+   "apartment",
+   "level",
+   "tyre",
+   "smooth",
+   "pancake"
+  ],
+  "tags": [
+   "codenames",
+   "multi_meaning"
+  ]
+ },
+ {
+  "id": "school_codenames",
+  "word": "school",
+  "category": "codenames",
+  "level": 1,
+  "associations": [
+   "teacher",
+   "classroom",
+   "bell",
+   "students",
+   "homework"
+  ],
+  "tags": [
+   "codenames"
+  ]
+ },
+ {
+  "id": "library_codenames",
+  "word": "library",
+  "category": "codenames",
+  "level": 1,
+  "associations": [
+   "books",
+   "quiet",
+   "librarian",
+   "shelves",
+   "borrow"
+  ],
+  "tags": [
+   "codenames"
+  ]
+ },
+ {
+  "id": "hospital_codenames",
+  "word": "hospital",
+  "category": "codenames",
+  "level": 1,
+  "associations": [
+   "doctor",
+   "nurse",
+   "patients",
+   "ambulance",
+   "ward"
+  ],
+  "tags": [
+   "codenames"
+  ]
+ },
+ {
+  "id": "playground_codenames",
+  "word": "playground",
+  "category": "codenames",
+  "level": 1,
+  "associations": [
+   "swings",
+   "slide",
+   "children",
+   "climbing frame",
+   "seesaw"
+  ],
+  "tags": [
+   "codenames"
+  ]
+ },
+ {
+  "id": "farm_codenames",
+  "word": "farm",
+  "category": "codenames",
+  "level": 1,
+  "associations": [
+   "tractor",
+   "animals",
+   "barn",
+   "crops",
+   "harvest"
+  ],
+  "tags": [
+   "codenames"
+  ]
+ },
+ {
+  "id": "museum_codenames",
+  "word": "museum",
+  "category": "codenames",
+  "level": 1,
+  "associations": [
+   "exhibits",
+   "history",
+   "dinosaur bones",
+   "guide",
+   "gallery"
+  ],
+  "tags": [
+   "codenames"
+  ]
+ },
+ {
+  "id": "circus_codenames",
+  "word": "circus",
+  "category": "codenames",
+  "level": 1,
+  "associations": [
+   "clown",
+   "tent",
+   "acrobats",
+   "ringmaster",
+   "elephants"
+  ],
+  "tags": [
+   "codenames"
+  ]
+ },
+ {
+  "id": "zoo_codenames",
+  "word": "zoo",
+  "category": "codenames",
+  "level": 1,
+  "associations": [
+   "animals",
+   "keeper",
+   "enclosure",
+   "visit",
+   "giraffes"
+  ],
+  "tags": [
+   "codenames"
+  ]
+ },
+ {
+  "id": "stadium_codenames",
+  "word": "stadium",
+  "category": "codenames",
+  "level": 1,
+  "associations": [
+   "crowd",
+   "match",
+   "seats",
+   "football",
+   "pitch"
+  ],
+  "tags": [
+   "codenames"
+  ]
+ },
+ {
+  "id": "kitchen_codenames",
+  "word": "kitchen",
+  "category": "codenames",
+  "level": 1,
+  "associations": [
+   "cooking",
+   "oven",
+   "fridge",
+   "sink",
+   "chef"
+  ],
+  "tags": [
+   "codenames"
+  ]
+ },
+ {
+  "id": "garden_codenames",
+  "word": "garden",
+  "category": "codenames",
+  "level": 1,
+  "associations": [
+   "flowers",
+   "lawn",
+   "shed",
+   "plants",
+   "grass"
+  ],
+  "tags": [
+   "codenames"
+  ]
+ },
+ {
+  "id": "bedroom_codenames",
+  "word": "bedroom",
+  "category": "codenames",
+  "level": 1,
+  "associations": [
+   "bed",
+   "pillow",
+   "sleep",
+   "wardrobe",
+   "lamp"
+  ],
+  "tags": [
+   "codenames"
+  ]
+ },
+ {
+  "id": "airport_codenames",
+  "word": "airport",
+  "category": "codenames",
+  "level": 1,
+  "associations": [
+   "runway",
+   "planes",
+   "passport",
+   "luggage",
+   "terminal"
+  ],
+  "tags": [
+   "codenames"
+  ]
+ },
+ {
+  "id": "lighthouse_codenames",
+  "word": "lighthouse",
+  "category": "codenames",
+  "level": 1,
+  "associations": [
+   "beam",
+   "coast",
+   "ships",
+   "tower",
+   "rocks"
+  ],
+  "tags": [
+   "codenames"
+  ]
+ },
+ {
+  "id": "dragon_codenames",
+  "word": "dragon",
+  "category": "codenames",
+  "level": 1,
+  "associations": [
+   "fire",
+   "wings",
+   "scales",
+   "knight",
+   "cave"
+  ],
+  "tags": [
+   "codenames"
+  ]
+ },
+ {
+  "id": "unicorn_codenames",
+  "word": "unicorn",
+  "category": "codenames",
+  "level": 1,
+  "associations": [
+   "horn",
+   "magical",
+   "horse",
+   "rainbow",
+   "mane"
+  ],
+  "tags": [
+   "codenames"
+  ]
+ },
+ {
+  "id": "mermaid_codenames",
+  "word": "mermaid",
+  "category": "codenames",
+  "level": 1,
+  "associations": [
+   "tail",
+   "ocean",
+   "sea",
+   "scales",
+   "legend"
+  ],
+  "tags": [
+   "codenames"
+  ]
+ },
+ {
+  "id": "wizard_codenames",
+  "word": "wizard",
+  "category": "codenames",
+  "level": 1,
+  "associations": [
+   "wand",
+   "spell",
+   "magic",
+   "hat",
+   "beard"
+  ],
+  "tags": [
+   "codenames"
+  ]
+ },
+ {
+  "id": "fairy_codenames",
+  "word": "fairy",
+  "category": "codenames",
+  "level": 1,
+  "associations": [
+   "wings",
+   "wand",
+   "tiny",
+   "magic",
+   "dust"
+  ],
+  "tags": [
+   "codenames"
+  ]
+ },
+ {
+  "id": "giant_codenames",
+  "word": "giant",
+  "category": "codenames",
+  "level": 1,
+  "associations": [
+   "huge",
+   "tall",
+   "beanstalk",
+   "enormous",
+   "strong"
+  ],
+  "tags": [
+   "codenames"
+  ]
+ },
+ {
+  "id": "pirate_codenames",
+  "word": "pirate",
+  "category": "codenames",
+  "level": 1,
+  "associations": [
+   "ship",
+   "treasure",
+   "parrot",
+   "eye patch",
+   "sail"
+  ],
+  "tags": [
+   "codenames"
+  ]
+ },
+ {
+  "id": "robot_codenames",
+  "word": "robot",
+  "category": "codenames",
+  "level": 1,
+  "associations": [
+   "metal",
+   "machine",
+   "beep",
+   "circuits",
+   "android"
+  ],
+  "tags": [
+   "codenames"
+  ]
+ },
+ {
+  "id": "alien_codenames",
+  "word": "alien",
+  "category": "codenames",
+  "level": 1,
+  "associations": [
+   "space",
+   "UFO",
+   "spaceship",
+   "planet",
+   "green"
+  ],
+  "tags": [
+   "codenames"
+  ]
+ },
+ {
+  "id": "treasure_codenames",
+  "word": "treasure",
+  "category": "codenames",
+  "level": 1,
+  "associations": [
+   "map",
+   "chest",
+   "gold",
+   "pirate",
+   "buried"
+  ],
+  "tags": [
+   "codenames"
+  ]
+ },
+ {
+  "id": "map_codenames",
+  "word": "map",
+  "category": "codenames",
+  "level": 1,
+  "associations": [
+   "atlas",
+   "route",
+   "compass",
+   "treasure",
+   "scale"
+  ],
+  "tags": [
+   "codenames"
+  ]
+ },
+ {
+  "id": "coin_codenames",
+  "word": "coin",
+  "category": "codenames",
+  "level": 1,
+  "associations": [
+   "money",
+   "toss",
+   "heads",
+   "silver",
+   "pocket"
+  ],
+  "tags": [
+   "codenames"
+  ]
+ },
+ {
+  "id": "diamond_codenames",
+  "word": "diamond",
+  "category": "codenames",
+  "level": 2,
+  "associations": [
+   "sparkle",
+   "ring",
+   "jewel",
+   "baseball",
+   "cards"
+  ],
+  "tags": [
+   "codenames",
+   "multi_meaning"
+  ]
+ },
+ {
+  "id": "star_codenames",
+  "word": "star",
+  "category": "codenames",
+  "level": 1,
+  "associations": [
+   "twinkle",
+   "sky",
+   "celebrity",
+   "film",
+   "sun"
+  ],
+  "tags": [
+   "codenames",
+   "multi_meaning"
+  ]
+ },
+ {
+  "id": "sun_codenames",
+  "word": "sun",
+  "category": "codenames",
+  "level": 1,
+  "associations": [
+   "hot",
+   "day",
+   "shine",
+   "summer",
+   "rays"
+  ],
+  "tags": [
+   "codenames"
   ]
  }
 ]

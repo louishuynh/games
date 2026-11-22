@@ -1,6 +1,6 @@
 // Wordwise service worker: precache everything, then serve from cache
 // (stale-while-revalidate). Bump CACHE when shipping new assets or words.json.
-const CACHE = "wordwise-v6";
+const CACHE = "wordwise-v7";
 const ASSETS = [
   "./",
   "index.html",
@@ -15,7 +15,10 @@ const ASSETS = [
 
 self.addEventListener("install", (e) => {
   e.waitUntil(
-    caches.open(CACHE).then((c) => c.addAll(ASSETS)).then(() => self.skipWaiting())
+    // cache: "reload" skips the browser's HTTP cache (GitHub Pages sends max-age=600), so we never precache stale files.
+    caches.open(CACHE)
+      .then((c) => c.addAll(ASSETS.map((a) => new Request(a, { cache: "reload" }))))
+      .then(() => self.skipWaiting())
   );
 });
 
@@ -33,7 +36,7 @@ self.addEventListener("fetch", (e) => {
   e.respondWith(
     caches.open(CACHE).then(async (cache) => {
       const cached = await cache.match(req, { ignoreSearch: true });
-      const refresh = fetch(req)
+      const refresh = fetch(req, { cache: "no-cache" })
         .then((res) => {
           if (res && res.ok) cache.put(req, res.clone());
           return res;

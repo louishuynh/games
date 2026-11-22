@@ -1,0 +1,981 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Wordwise</title>
+<meta name="description" content="Read five clues aloud and guess the word.">
+<meta name="theme-color" content="#f5f5f7">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="Wordwise">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="icon" href="icon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
+<script>
+// Set the theme before first paint: saved choice, else the system setting.
+(function () {
+  var t = null;
+  try { t = JSON.parse(localStorage.getItem("wordwise.theme")); } catch (e) {}
+  if (t !== "light" && t !== "dark") {
+    t = window.matchMedia && matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light";
+  }
+  document.documentElement.dataset.theme = t;
+})();
+</script>
+<style>
+  :root {
+    --bg: #f5f5f7;
+    --surface: #ffffff;
+    --text: #1d1d1f;
+    --muted: #6e6e73;
+    --line: #d2d2d7;
+    --pill: #e8e8ed;
+    --accent: #0071e3;
+    --on-accent: #ffffff;
+    --danger: #d70015;
+    --shadow: 0 12px 40px rgba(0,0,0,.12), 0 2px 8px rgba(0,0,0,.06);
+    --font: -apple-system, BlinkMacSystemFont, "SF Pro Text", "SF Pro Display", "Helvetica Neue", Helvetica, Arial, sans-serif;
+    color-scheme: light;
+  }
+  :root[data-theme="dark"] {
+    --bg: #000000;
+    --surface: #1c1c1e;
+    --text: #f5f5f7;
+    --muted: #98989d;
+    --line: #38383a;
+    --pill: #2c2c2e;
+    --accent: #2997ff;
+    --on-accent: #000000;
+    --danger: #ff453a;
+    --shadow: 0 12px 40px rgba(0,0,0,.6), 0 0 0 1px rgba(255,255,255,.06);
+    color-scheme: dark;
+  }
+
+  * { box-sizing: border-box; }
+  [hidden] { display: none !important; }
+
+  html, body {
+    margin: 0;
+    background: var(--bg);
+    color: var(--text);
+    font-family: var(--font);
+    -webkit-text-size-adjust: 100%;
+    -webkit-tap-highlight-color: transparent;
+  }
+  body { min-height: 100dvh; }
+
+  button, select, input, textarea { font: inherit; color: inherit; }
+  button { cursor: pointer; }
+  :focus-visible { outline: 3px solid var(--accent); outline-offset: 2px; }
+
+  /* ---------- Shared controls ---------- */
+  .pill {
+    display: inline-flex; align-items: center; justify-content: center; gap: 8px;
+    min-height: 48px; padding: 0 24px; border: 0; border-radius: 999px;
+    background: var(--pill); color: var(--text);
+    font-size: 17px; font-weight: 600; text-decoration: none;
+    transition: transform .12s ease, background .12s ease;
+  }
+  .pill:active { transform: scale(.97); }
+  .pill.primary { background: var(--accent); color: var(--on-accent); }
+  .pill.small { min-height: 36px; padding: 0 16px; font-size: 14px; }
+  .pill:disabled { opacity: .4; cursor: default; transform: none; }
+
+  .icon-btn {
+    display: inline-flex; align-items: center; justify-content: center;
+    width: 40px; height: 40px; padding: 0; border: 0; border-radius: 50%;
+    background: transparent; color: var(--muted); text-decoration: none;
+  }
+  .icon-btn:hover { background: var(--pill); color: var(--text); }
+  .icon-btn svg, .round svg { width: 22px; height: 22px; fill: none; stroke: currentColor; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
+  .icon-btn.cog { width: 32px; height: 32px; opacity: .7; }
+  .icon-btn.cog svg { width: 18px; height: 18px; }
+
+  /* ---------- Play view ---------- */
+  #play {
+    min-height: 100dvh; display: flex; flex-direction: column; overflow-x: clip;
+    padding: env(safe-area-inset-top) env(safe-area-inset-right) env(safe-area-inset-bottom) env(safe-area-inset-left);
+  }
+  .topbar { display: flex; align-items: center; justify-content: space-between; gap: 8px; padding: 12px 16px; }
+  .topbar .right { display: flex; align-items: center; gap: 2px; }
+
+  .select-wrap { position: relative; display: inline-block; max-width: 60vw; }
+  .select-wrap::after {
+    content: ""; position: absolute; right: 14px; top: 50%; width: 7px; height: 7px;
+    border-right: 2px solid var(--muted); border-bottom: 2px solid var(--muted);
+    transform: translateY(-70%) rotate(45deg); pointer-events: none;
+  }
+  .select-wrap select {
+    appearance: none; -webkit-appearance: none; max-width: 100%;
+    min-height: 40px; padding: 0 34px 0 16px; border: 0; border-radius: 999px;
+    background: var(--pill); font-size: 15px; font-weight: 600; text-overflow: ellipsis;
+  }
+
+  .stage {
+    flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: center;
+    gap: 22px; padding: 4px 16px 20px; touch-action: pan-y; user-select: none; -webkit-user-select: none;
+  }
+
+  .card {
+    --cat: #8e8e93;
+    --cat-text: var(--cat);
+    container-type: inline-size;
+    width: min(340px, calc(100vw - 32px), calc((100dvh - 270px) * 5 / 7));
+    min-width: 220px;
+    aspect-ratio: 5 / 7;
+    background: var(--surface); border-radius: 22px; box-shadow: var(--shadow);
+    display: flex; flex-direction: column; padding: 8cqi 7cqi 7cqi; text-align: center;
+  }
+  :root[data-theme="dark"] .card { --cat-text: color-mix(in srgb, var(--cat) 70%, #fff); }
+  .card { position: relative; touch-action: none; cursor: grab; will-change: transform; }
+  .card.done, .card.empty { cursor: default; }
+  .stamp {
+    position: absolute; top: 9cqi; width: 16cqi; height: 16cqi; border-radius: 50%; border: 3px solid currentColor;
+    display: grid; place-items: center; opacity: 0; pointer-events: none; background: var(--surface);
+  }
+  .stamp svg { width: 55%; height: 55%; fill: none; stroke: currentColor; stroke-width: 3; stroke-linecap: round; stroke-linejoin: round; }
+  .stamp.yes { left: 7cqi; color: #2e9e5b; }
+  .stamp.no { right: 7cqi; color: #d6455d; }
+  .card .cat {
+    font-size: 3.6cqi; font-weight: 600; letter-spacing: .14em; text-transform: uppercase; color: var(--cat-text);
+  }
+  .card ul { flex: 1; list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; justify-content: center; gap: 2.2cqi; }
+  .card li, .card .answer { font-size: clamp(17px, 7cqi, 26px); font-weight: 600; line-height: 1.2; overflow-wrap: anywhere; }
+  .card .rule { height: 1px; background: var(--line); margin-bottom: 4.5cqi; }
+  .card .answer { color: var(--cat-text); min-height: 2.5em; display: flex; align-items: center; justify-content: center; }
+  .card.done { justify-content: center; align-items: center; gap: 24px; --cat-text: var(--text); }
+  .card.done h2 { margin: 0; font-size: clamp(22px, 8cqi, 30px); line-height: 1.2; }
+  .card.empty p { margin: auto 0; color: var(--muted); font-size: 17px; }
+
+  .controls { display: flex; align-items: center; gap: 10px; }
+  .controls .round { width: 52px; height: 52px; min-height: 52px; padding: 0; border-radius: 50%; }
+  .controls .big { min-width: 104px; min-height: 52px; }
+  .counter { font-size: 14px; color: var(--muted); font-variant-numeric: tabular-nums; min-height: 1.4em; }
+
+  @media (max-width: 380px) {
+    .controls { gap: 6px; }
+    .controls .big { min-width: 88px; padding: 0 16px; }
+  }
+
+  /* ---------- Settings view ---------- */
+  #settings {
+    max-width: 1200px; margin: 0 auto; padding: calc(16px + env(safe-area-inset-top)) 16px 48px;
+  }
+  .set-head { display: flex; align-items: flex-start; justify-content: space-between; gap: 12px; margin-bottom: 16px; }
+  .set-head h1 { margin: 0; font-size: 32px; line-height: 1.1; letter-spacing: -.01em; }
+  .set-head p { margin: 6px 0 0; color: var(--muted); font-size: 15px; }
+  .tabs { display: inline-flex; gap: 2px; padding: 3px; border-radius: 999px; background: var(--pill); margin-bottom: 16px; }
+  .tabs a {
+    padding: 8px 20px; border-radius: 999px; color: var(--muted); text-decoration: none; font-size: 15px; font-weight: 600;
+  }
+  .tabs a[aria-selected="true"] { background: var(--surface); color: var(--text); box-shadow: 0 1px 4px rgba(0,0,0,.15); }
+
+  .toolbar { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; margin-bottom: 12px; }
+  .toolbar input[type="search"], .toolbar select {
+    min-height: 40px; padding: 0 14px; border: 1px solid var(--line); border-radius: 999px; background: var(--surface); font-size: 15px;
+  }
+  .toolbar input[type="search"] { flex: 1 1 180px; min-width: 140px; }
+  .toolbar label.chk { display: inline-flex; align-items: center; gap: 6px; font-size: 14px; color: var(--muted); }
+  .toolbar .grow { flex: 1; }
+
+  .table-wrap { overflow: auto; max-height: calc(100dvh - 300px); min-height: 240px; border: 1px solid var(--line); border-radius: 14px; background: var(--surface); }
+  table { border-collapse: separate; border-spacing: 0; width: 100%; min-width: 1100px; font-size: 14px; }
+  th {
+    position: sticky; top: 0; z-index: 1; background: var(--surface); text-align: left; font-size: 12px; font-weight: 600;
+    text-transform: uppercase; letter-spacing: .06em; color: var(--muted); padding: 0; border-bottom: 1px solid var(--line);
+  }
+  th button { all: unset; box-sizing: border-box; display: block; width: 100%; padding: 10px 8px; cursor: pointer; }
+  th button:focus-visible { outline: 3px solid var(--accent); outline-offset: -3px; }
+  th span.h { display: block; padding: 10px 8px; }
+  td { padding: 4px 4px; border-bottom: 1px solid var(--line); vertical-align: middle; }
+  td:first-child { box-shadow: inset 5px 0 0 var(--cat, #8e8e93); padding-left: 10px; }
+  tr.cut td:not(.act) { opacity: .45; }
+  td input, td select {
+    width: 100%; min-width: 0; padding: 7px 6px; border: 1px solid transparent; border-radius: 8px; background: transparent; font-size: 14px;
+  }
+  td input:hover, td select:hover { border-color: var(--line); }
+  td input:focus, td select:focus { border-color: var(--accent); background: var(--bg); outline: none; }
+  td.num { white-space: nowrap; color: var(--muted); text-align: center; font-variant-numeric: tabular-nums; }
+  td.act { white-space: nowrap; }
+  td.act button {
+    min-height: 32px; padding: 0 12px; border: 1px solid var(--line); border-radius: 999px; background: transparent; font-size: 13px; font-weight: 600;
+  }
+  td.act button.del { color: var(--danger); }
+  td.act button.armed { background: var(--danger); border-color: var(--danger); color: #fff; }
+  .compact td { padding: 0 2px; }
+  .compact td input, .compact td select { padding: 3px 4px; font-size: 13px; }
+  .compact td.act button { min-height: 26px; }
+  .col-word { width: 140px; } .col-cat { width: 120px; } .col-lvl { width: 64px; } .col-clue { width: 112px; } .col-got { width: 70px; } .col-act { width: 78px; }
+  .empty-note { padding: 32px; text-align: center; color: var(--muted); }
+
+  .panel { max-width: 720px; display: grid; gap: 28px; }
+  .panel h2 { margin: 0 0 6px; font-size: 20px; }
+  .panel p { margin: 0 0 12px; color: var(--muted); font-size: 15px; line-height: 1.4; }
+  .panel .row { display: flex; flex-wrap: wrap; gap: 10px; align-items: center; }
+  .panel textarea {
+    width: 100%; min-height: 150px; padding: 12px; border: 1px solid var(--line); border-radius: 14px;
+    background: var(--surface); font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-size: 13px; resize: vertical; margin-bottom: 10px;
+  }
+  .status { min-height: 1.4em; font-size: 14px; color: var(--muted); }
+  .status.err { color: var(--danger); }
+  .pill.armed { background: var(--danger); color: #fff; }
+
+  @media (prefers-reduced-motion: reduce) {
+    * { transition: none !important; animation: none !important; scroll-behavior: auto !important; }
+  }
+</style>
+</head>
+<body>
+
+<!-- ======================= PLAY ======================= -->
+<main id="play">
+  <div class="topbar">
+    <span class="select-wrap">
+      <select id="catSelect" aria-label="Category"></select>
+    </span>
+    <div class="right">
+      <button class="icon-btn" id="shuffleBtn" type="button" aria-label="Shuffle" title="Shuffle">
+        <svg viewBox="0 0 24 24"><path d="M16 3h5v5M4 20 21 3M21 16v5h-5M15 15l6 6M4 4l5 5"/></svg>
+      </button>
+      <button class="icon-btn" id="themeBtn" type="button" aria-label="Toggle light or dark theme" title="Light / dark"></button>
+      <a class="icon-btn cog" href="#table" aria-label="Settings" title="Settings">
+        <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M12.22 2h-.44a2 2 0 0 0-2 2v.18a2 2 0 0 1-1 1.73l-.43.25a2 2 0 0 1-2 0l-.15-.08a2 2 0 0 0-2.73.73l-.22.38a2 2 0 0 0 .73 2.73l.15.1a2 2 0 0 1 1 1.72v.51a2 2 0 0 1-1 1.74l-.15.09a2 2 0 0 0-.73 2.73l.22.38a2 2 0 0 0 2.73.73l.15-.08a2 2 0 0 1 2 0l.43.25a2 2 0 0 1 1 1.73V20a2 2 0 0 0 2 2h.44a2 2 0 0 0 2-2v-.18a2 2 0 0 1 1-1.73l.43-.25a2 2 0 0 1 2 0l.15.08a2 2 0 0 0 2.73-.73l.22-.39a2 2 0 0 0-.73-2.73l-.15-.08a2 2 0 0 1-1-1.74v-.5a2 2 0 0 1 1-1.74l.15-.09a2 2 0 0 0 .73-2.73l-.22-.38a2 2 0 0 0-2.73-.73l-.15.08a2 2 0 0 1-2 0l-.43-.25a2 2 0 0 1-1-1.73V4a2 2 0 0 0-2-2z"/></svg>
+      </a>
+    </div>
+  </div>
+
+  <div class="stage" id="stage">
+    <article class="card" id="card" aria-live="polite"></article>
+    <div class="controls">
+      <button class="pill round" id="backBtn" type="button" aria-label="Previous card"><svg viewBox="0 0 24 24"><path d="M15 18l-6-6 6-6"/></svg></button>
+      <button class="pill big" id="skipBtn" type="button">Skip</button>
+      <button class="pill big primary" id="gotBtn" type="button">Got it</button>
+      <button class="pill round" id="nextBtn" type="button" aria-label="Next card"><svg viewBox="0 0 24 24"><path d="M9 18l6-6-6-6"/></svg></button>
+    </div>
+    <div class="counter" id="counter"></div>
+  </div>
+</main>
+
+<!-- ======================= SETTINGS ======================= -->
+<section id="settings" hidden>
+  <div class="set-head">
+    <div>
+      <h1 id="setTitle" tabindex="-1">Settings</h1>
+      <p id="setSummary"></p>
+    </div>
+    <a class="pill primary" href="#play">Done</a>
+  </div>
+  <nav class="tabs" aria-label="Settings sections">
+    <a href="#table" id="tabTable">Table</a>
+    <a href="#export" id="tabExport">Export / import</a>
+  </nav>
+
+  <div id="paneTable">
+    <div class="toolbar">
+      <input type="search" id="q" placeholder="Search words and clues" aria-label="Search">
+      <select id="fCat" aria-label="Filter by category"></select>
+      <select id="fLvl" aria-label="Filter by level">
+        <option value="">All levels</option><option value="1">Level 1</option><option value="2">Level 2</option><option value="3">Level 3</option>
+      </select>
+      <label class="chk"><input type="checkbox" id="compact"> Compact</label>
+      <span class="grow"></span>
+      <button class="pill small primary" id="addBtn" type="button">Add card</button>
+    </div>
+    <div class="table-wrap" id="tableWrap">
+      <table>
+        <thead><tr id="thead"></tr></thead>
+        <tbody id="tbody"></tbody>
+      </table>
+    </div>
+    <datalist id="catList"></datalist>
+  </div>
+
+  <div id="paneExport" class="panel" hidden>
+    <div>
+      <h2>Export</h2>
+      <p>Copies the current deck. Cut cards are left out.</p>
+      <div class="row">
+        <button class="pill" id="copyCsv" type="button">Copy CSV</button>
+        <button class="pill" id="copyJson" type="button">Copy JSON</button>
+      </div>
+      <div class="status" id="exportStatus" role="status"></div>
+    </div>
+    <div>
+      <h2>Import</h2>
+      <p>Paste JSON or CSV to replace the whole deck. Stats for matching card ids are kept.</p>
+      <textarea id="importText" spellcheck="false" aria-label="Paste JSON or CSV" placeholder="id,word,category,level,clue1,clue2,clue3,clue4,clue5"></textarea>
+      <div class="row"><button class="pill" id="importBtn" type="button">Replace deck</button></div>
+      <div class="status" id="importStatus" role="status"></div>
+    </div>
+    <div>
+      <h2>Starter cards</h2>
+      <p>Throw away all edits, added cards and cut cards and go back to the starter deck. Stats are kept.</p>
+      <div class="row"><button class="pill" id="restoreBtn" type="button">Restore starter cards</button></div>
+      <div class="status" id="restoreStatus" role="status"></div>
+    </div>
+  </div>
+</section>
+
+<script>
+(function () {
+  "use strict";
+
+  // ---------------------------------------------------------------- storage
+  var KEY = {
+    overlay: "wordwise.overlay.v1",   // user edits, keyed by card id (survives a new words.json)
+    stats: "wordwise.stats.v1",       // { id: { seen, got, last_seen } }, separate from the word list
+    theme: "wordwise.theme",
+    cat: "wordwise.category",
+    compact: "wordwise.compact"
+  };
+  function load(k, d) {
+    try { var v = JSON.parse(localStorage.getItem(k)); return v === null || v === undefined ? d : v; }
+    catch (e) { return d; }
+  }
+  function save(k, v) { try { localStorage.setItem(k, JSON.stringify(v)); } catch (e) {} }
+
+  function freshOverlay() { return { added: [], edits: {}, deleted: {}, cut: {}, order: null }; }
+
+  // ---------------------------------------------------------------- state
+  var base = [];                 // starter cards from words.json
+  var baseIds = {};
+  var overlay = Object.assign(freshOverlay(), load(KEY.overlay, {}));
+  var stats = load(KEY.stats, {});
+  var deck = [];                 // effective cards (base + overlay), live objects
+  var byId = {};
+  var dirty = true;              // deck changed since the play queue was built
+
+  var queue = [], pos = 0, sessionGot = {}, gotCount = 0;
+  var catFilter = load(KEY.cat, "");
+
+  var $ = function (id) { return document.getElementById(id); };
+  var reduceMotion = window.matchMedia && matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+  function clone(c) {
+    return { id: c.id, word: c.word, category: c.category, level: c.level, associations: c.associations.slice() };
+  }
+
+  function buildDeck() {
+    var map = {}, list = [];
+    base.forEach(function (c) {
+      if (overlay.deleted[c.id]) return;
+      var card = clone(overlay.edits[c.id] || c);
+      map[c.id] = card; list.push(card);
+    });
+    overlay.added.forEach(function (c) {
+      if (map[c.id]) return;
+      var card = clone(c);
+      map[c.id] = card; list.push(card);
+    });
+    if (overlay.order) {
+      var rank = {};
+      overlay.order.forEach(function (id, i) { rank[id] = i; });
+      var big = overlay.order.length;
+      list = list.map(function (c, i) { return { c: c, r: rank[c.id] !== undefined ? rank[c.id] : big + i }; })
+        .sort(function (a, b) { return a.r - b.r; })
+        .map(function (x) { return x.c; });
+    }
+    deck = list; byId = map;
+  }
+
+  function saveOverlay() { save(KEY.overlay, overlay); dirty = true; }
+
+  // Persist one edited card into the overlay.
+  function persistCard(card) {
+    if (baseIds[card.id]) overlay.edits[card.id] = clone(card);
+    else {
+      for (var i = 0; i < overlay.added.length; i++) {
+        if (overlay.added[i].id === card.id) { overlay.added[i] = clone(card); break; }
+      }
+    }
+    saveOverlay();
+  }
+
+  function playable(c) { return !overlay.cut[c.id] && c.word.trim() !== ""; }
+
+  // ---------------------------------------------------------------- colours
+  var CAT_COLORS = {
+    animals: "#c9741a", space: "#6c5ce7", nature: "#2e9e5b", body: "#d6455d", food: "#e0612f",
+    geography: "#1f7fd1", history: "#9a7b35", australia: "#c4582a", language: "#b04fb5",
+    maths: "#0e8f94", thinking: "#4a5bd1"
+  };
+  function catColor(name) {
+    var n = String(name || "").trim().toLowerCase();
+    if (!n) return "#8e8e93";
+    if (CAT_COLORS[n]) return CAT_COLORS[n];
+    var h = 5381;
+    for (var i = 0; i < n.length; i++) h = ((h * 33) ^ n.charCodeAt(i)) >>> 0;
+    return "hsl(" + (h % 360) + " 55% 42%)";
+  }
+
+  // ---------------------------------------------------------------- CSV / JSON
+  var COLS = ["id", "word", "category", "level", "clue1", "clue2", "clue3", "clue4", "clue5"];
+
+  function csvEsc(s) {
+    s = String(s);
+    return /[",\r\n]/.test(s) ? '"' + s.replace(/"/g, '""') + '"' : s;
+  }
+  function exportCards() { return deck.filter(playable); }
+  function toCSV(cards) {
+    var lines = [COLS.join(",")];
+    cards.forEach(function (c) {
+      lines.push([c.id, c.word, c.category, c.level].concat(c.associations).map(csvEsc).join(","));
+    });
+    return lines.join("\n") + "\n";
+  }
+  function toJSON(cards) { return JSON.stringify(cards.map(clone), null, 1) + "\n"; }
+
+  function parseCSV(text) {
+    var rows = [], row = [], f = "", q = false, i = 0, n = text.length;
+    while (i < n) {
+      var ch = text[i];
+      if (q) {
+        if (ch === '"') {
+          if (text[i + 1] === '"') { f += '"'; i += 2; continue; }
+          q = false; i++; continue;
+        }
+        f += ch; i++; continue;
+      }
+      if (ch === '"') { q = true; i++; }
+      else if (ch === ",") { row.push(f); f = ""; i++; }
+      else if (ch === "\r" || ch === "\n") {
+        if (ch === "\r" && text[i + 1] === "\n") i++;
+        row.push(f); f = ""; i++;
+        if (row.length > 1 || row[0] !== "") rows.push(row);
+        row = [];
+      } else { f += ch; i++; }
+    }
+    if (q) throw new Error("CSV has an unclosed quote.");
+    if (f !== "" || row.length) { row.push(f); if (row.length > 1 || row[0] !== "") rows.push(row); }
+    return rows;
+  }
+
+  function slug(s) { return String(s).toLowerCase().replace(/[^a-z0-9]+/g, "_").replace(/^_+|_+$/g, ""); }
+
+  // Returns an array of normalised cards, or throws Error with a readable message.
+  function parseDeck(text) {
+    var t = text.replace(/^﻿/, "").trim();
+    if (!t) throw new Error("Nothing to import.");
+    var raw = [];
+    if (t[0] === "[" || t[0] === "{") {
+      var j;
+      try { j = JSON.parse(t); } catch (e) { throw new Error("That is not valid JSON."); }
+      if (!Array.isArray(j) && j && Array.isArray(j.cards)) j = j.cards;
+      if (!Array.isArray(j)) throw new Error("JSON must be an array of cards.");
+      raw = j.map(function (o) {
+        o = o || {};
+        var a = Array.isArray(o.associations) ? o.associations
+          : [o.clue1, o.clue2, o.clue3, o.clue4, o.clue5];
+        return { id: o.id, word: o.word, category: o.category, level: o.level, assoc: a };
+      });
+    } else {
+      var rows = parseCSV(t);
+      var head = rows.shift().map(function (h) { return h.trim().toLowerCase(); });
+      var idx = {};
+      COLS.forEach(function (c) { idx[c] = head.indexOf(c); });
+      ["word", "category", "level", "clue1", "clue2", "clue3", "clue4", "clue5"].forEach(function (c) {
+        if (idx[c] < 0) throw new Error("CSV header is missing the “" + c + "” column.");
+      });
+      raw = rows.map(function (r) {
+        var g = function (c) { return idx[c] < 0 ? "" : (r[idx[c]] === undefined ? "" : r[idx[c]]); };
+        return { id: g("id"), word: g("word"), category: g("category"), level: g("level"),
+                 assoc: [g("clue1"), g("clue2"), g("clue3"), g("clue4"), g("clue5")] };
+      });
+    }
+    if (!raw.length) throw new Error("No cards found.");
+    var seen = {};
+    return raw.map(function (o, i) {
+      var label = "Card " + (i + 1);
+      var word = String(o.word == null ? "" : o.word).trim();
+      if (!word) throw new Error(label + " has no word.");
+      var category = String(o.category == null ? "" : o.category).trim();
+      if (!category) throw new Error(label + " (" + word + ") has no category.");
+      var level = parseInt(o.level, 10);
+      if (!(level >= 1 && level <= 3) || String(o.level).trim() !== String(level)) {
+        throw new Error(label + " (" + word + ") needs a level of 1, 2 or 3.");
+      }
+      if (!Array.isArray(o.assoc) || o.assoc.length !== 5) throw new Error(label + " (" + word + ") needs exactly 5 clues.");
+      var id = String(o.id == null ? "" : o.id).trim() || (slug(word) + "_" + slug(category));
+      if (seen[id]) throw new Error("Duplicate id “" + id + "”.");
+      seen[id] = true;
+      return { id: id, word: word, category: category, level: level,
+               associations: o.assoc.map(function (s) { return String(s == null ? "" : s).trim(); }) };
+    });
+  }
+
+  function replaceDeck(cards) {
+    var inSet = {};
+    cards.forEach(function (c) { inSet[c.id] = true; });
+    overlay = freshOverlay();
+    cards.forEach(function (c) {
+      if (baseIds[c.id]) overlay.edits[c.id] = clone(c); else overlay.added.push(clone(c));
+    });
+    base.forEach(function (c) { if (!inSet[c.id]) overlay.deleted[c.id] = true; });
+    overlay.order = cards.map(function (c) { return c.id; });
+    saveOverlay(); buildDeck();
+  }
+
+  // ---------------------------------------------------------------- theme
+  var sunSvg = '<svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></svg>';
+  var moonSvg = '<svg viewBox="0 0 24 24"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"/></svg>';
+  function applyTheme(t) {
+    document.documentElement.dataset.theme = t;
+    $("themeBtn").innerHTML = t === "dark" ? sunSvg : moonSvg;
+    var m = document.querySelector('meta[name="theme-color"]');
+    if (m) m.setAttribute("content", t === "dark" ? "#000000" : "#f5f5f7");
+  }
+  $("themeBtn").addEventListener("click", function () {
+    var t = document.documentElement.dataset.theme === "dark" ? "light" : "dark";
+    save(KEY.theme, t); applyTheme(t);
+  });
+  if (window.matchMedia) {
+    matchMedia("(prefers-color-scheme: dark)").addEventListener("change", function (e) {
+      var saved = load(KEY.theme, null);
+      if (saved !== "light" && saved !== "dark") applyTheme(e.matches ? "dark" : "light");
+    });
+  }
+  applyTheme(document.documentElement.dataset.theme);
+
+  // ---------------------------------------------------------------- play
+  function shuffle(a) {
+    for (var i = a.length - 1; i > 0; i--) {
+      var j = Math.floor(Math.random() * (i + 1)), t = a[i]; a[i] = a[j]; a[j] = t;
+    }
+    return a;
+  }
+
+  function categories(filterFn) {
+    var seen = {}, out = [];
+    deck.forEach(function (c) {
+      var k = c.category.trim();
+      if (k && !seen[k] && (!filterFn || filterFn(c))) { seen[k] = true; out.push(k); }
+    });
+    return out.sort(function (a, b) { return a.localeCompare(b); });
+  }
+
+  function fillCatSelect() {
+    var sel = $("catSelect"), cats = categories(playable);
+    if (catFilter && cats.indexOf(catFilter) < 0) catFilter = "";
+    sel.innerHTML = "";
+    var all = document.createElement("option"); all.value = ""; all.textContent = "All categories"; sel.appendChild(all);
+    cats.forEach(function (c) {
+      var o = document.createElement("option"); o.value = c; o.textContent = c.charAt(0).toUpperCase() + c.slice(1); sel.appendChild(o);
+    });
+    sel.value = catFilter;
+  }
+
+  function rebuildQueue() {
+    queue = shuffle(deck.filter(function (c) {
+      return playable(c) && (!catFilter || c.category.trim() === catFilter);
+    }).map(function (c) { return c.id; }));
+    pos = 0; sessionGot = {}; gotCount = 0; dirty = false;
+    renderCard();
+  }
+
+  function renderCard(dir) {
+    var card = $("card"), n = queue.length;
+    card.className = "card"; card.innerHTML = "";
+    var done = n > 0 && pos >= n;
+
+    if (n === 0) {
+      card.classList.add("empty");
+      card.innerHTML = "<p>No cards to play.<br>Add some in settings.</p>";
+    } else if (done) {
+      card.classList.add("done");
+      var h = document.createElement("h2"); h.textContent = "Done, you got " + gotCount + " of " + n;
+      var b = document.createElement("button"); b.type = "button"; b.className = "pill primary"; b.textContent = "Play again";
+      b.addEventListener("click", rebuildQueue);
+      card.appendChild(h); card.appendChild(b);
+    } else {
+      var c = byId[queue[pos]];
+      card.style.setProperty("--cat", catColor(c.category));
+      var cat = document.createElement("div"); cat.className = "cat"; cat.textContent = c.category;
+      var ul = document.createElement("ul");
+      c.associations.forEach(function (a) {
+        if (!a.trim()) return;
+        var li = document.createElement("li"); li.textContent = a; ul.appendChild(li);
+      });
+      var rule = document.createElement("div"); rule.className = "rule";
+      var ans = document.createElement("div"); ans.className = "answer"; ans.textContent = c.word;
+      card.appendChild(cat); card.appendChild(ul); card.appendChild(rule); card.appendChild(ans);
+      var yes = document.createElement("div"); yes.className = "stamp yes"; yes.setAttribute("aria-hidden", "true");
+      yes.innerHTML = '<svg viewBox="0 0 24 24"><path d="M5 12l5 5L20 7"/></svg>';
+      var no = document.createElement("div"); no.className = "stamp no"; no.setAttribute("aria-hidden", "true");
+      no.innerHTML = '<svg viewBox="0 0 24 24"><path d="M6 6l12 12M18 6L6 18"/></svg>';
+      card.appendChild(yes); card.appendChild(no);
+    }
+    card.style.transform = ""; card.style.transition = "";
+
+    $("counter").textContent = n === 0 ? "" : done ? "Done · " + gotCount + " got"
+      : (pos + 1) + " of " + n + " · " + gotCount + " got";
+    $("backBtn").disabled = n === 0 || pos === 0;
+    $("nextBtn").disabled = n === 0 || done;
+    $("skipBtn").disabled = n === 0 || done;
+    $("gotBtn").disabled = n === 0 || done;
+
+    if (dir && !reduceMotion && card.animate) {
+      card.animate([{ transform: "translateX(" + (dir * 36) + "px)", opacity: 0 }, { transform: "none", opacity: 1 }],
+        { duration: 180, easing: "ease-out" });
+    }
+  }
+
+  function record(got) {
+    var id = queue[pos]; if (!id) return;
+    var s = stats[id] || { seen: 0, got: 0, last_seen: null };
+    s.seen++; if (got) s.got++;
+    s.last_seen = new Date().toISOString();
+    stats[id] = s; save(KEY.stats, stats);
+    if (got && !sessionGot[id]) { sessionGot[id] = true; gotCount++; }
+  }
+  function go(delta) {
+    var np = pos + delta;
+    if (np < 0 || np > queue.length || !queue.length) return;
+    pos = np; renderCard(delta);
+  }
+  function score(got) {
+    if (!queue.length || pos >= queue.length) return;
+    record(got); go(1);
+  }
+
+  $("skipBtn").addEventListener("click", function () { score(false); });
+  $("gotBtn").addEventListener("click", function () { score(true); });
+  $("backBtn").addEventListener("click", function () { go(-1); });
+  $("nextBtn").addEventListener("click", function () { go(1); });
+  $("shuffleBtn").addEventListener("click", rebuildQueue);
+  $("catSelect").addEventListener("change", function (e) {
+    catFilter = e.target.value; save(KEY.cat, catFilter); rebuildQueue();
+  });
+
+  // Tinder-style swipe: drag the card right = Got it, left = Skip.
+  var drag = null;
+  function dragLive() {
+    var c = $("card");
+    return !c.classList.contains("done") && !c.classList.contains("empty") && queue.length && pos < queue.length;
+  }
+  function setDrag(dx, dy) {
+    var c = $("card"), p = Math.min(Math.abs(dx) / 100, 1);
+    c.style.transform = "translate(" + dx + "px," + dy * 0.3 + "px) rotate(" + dx / 18 + "deg)";
+    var yes = c.querySelector(".stamp.yes"), no = c.querySelector(".stamp.no");
+    if (yes) yes.style.opacity = dx > 0 ? p : 0;
+    if (no) no.style.opacity = dx < 0 ? p : 0;
+  }
+  $("card").addEventListener("pointerdown", function (e) {
+    if (!dragLive() || e.target.closest("button")) return;
+    drag = { x: e.clientX, y: e.clientY, dx: 0, id: e.pointerId };
+    $("card").style.transition = "none";
+    try { $("card").setPointerCapture(e.pointerId); } catch (err) {}
+  });
+  $("card").addEventListener("pointermove", function (e) {
+    if (!drag || e.pointerId !== drag.id) return;
+    drag.dx = e.clientX - drag.x;
+    setDrag(drag.dx, e.clientY - drag.y);
+  });
+  function endDrag(e) {
+    if (!drag || e.pointerId !== drag.id) return;
+    var dx = drag.dx, c = $("card"); drag = null;
+    if (e.type !== "pointercancel" && Math.abs(dx) > 90) {
+      var got = dx > 0;
+      if (reduceMotion) { score(got); return; }
+      setDrag(dx, 0);
+      c.style.transition = "transform .2s ease-in, opacity .2s";
+      c.style.transform = "translate(" + (got ? 500 : -500) + "px,0) rotate(" + (got ? 25 : -25) + "deg)";
+      c.style.opacity = "0";
+      setTimeout(function () { c.style.opacity = ""; score(got); }, 190);
+    } else {
+      c.style.transition = reduceMotion ? "none" : "transform .2s ease-out";
+      c.style.transform = "";
+      c.querySelectorAll(".stamp").forEach(function (s) { s.style.opacity = 0; });
+    }
+  }
+  $("card").addEventListener("pointerup", endDrag);
+  $("card").addEventListener("pointercancel", endDrag);
+
+  document.addEventListener("keydown", function (e) {
+    if (e.key === "Escape" && !$("settings").hidden) { location.hash = "#play"; return; }
+    if ($("play").hidden) return;
+    if (e.target.closest && e.target.closest("input, textarea, select")) return;
+    if (e.key === "ArrowRight") go(1);
+    else if (e.key === "ArrowLeft") go(-1);
+  });
+
+  // ---------------------------------------------------------------- settings: table
+  var sortKey = null, sortDir = 1;
+  var armedDelete = null, armedTimer = null;
+
+  function gotOf(id) { return stats[id] || { seen: 0, got: 0 }; }
+
+  function renderSummary() {
+    var cats = categories(), cut = deck.filter(function (c) { return overlay.cut[c.id]; }).length;
+    $("setSummary").textContent = deck.length + " cards, " + cats.length + " categories" + (cut ? " · " + cut + " cut" : "");
+  }
+
+  function fillFilters() {
+    var cur = $("fCat").value, cats = categories();
+    $("fCat").innerHTML = '<option value="">All categories</option>';
+    cats.forEach(function (c) {
+      var o = document.createElement("option"); o.value = c; o.textContent = c; $("fCat").appendChild(o);
+    });
+    $("fCat").value = cats.indexOf(cur) >= 0 ? cur : "";
+    $("catList").innerHTML = "";
+    cats.forEach(function (c) {
+      var o = document.createElement("option"); o.value = c; $("catList").appendChild(o);
+    });
+  }
+
+  var HEADS = [
+    { label: "Word", key: "word", cls: "col-word" },
+    { label: "Category", key: "category", cls: "col-cat" },
+    { label: "Lvl", key: "level", cls: "col-lvl" },
+    { label: "Clue 1", cls: "col-clue" }, { label: "Clue 2", cls: "col-clue" }, { label: "Clue 3", cls: "col-clue" },
+    { label: "Clue 4", cls: "col-clue" }, { label: "Clue 5", cls: "col-clue" },
+    { label: "Got", key: "got", cls: "col-got" },
+    { label: "Cut", cls: "col-act" }, { label: "", cls: "col-act" }
+  ];
+  function renderHead() {
+    var tr = $("thead"); tr.innerHTML = "";
+    HEADS.forEach(function (h) {
+      var th = document.createElement("th"); th.className = h.cls;
+      if (h.key) {
+        var b = document.createElement("button"); b.type = "button"; b.dataset.key = h.key;
+        b.textContent = h.label + (sortKey === h.key ? (sortDir > 0 ? " ▲" : " ▼") : "");
+        th.setAttribute("aria-sort", sortKey === h.key ? (sortDir > 0 ? "ascending" : "descending") : "none");
+        th.appendChild(b);
+      } else if (h.label) { var s = document.createElement("span"); s.className = "h"; s.textContent = h.label; th.appendChild(s); }
+      tr.appendChild(th);
+    });
+  }
+
+  function cell(child, cls) {
+    var td = document.createElement("td"); if (cls) td.className = cls; td.appendChild(child); return td;
+  }
+  function input(value, field, label, idx) {
+    var i = document.createElement("input"); i.type = "text"; i.value = value; i.dataset.f = field;
+    if (idx !== undefined) i.dataset.i = idx;
+    i.setAttribute("aria-label", label); i.autocomplete = "off"; i.spellcheck = false;
+    return i;
+  }
+
+  function makeRow(c) {
+    var tr = document.createElement("tr"); tr.dataset.id = c.id;
+    tr.style.setProperty("--cat", catColor(c.category));
+    if (overlay.cut[c.id]) tr.classList.add("cut");
+    tr.appendChild(cell(input(c.word, "word", "Word")));
+    var ci = input(c.category, "category", "Category"); ci.setAttribute("list", "catList");
+    tr.appendChild(cell(ci));
+    var sel = document.createElement("select"); sel.dataset.f = "level"; sel.setAttribute("aria-label", "Level");
+    [1, 2, 3].forEach(function (l) {
+      var o = document.createElement("option"); o.value = l; o.textContent = l; sel.appendChild(o);
+    });
+    sel.value = c.level; tr.appendChild(cell(sel));
+    for (var k = 0; k < 5; k++) tr.appendChild(cell(input(c.associations[k] || "", "clue", "Clue " + (k + 1), k)));
+    var g = gotOf(c.id);
+    tr.appendChild(cell(document.createTextNode(g.got + " / " + g.seen), "num"));
+    var cut = document.createElement("button"); cut.type = "button"; cut.dataset.act = "cut";
+    cut.textContent = overlay.cut[c.id] ? "Keep" : "Cut";
+    cut.setAttribute("aria-label", (overlay.cut[c.id] ? "Keep " : "Cut ") + (c.word || "card"));
+    tr.appendChild(cell(cut, "act"));
+    var del = document.createElement("button"); del.type = "button"; del.dataset.act = "del"; del.className = "del";
+    del.textContent = armedDelete === c.id ? "Sure?" : "Delete";
+    if (armedDelete === c.id) del.classList.add("armed");
+    del.setAttribute("aria-label", "Delete " + (c.word || "card"));
+    tr.appendChild(cell(del, "act"));
+    return tr;
+  }
+
+  function visibleCards() {
+    var q = $("q").value.trim().toLowerCase(), fc = $("fCat").value, fl = $("fLvl").value;
+    var list = deck.filter(function (c) {
+      if (fc && c.category.trim() !== fc) return false;
+      if (fl && String(c.level) !== fl) return false;
+      if (q) {
+        var hay = (c.word + " " + c.category + " " + c.associations.join(" ")).toLowerCase();
+        if (hay.indexOf(q) < 0) return false;
+      }
+      return true;
+    });
+    if (sortKey) {
+      list = list.map(function (c, i) { return { c: c, i: i }; }).sort(function (a, b) {
+        var x, y;
+        if (sortKey === "got") { x = gotOf(a.c.id).got; y = gotOf(b.c.id).got; }
+        else if (sortKey === "level") { x = a.c.level; y = b.c.level; }
+        else { x = a.c[sortKey].toLowerCase(); y = b.c[sortKey].toLowerCase(); }
+        return (x < y ? -1 : x > y ? 1 : a.i - b.i) * sortDir;
+      }).map(function (o) { return o.c; });
+    }
+    return list;
+  }
+
+  function renderTable() {
+    renderHead(); fillFilters(); renderSummary();
+    var tb = $("tbody"); tb.innerHTML = "";
+    var list = visibleCards();
+    if (!list.length) {
+      var tr = document.createElement("tr"), td = document.createElement("td");
+      td.colSpan = HEADS.length; td.className = "empty-note"; td.textContent = "No cards match.";
+      tr.appendChild(td); tb.appendChild(tr); return;
+    }
+    var frag = document.createDocumentFragment();
+    list.forEach(function (c) { frag.appendChild(makeRow(c)); });
+    tb.appendChild(frag);
+  }
+
+  $("thead").addEventListener("click", function (e) {
+    var b = e.target.closest("button[data-key]"); if (!b) return;
+    var k = b.dataset.key;
+    if (sortKey !== k) { sortKey = k; sortDir = 1; }
+    else if (sortDir === 1) sortDir = -1;
+    else { sortKey = null; sortDir = 1; }
+    renderTable();
+    var nb = document.querySelector('#thead button[data-key="' + k + '"]'); if (nb) nb.focus();
+  });
+  ["q", "fCat", "fLvl"].forEach(function (id) {
+    $(id).addEventListener(id === "q" ? "input" : "change", renderTable);
+  });
+  $("compact").checked = !!load(KEY.compact, false);
+  $("tableWrap").classList.toggle("compact", $("compact").checked);
+  $("compact").addEventListener("change", function () {
+    save(KEY.compact, $("compact").checked); $("tableWrap").classList.toggle("compact", $("compact").checked);
+  });
+
+  function onEdit(e) {
+    var el = e.target, tr = el.closest("tr"); if (!tr || !el.dataset.f) return;
+    var c = byId[tr.dataset.id]; if (!c) return;
+    var f = el.dataset.f;
+    if (f === "clue") c.associations[+el.dataset.i] = el.value;
+    else if (f === "level") c.level = parseInt(el.value, 10);
+    else c[f] = el.value;
+    if (f === "category") tr.style.setProperty("--cat", catColor(el.value));
+    persistCard(c);
+    if (f === "category" && e.type === "change") { fillFilters(); renderSummary(); }
+    if (f === "word") renderSummary();
+  }
+  $("tbody").addEventListener("input", onEdit);
+  $("tbody").addEventListener("change", onEdit);
+
+  $("tbody").addEventListener("click", function (e) {
+    var b = e.target.closest("button[data-act]"); if (!b) return;
+    var tr = b.closest("tr"), id = tr.dataset.id, c = byId[id]; if (!c) return;
+    if (b.dataset.act === "cut") {
+      if (overlay.cut[id]) delete overlay.cut[id]; else overlay.cut[id] = true;
+      saveOverlay(); renderTable();
+    } else {
+      if (armedDelete !== id) {
+        armedDelete = id; clearTimeout(armedTimer);
+        armedTimer = setTimeout(function () { armedDelete = null; renderTable(); }, 3000);
+        b.textContent = "Sure?"; b.classList.add("armed");
+      } else {
+        clearTimeout(armedTimer); armedDelete = null;
+        if (baseIds[id]) overlay.deleted[id] = true;
+        else overlay.added = overlay.added.filter(function (a) { return a.id !== id; });
+        delete overlay.edits[id]; delete overlay.cut[id];
+        saveOverlay(); buildDeck(); renderTable();
+      }
+    }
+  });
+
+  $("addBtn").addEventListener("click", function () {
+    var c = { id: "card_" + Date.now().toString(36), word: "", category: $("fCat").value, level: 1, associations: ["", "", "", "", ""] };
+    overlay.added.push(clone(c)); saveOverlay(); buildDeck();
+    $("q").value = ""; $("fLvl").value = "";
+    renderTable();
+    var row = document.querySelector('#tbody tr[data-id="' + c.id + '"]');
+    if (row) { row.scrollIntoView({ block: "nearest" }); row.querySelector("input").focus(); }
+  });
+
+  // ---------------------------------------------------------------- settings: export / import
+  function setStatus(id, msg, err) {
+    var el = $(id); el.textContent = msg; el.classList.toggle("err", !!err);
+  }
+  function copy(text, statusId, what) {
+    function fallback() {
+      var ta = document.createElement("textarea"); ta.value = text; ta.style.position = "fixed"; ta.style.opacity = "0";
+      document.body.appendChild(ta); ta.select();
+      var ok = false; try { ok = document.execCommand("copy"); } catch (e) {}
+      document.body.removeChild(ta);
+      setStatus(statusId, ok ? what + " copied." : "Could not copy.", !ok);
+    }
+    if (navigator.clipboard && navigator.clipboard.writeText) {
+      navigator.clipboard.writeText(text).then(function () { setStatus(statusId, what + " copied."); }, fallback);
+    } else fallback();
+  }
+  $("copyCsv").addEventListener("click", function () {
+    var cards = exportCards(); copy(toCSV(cards), "exportStatus", "CSV (" + cards.length + " cards)");
+  });
+  $("copyJson").addEventListener("click", function () {
+    var cards = exportCards(); copy(toJSON(cards), "exportStatus", "JSON (" + cards.length + " cards)");
+  });
+
+  var importPending = null;
+  function disarmImport() { importPending = null; $("importBtn").textContent = "Replace deck"; $("importBtn").classList.remove("armed"); }
+  $("importText").addEventListener("input", function () { disarmImport(); setStatus("importStatus", ""); });
+  $("importBtn").addEventListener("click", function () {
+    if (importPending) {
+      replaceDeck(importPending); var n = importPending.length;
+      disarmImport(); $("importText").value = "";
+      setStatus("importStatus", "Deck replaced with " + n + " cards.");
+      renderSummary(); return;
+    }
+    try {
+      importPending = parseDeck($("importText").value);
+      $("importBtn").textContent = "Tap again to replace with " + importPending.length + " cards";
+      $("importBtn").classList.add("armed");
+      setStatus("importStatus", "Looks good. This replaces every card in the deck.");
+    } catch (err) { disarmImport(); setStatus("importStatus", err.message, true); }
+  });
+
+  var restoreTimer = null;
+  $("restoreBtn").addEventListener("click", function () {
+    var b = $("restoreBtn");
+    if (!b.classList.contains("armed")) {
+      b.classList.add("armed"); b.textContent = "Tap again to restore";
+      clearTimeout(restoreTimer);
+      restoreTimer = setTimeout(function () { b.classList.remove("armed"); b.textContent = "Restore starter cards"; }, 4000);
+      return;
+    }
+    clearTimeout(restoreTimer); b.classList.remove("armed"); b.textContent = "Restore starter cards";
+    overlay = freshOverlay(); saveOverlay(); buildDeck();
+    setStatus("restoreStatus", "Starter cards restored (" + deck.length + " cards)."); renderSummary();
+  });
+
+  // ---------------------------------------------------------------- routing
+  function route() {
+    var h = location.hash.replace("#", "");
+    var inSettings = h === "table" || h === "export";
+    $("play").hidden = inSettings;
+    $("settings").hidden = !inSettings;
+    if (inSettings) {
+      $("tabTable").setAttribute("aria-selected", h === "table");
+      $("tabExport").setAttribute("aria-selected", h === "export");
+      $("paneTable").hidden = h !== "table";
+      $("paneExport").hidden = h !== "export";
+      renderSummary();
+      if (h === "table") renderTable();
+      window.scrollTo(0, 0);
+    } else {
+      if (dirty) { fillCatSelect(); rebuildQueue(); }
+      else renderCard();
+    }
+  }
+  window.addEventListener("hashchange", route);
+
+  // ---------------------------------------------------------------- boot
+  fetch("words.json").then(function (r) {
+    if (!r.ok) throw new Error("HTTP " + r.status);
+    return r.json();
+  }).then(function (cards) {
+    base = cards; cards.forEach(function (c) { baseIds[c.id] = true; });
+    buildDeck(); fillCatSelect(); route();
+  }).catch(function () {
+    $("card").classList.add("empty");
+    $("card").innerHTML = "<p>Could not load the cards.<br>Reload while online once.</p>";
+  });
+
+  if ("serviceWorker" in navigator) {
+    window.addEventListener("load", function () { navigator.serviceWorker.register("sw.js").catch(function () {}); });
+  }
+})();
+</script>
+</body>
+</html>

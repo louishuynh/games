@@ -1,0 +1,103 @@
+id,word,category,level,clue1,clue2,clue3,clue4,clue5
+platypus_animals,platypus,animals,3,Australia,duck,webbed,eggs,monotreme
+octopus_animals,octopus,animals,2,tentacles,ocean,ink,eight,camouflage
+owl_animals,owl,animals,1,hoot,night,feathers,nocturnal,wise
+kangaroo_animals,kangaroo,animals,1,pouch,hop,joey,Australia,marsupial
+chameleon_animals,chameleon,animals,2,lizard,colour,camouflage,tongue,tropical
+penguin_animals,penguin,animals,1,Antarctica,waddle,flightless,ice,tuxedo
+elephant_animals,elephant,animals,1,trunk,tusks,enormous,herd,memory
+butterfly_animals,butterfly,animals,2,caterpillar,chrysalis,wings,metamorphosis,nectar
+dolphin_animals,dolphin,animals,2,ocean,pod,echolocation,flipper,clicks
+koala_animals,koala,animals,1,eucalyptus,marsupial,sleepy,fluffy,Australia
+telescope_space,telescope,space,2,stars,lens,observatory,magnify,astronomer
+astronaut_space,astronaut,space,1,rocket,helmet,spacesuit,orbit,weightless
+planet_space,planet,space,1,orbit,Jupiter,sun,round,solar
+comet_space,comet,space,2,tail,ice,orbit,Halley,streak
+galaxy_space,galaxy,space,2,stars,Milky,spiral,billions,universe
+gravity_space,gravity,space,2,Newton,apple,fall,force,weight
+eclipse_space,eclipse,space,2,moon,shadow,sun,solar,darkness
+rocket_space,rocket,space,1,launch,blast,countdown,fuel,space
+moon_space,moon,space,1,crater,night,phases,tide,orbit
+meteor_space,meteor,space,3,shooting,star,streak,burn,atmosphere
+volcano_nature,volcano,nature,2,lava,erupt,magma,crater,ash
+tornado_nature,tornado,nature,2,twister,funnel,wind,spinning,storm
+rainbow_nature,rainbow,nature,1,colours,arc,prism,sky,storm
+glacier_nature,glacier,nature,3,ice,frozen,slowly,valley,melting
+rainforest_nature,rainforest,nature,2,Amazon,jungle,canopy,tropical,humid
+waterfall_nature,waterfall,nature,1,cliff,cascade,river,plunge,mist
+desert_nature,desert,nature,1,sand,camel,dunes,oasis,dry
+lightning_nature,lightning,nature,1,thunder,bolt,flash,storm,electricity
+coral_reef_nature,coral reef,nature,2,ocean,snorkel,colourful,tropical,polyps
+earthquake_nature,earthquake,nature,2,tremor,shake,fault,tectonic,Richter
+skeleton_body,skeleton,body,1,bones,skull,Halloween,rattle,ribs
+heart_body,heart,body,1,beat,pump,blood,chest,Valentine
+lungs_body,lungs,body,1,breathe,oxygen,chest,inhale,air
+brain_body,brain,body,1,thinking,skull,memory,neurons,intelligent
+stomach_body,stomach,body,1,digest,food,rumble,acid,tummy
+muscle_body,muscle,body,1,strong,flex,biceps,gym,strength
+blood_body,blood,body,2,red,veins,plasma,cells,donate
+tongue_body,tongue,body,1,taste,lick,mouth,speak,buds
+fingerprint_body,fingerprint,body,2,unique,detective,ridges,thumb,ink
+spine_body,spine,body,2,backbone,vertebrae,back,nerves,posture
+avocado_food,avocado,food,2,green,guacamole,toast,pit,creamy
+spaghetti_food,spaghetti,food,1,pasta,noodles,Italy,sauce,twirl
+pancake_food,pancake,food,1,flip,syrup,breakfast,batter,stack
+watermelon_food,watermelon,food,1,seeds,summer,juicy,slice,rind
+honey_food,honey,food,1,bees,sweet,sticky,comb,golden
+chocolate_food,chocolate,food,1,cocoa,melt,sweet,bar,Easter
+sushi_food,sushi,food,2,Japan,rice,seaweed,raw,chopsticks
+popcorn_food,popcorn,food,1,kernels,cinema,butter,movie,salty
+dumpling_food,dumpling,food,2,steamed,dough,filling,Chinese,wrapper
+broccoli_food,broccoli,food,1,green,tree,vegetable,florets,steam
+continent_geography,continent,geography,2,Asia,Africa,landmass,seven,Antarctica
+equator_geography,equator,geography,2,line,hemisphere,tropics,latitude,middle
+capital_city_geography,capital city,geography,2,government,Canberra,country,Paris,main
+island_geography,island,geography,1,surrounded,water,Tasmania,beach,palm
+peninsula_geography,peninsula,geography,3,almost,surrounded,sea,Italy,jutting
+mount_everest_geography,Mount Everest,geography,2,tallest,Himalayas,Nepal,climb,summit
+nile_geography,Nile,geography,2,river,Egypt,longest,Africa,pyramids
+compass_geography,compass,geography,1,north,needle,direction,navigate,magnetic
+pyramid_history,pyramid,history,1,Egypt,pharaoh,tomb,Giza,triangle
+pharaoh_history,pharaoh,history,2,Egypt,king,mummy,tomb,Tutankhamun
+knight_history,knight,history,1,armour,castle,sword,horse,chivalry
+castle_history,castle,history,1,moat,drawbridge,king,fortress,tower
+gladiator_history,gladiator,history,2,arena,Colosseum,fight,Rome,combat
+explorer_history,explorer,history,2,discover,voyage,maps,Columbus,unknown
+printing_press_history,printing press,history,3,Gutenberg,books,ink,type,invention
+archaeologist_history,archaeologist,history,3,dig,ancient,fossils,artefacts,ruins
+uluru_australia,Uluru,australia,2,rock,red,sacred,Anangu,outback
+boomerang_australia,boomerang,australia,1,throw,return,curved,Aboriginal,wood
+sydney_opera_house_australia,Sydney Opera House,australia,1,sails,harbour,concert,Bennelong,white
+great_barrier_reef_australia,Great Barrier Reef,australia,2,coral,Queensland,snorkel,fish,UNESCO
+southern_cross_australia,Southern Cross,australia,3,stars,constellation,flag,night,navigate
+bushfire_australia,bushfire,australia,2,flames,summer,smoke,embers,evacuate
+wombat_australia,wombat,australia,2,burrow,marsupial,cube,stocky,nocturnal
+didgeridoo_australia,didgeridoo,australia,3,instrument,drone,Aboriginal,wooden,breathing
+enormous_language,enormous,language,2,huge,giant,vast,immense,colossal
+synonym_language,synonym,language,3,same,meaning,thesaurus,word,similar
+antonym_language,antonym,language,3,opposite,contrast,hot,cold,meaning
+idiom_language,idiom,language,3,expression,figurative,cat,raining,phrase
+metaphor_language,metaphor,language,3,comparison,figurative,simile,poetry,imagery
+simile_language,simile,language,3,like,as,comparison,figurative,metaphor
+prefix_language,prefix,language,3,beginning,affix,attached,unhappy,word
+alliteration_language,alliteration,language,3,repeated,sounds,tongue,twister,letters
+onomatopoeia_language,onomatopoeia,language,3,sound,buzz,bang,splash,words
+homophone_language,homophone,language,3,sound,there,their,spelling,same
+perimeter_maths,perimeter,maths,2,around,edge,fence,length,distance
+area_maths,area,maths,2,square,covering,surface,units,space
+fraction_maths,fraction,maths,2,part,half,numerator,pizza,whole
+symmetry_maths,symmetry,maths,2,mirror,fold,butterfly,reflection,identical
+angle_maths,angle,maths,2,degrees,corner,protractor,right,turn
+multiply_maths,multiply,maths,2,times,product,groups,tables,repeated
+factor_maths,factor,maths,3,divides,multiply,product,prime,number
+parallel_maths,parallel,maths,2,lines,railway,distance,never,meet
+average_maths,average,maths,3,mean,typical,middle,total,divide
+probability_maths,probability,maths,3,chance,likely,dice,coin,odds
+pattern_thinking,pattern,thinking,1,repeat,sequence,design,stripes,predict
+sequence_thinking,sequence,thinking,2,order,series,next,steps,chain
+analogy_thinking,analogy,thinking,3,comparison,relationship,similar,puzzle,like
+inference_thinking,inference,thinking,3,clues,conclude,hint,reading,evidence
+evidence_thinking,evidence,thinking,3,proof,detective,facts,support,clue
+cause_and_effect_thinking,cause and effect,thinking,3,because,result,reason,consequence,why
+main_idea_thinking,main idea,thinking,3,topic,point,summary,paragraph,central
+odd_one_out_thinking,odd one out,thinking,2,different,belong,group,spot,mismatch

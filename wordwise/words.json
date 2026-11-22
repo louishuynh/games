@@ -1,0 +1,1328 @@
+[
+ {
+  "id": "platypus_animals",
+  "word": "platypus",
+  "category": "animals",
+  "level": 3,
+  "associations": [
+   "Australia",
+   "duck",
+   "webbed",
+   "eggs",
+   "monotreme"
+  ]
+ },
+ {
+  "id": "octopus_animals",
+  "word": "octopus",
+  "category": "animals",
+  "level": 2,
+  "associations": [
+   "tentacles",
+   "ocean",
+   "ink",
+   "eight",
+   "camouflage"
+  ]
+ },
+ {
+  "id": "owl_animals",
+  "word": "owl",
+  "category": "animals",
+  "level": 1,
+  "associations": [
+   "hoot",
+   "night",
+   "feathers",
+   "nocturnal",
+   "wise"
+  ]
+ },
+ {
+  "id": "kangaroo_animals",
+  "word": "kangaroo",
+  "category": "animals",
+  "level": 1,
+  "associations": [
+   "pouch",
+   "hop",
+   "joey",
+   "Australia",
+   "marsupial"
+  ]
+ },
+ {
+  "id": "chameleon_animals",
+  "word": "chameleon",
+  "category": "animals",
+  "level": 2,
+  "associations": [
+   "lizard",
+   "colour",
+   "camouflage",
+   "tongue",
+   "tropical"
+  ]
+ },
+ {
+  "id": "penguin_animals",
+  "word": "penguin",
+  "category": "animals",
+  "level": 1,
+  "associations": [
+   "Antarctica",
+   "waddle",
+   "flightless",
+   "ice",
+   "tuxedo"
+  ]
+ },
+ {
+  "id": "elephant_animals",
+  "word": "elephant",
+  "category": "animals",
+  "level": 1,
+  "associations": [
+   "trunk",
+   "tusks",
+   "enormous",
+   "herd",
+   "memory"
+  ]
+ },
+ {
+  "id": "butterfly_animals",
+  "word": "butterfly",
+  "category": "animals",
+  "level": 2,
+  "associations": [
+   "caterpillar",
+   "chrysalis",
+   "wings",
+   "metamorphosis",
+   "nectar"
+  ]
+ },
+ {
+  "id": "dolphin_animals",
+  "word": "dolphin",
+  "category": "animals",
+  "level": 2,
+  "associations": [
+   "ocean",
+   "pod",
+   "echolocation",
+   "flipper",
+   "clicks"
+  ]
+ },
+ {
+  "id": "koala_animals",
+  "word": "koala",
+  "category": "animals",
+  "level": 1,
+  "associations": [
+   "eucalyptus",
+   "marsupial",
+   "sleepy",
+   "fluffy",
+   "Australia"
+  ]
+ },
+ {
+  "id": "telescope_space",
+  "word": "telescope",
+  "category": "space",
+  "level": 2,
+  "associations": [
+   "stars",
+   "lens",
+   "observatory",
+   "magnify",
+   "astronomer"
+  ]
+ },
+ {
+  "id": "astronaut_space",
+  "word": "astronaut",
+  "category": "space",
+  "level": 1,
+  "associations": [
+   "rocket",
+   "helmet",
+   "spacesuit",
+   "orbit",
+   "weightless"
+  ]
+ },
+ {
+  "id": "planet_space",
+  "word": "planet",
+  "category": "space",
+  "level": 1,
+  "associations": [
+   "orbit",
+   "Jupiter",
+   "sun",
+   "round",
+   "solar"
+  ]
+ },
+ {
+  "id": "comet_space",
+  "word": "comet",
+  "category": "space",
+  "level": 2,
+  "associations": [
+   "tail",
+   "ice",
+   "orbit",
+   "Halley",
+   "streak"
+  ]
+ },
+ {
+  "id": "galaxy_space",
+  "word": "galaxy",
+  "category": "space",
+  "level": 2,
+  "associations": [
+   "stars",
+   "Milky",
+   "spiral",
+   "billions",
+   "universe"
+  ]
+ },
+ {
+  "id": "gravity_space",
+  "word": "gravity",
+  "category": "space",
+  "level": 2,
+  "associations": [
+   "Newton",
+   "apple",
+   "fall",
+   "force",
+   "weight"
+  ]
+ },
+ {
+  "id": "eclipse_space",
+  "word": "eclipse",
+  "category": "space",
+  "level": 2,
+  "associations": [
+   "moon",
+   "shadow",
+   "sun",
+   "solar",
+   "darkness"
+  ]
+ },
+ {
+  "id": "rocket_space",
+  "word": "rocket",
+  "category": "space",
+  "level": 1,
+  "associations": [
+   "launch",
+   "blast",
+   "countdown",
+   "fuel",
+   "space"
+  ]
+ },
+ {
+  "id": "moon_space",
+  "word": "moon",
+  "category": "space",
+  "level": 1,
+  "associations": [
+   "crater",
+   "night",
+   "phases",
+   "tide",
+   "orbit"
+  ]
+ },
+ {
+  "id": "meteor_space",
+  "word": "meteor",
+  "category": "space",
+  "level": 3,
+  "associations": [
+   "shooting",
+   "star",
+   "streak",
+   "burn",
+   "atmosphere"
+  ]
+ },
+ {
+  "id": "volcano_nature",
+  "word": "volcano",
+  "category": "nature",
+  "level": 2,
+  "associations": [
+   "lava",
+   "erupt",
+   "magma",
+   "crater",
+   "ash"
+  ]
+ },
+ {
+  "id": "tornado_nature",
+  "word": "tornado",
+  "category": "nature",
+  "level": 2,
+  "associations": [
+   "twister",
+   "funnel",
+   "wind",
+   "spinning",
+   "storm"
+  ]
+ },
+ {
+  "id": "rainbow_nature",
+  "word": "rainbow",
+  "category": "nature",
+  "level": 1,
+  "associations": [
+   "colours",
+   "arc",
+   "prism",
+   "sky",
+   "storm"
+  ]
+ },
+ {
+  "id": "glacier_nature",
+  "word": "glacier",
+  "category": "nature",
+  "level": 3,
+  "associations": [
+   "ice",
+   "frozen",
+   "slowly",
+   "valley",
+   "melting"
+  ]
+ },
+ {
+  "id": "rainforest_nature",
+  "word": "rainforest",
+  "category": "nature",
+  "level": 2,
+  "associations": [
+   "Amazon",
+   "jungle",
+   "canopy",
+   "tropical",
+   "humid"
+  ]
+ },
+ {
+  "id": "waterfall_nature",
+  "word": "waterfall",
+  "category": "nature",
+  "level": 1,
+  "associations": [
+   "cliff",
+   "cascade",
+   "river",
+   "plunge",
+   "mist"
+  ]
+ },
+ {
+  "id": "desert_nature",
+  "word": "desert",
+  "category": "nature",
+  "level": 1,
+  "associations": [
+   "sand",
+   "camel",
+   "dunes",
+   "oasis",
+   "dry"
+  ]
+ },
+ {
+  "id": "lightning_nature",
+  "word": "lightning",
+  "category": "nature",
+  "level": 1,
+  "associations": [
+   "thunder",
+   "bolt",
+   "flash",
+   "storm",
+   "electricity"
+  ]
+ },
+ {
+  "id": "coral_reef_nature",
+  "word": "coral reef",
+  "category": "nature",
+  "level": 2,
+  "associations": [
+   "ocean",
+   "snorkel",
+   "colourful",
+   "tropical",
+   "polyps"
+  ]
+ },
+ {
+  "id": "earthquake_nature",
+  "word": "earthquake",
+  "category": "nature",
+  "level": 2,
+  "associations": [
+   "tremor",
+   "shake",
+   "fault",
+   "tectonic",
+   "Richter"
+  ]
+ },
+ {
+  "id": "skeleton_body",
+  "word": "skeleton",
+  "category": "body",
+  "level": 1,
+  "associations": [
+   "bones",
+   "skull",
+   "Halloween",
+   "rattle",
+   "ribs"
+  ]
+ },
+ {
+  "id": "heart_body",
+  "word": "heart",
+  "category": "body",
+  "level": 1,
+  "associations": [
+   "beat",
+   "pump",
+   "blood",
+   "chest",
+   "Valentine"
+  ]
+ },
+ {
+  "id": "lungs_body",
+  "word": "lungs",
+  "category": "body",
+  "level": 1,
+  "associations": [
+   "breathe",
+   "oxygen",
+   "chest",
+   "inhale",
+   "air"
+  ]
+ },
+ {
+  "id": "brain_body",
+  "word": "brain",
+  "category": "body",
+  "level": 1,
+  "associations": [
+   "thinking",
+   "skull",
+   "memory",
+   "neurons",
+   "intelligent"
+  ]
+ },
+ {
+  "id": "stomach_body",
+  "word": "stomach",
+  "category": "body",
+  "level": 1,
+  "associations": [
+   "digest",
+   "food",
+   "rumble",
+   "acid",
+   "tummy"
+  ]
+ },
+ {
+  "id": "muscle_body",
+  "word": "muscle",
+  "category": "body",
+  "level": 1,
+  "associations": [
+   "strong",
+   "flex",
+   "biceps",
+   "gym",
+   "strength"
+  ]
+ },
+ {
+  "id": "blood_body",
+  "word": "blood",
+  "category": "body",
+  "level": 2,
+  "associations": [
+   "red",
+   "veins",
+   "plasma",
+   "cells",
+   "donate"
+  ]
+ },
+ {
+  "id": "tongue_body",
+  "word": "tongue",
+  "category": "body",
+  "level": 1,
+  "associations": [
+   "taste",
+   "lick",
+   "mouth",
+   "speak",
+   "buds"
+  ]
+ },
+ {
+  "id": "fingerprint_body",
+  "word": "fingerprint",
+  "category": "body",
+  "level": 2,
+  "associations": [
+   "unique",
+   "detective",
+   "ridges",
+   "thumb",
+   "ink"
+  ]
+ },
+ {
+  "id": "spine_body",
+  "word": "spine",
+  "category": "body",
+  "level": 2,
+  "associations": [
+   "backbone",
+   "vertebrae",
+   "back",
+   "nerves",
+   "posture"
+  ]
+ },
+ {
+  "id": "avocado_food",
+  "word": "avocado",
+  "category": "food",
+  "level": 2,
+  "associations": [
+   "green",
+   "guacamole",
+   "toast",
+   "pit",
+   "creamy"
+  ]
+ },
+ {
+  "id": "spaghetti_food",
+  "word": "spaghetti",
+  "category": "food",
+  "level": 1,
+  "associations": [
+   "pasta",
+   "noodles",
+   "Italy",
+   "sauce",
+   "twirl"
+  ]
+ },
+ {
+  "id": "pancake_food",
+  "word": "pancake",
+  "category": "food",
+  "level": 1,
+  "associations": [
+   "flip",
+   "syrup",
+   "breakfast",
+   "batter",
+   "stack"
+  ]
+ },
+ {
+  "id": "watermelon_food",
+  "word": "watermelon",
+  "category": "food",
+  "level": 1,
+  "associations": [
+   "seeds",
+   "summer",
+   "juicy",
+   "slice",
+   "rind"
+  ]
+ },
+ {
+  "id": "honey_food",
+  "word": "honey",
+  "category": "food",
+  "level": 1,
+  "associations": [
+   "bees",
+   "sweet",
+   "sticky",
+   "comb",
+   "golden"
+  ]
+ },
+ {
+  "id": "chocolate_food",
+  "word": "chocolate",
+  "category": "food",
+  "level": 1,
+  "associations": [
+   "cocoa",
+   "melt",
+   "sweet",
+   "bar",
+   "Easter"
+  ]
+ },
+ {
+  "id": "sushi_food",
+  "word": "sushi",
+  "category": "food",
+  "level": 2,
+  "associations": [
+   "Japan",
+   "rice",
+   "seaweed",
+   "raw",
+   "chopsticks"
+  ]
+ },
+ {
+  "id": "popcorn_food",
+  "word": "popcorn",
+  "category": "food",
+  "level": 1,
+  "associations": [
+   "kernels",
+   "cinema",
+   "butter",
+   "movie",
+   "salty"
+  ]
+ },
+ {
+  "id": "dumpling_food",
+  "word": "dumpling",
+  "category": "food",
+  "level": 2,
+  "associations": [
+   "steamed",
+   "dough",
+   "filling",
+   "Chinese",
+   "wrapper"
+  ]
+ },
+ {
+  "id": "broccoli_food",
+  "word": "broccoli",
+  "category": "food",
+  "level": 1,
+  "associations": [
+   "green",
+   "tree",
+   "vegetable",
+   "florets",
+   "steam"
+  ]
+ },
+ {
+  "id": "continent_geography",
+  "word": "continent",
+  "category": "geography",
+  "level": 2,
+  "associations": [
+   "Asia",
+   "Africa",
+   "landmass",
+   "seven",
+   "Antarctica"
+  ]
+ },
+ {
+  "id": "equator_geography",
+  "word": "equator",
+  "category": "geography",
+  "level": 2,
+  "associations": [
+   "line",
+   "hemisphere",
+   "tropics",
+   "latitude",
+   "middle"
+  ]
+ },
+ {
+  "id": "capital_city_geography",
+  "word": "capital city",
+  "category": "geography",
+  "level": 2,
+  "associations": [
+   "government",
+   "Canberra",
+   "country",
+   "Paris",
+   "main"
+  ]
+ },
+ {
+  "id": "island_geography",
+  "word": "island",
+  "category": "geography",
+  "level": 1,
+  "associations": [
+   "surrounded",
+   "water",
+   "Tasmania",
+   "beach",
+   "palm"
+  ]
+ },
+ {
+  "id": "peninsula_geography",
+  "word": "peninsula",
+  "category": "geography",
+  "level": 3,
+  "associations": [
+   "almost",
+   "surrounded",
+   "sea",
+   "Italy",
+   "jutting"
+  ]
+ },
+ {
+  "id": "mount_everest_geography",
+  "word": "Mount Everest",
+  "category": "geography",
+  "level": 2,
+  "associations": [
+   "tallest",
+   "Himalayas",
+   "Nepal",
+   "climb",
+   "summit"
+  ]
+ },
+ {
+  "id": "nile_geography",
+  "word": "Nile",
+  "category": "geography",
+  "level": 2,
+  "associations": [
+   "river",
+   "Egypt",
+   "longest",
+   "Africa",
+   "pyramids"
+  ]
+ },
+ {
+  "id": "compass_geography",
+  "word": "compass",
+  "category": "geography",
+  "level": 1,
+  "associations": [
+   "north",
+   "needle",
+   "direction",
+   "navigate",
+   "magnetic"
+  ]
+ },
+ {
+  "id": "pyramid_history",
+  "word": "pyramid",
+  "category": "history",
+  "level": 1,
+  "associations": [
+   "Egypt",
+   "pharaoh",
+   "tomb",
+   "Giza",
+   "triangle"
+  ]
+ },
+ {
+  "id": "pharaoh_history",
+  "word": "pharaoh",
+  "category": "history",
+  "level": 2,
+  "associations": [
+   "Egypt",
+   "king",
+   "mummy",
+   "tomb",
+   "Tutankhamun"
+  ]
+ },
+ {
+  "id": "knight_history",
+  "word": "knight",
+  "category": "history",
+  "level": 1,
+  "associations": [
+   "armour",
+   "castle",
+   "sword",
+   "horse",
+   "chivalry"
+  ]
+ },
+ {
+  "id": "castle_history",
+  "word": "castle",
+  "category": "history",
+  "level": 1,
+  "associations": [
+   "moat",
+   "drawbridge",
+   "king",
+   "fortress",
+   "tower"
+  ]
+ },
+ {
+  "id": "gladiator_history",
+  "word": "gladiator",
+  "category": "history",
+  "level": 2,
+  "associations": [
+   "arena",
+   "Colosseum",
+   "fight",
+   "Rome",
+   "combat"
+  ]
+ },
+ {
+  "id": "explorer_history",
+  "word": "explorer",
+  "category": "history",
+  "level": 2,
+  "associations": [
+   "discover",
+   "voyage",
+   "maps",
+   "Columbus",
+   "unknown"
+  ]
+ },
+ {
+  "id": "printing_press_history",
+  "word": "printing press",
+  "category": "history",
+  "level": 3,
+  "associations": [
+   "Gutenberg",
+   "books",
+   "ink",
+   "type",
+   "invention"
+  ]
+ },
+ {
+  "id": "archaeologist_history",
+  "word": "archaeologist",
+  "category": "history",
+  "level": 3,
+  "associations": [
+   "dig",
+   "ancient",
+   "fossils",
+   "artefacts",
+   "ruins"
+  ]
+ },
+ {
+  "id": "uluru_australia",
+  "word": "Uluru",
+  "category": "australia",
+  "level": 2,
+  "associations": [
+   "rock",
+   "red",
+   "sacred",
+   "Anangu",
+   "outback"
+  ]
+ },
+ {
+  "id": "boomerang_australia",
+  "word": "boomerang",
+  "category": "australia",
+  "level": 1,
+  "associations": [
+   "throw",
+   "return",
+   "curved",
+   "Aboriginal",
+   "wood"
+  ]
+ },
+ {
+  "id": "sydney_opera_house_australia",
+  "word": "Sydney Opera House",
+  "category": "australia",
+  "level": 1,
+  "associations": [
+   "sails",
+   "harbour",
+   "concert",
+   "Bennelong",
+   "white"
+  ]
+ },
+ {
+  "id": "great_barrier_reef_australia",
+  "word": "Great Barrier Reef",
+  "category": "australia",
+  "level": 2,
+  "associations": [
+   "coral",
+   "Queensland",
+   "snorkel",
+   "fish",
+   "UNESCO"
+  ]
+ },
+ {
+  "id": "southern_cross_australia",
+  "word": "Southern Cross",
+  "category": "australia",
+  "level": 3,
+  "associations": [
+   "stars",
+   "constellation",
+   "flag",
+   "night",
+   "navigate"
+  ]
+ },
+ {
+  "id": "bushfire_australia",
+  "word": "bushfire",
+  "category": "australia",
+  "level": 2,
+  "associations": [
+   "flames",
+   "summer",
+   "smoke",
+   "embers",
+   "evacuate"
+  ]
+ },
+ {
+  "id": "wombat_australia",
+  "word": "wombat",
+  "category": "australia",
+  "level": 2,
+  "associations": [
+   "burrow",
+   "marsupial",
+   "cube",
+   "stocky",
+   "nocturnal"
+  ]
+ },
+ {
+  "id": "didgeridoo_australia",
+  "word": "didgeridoo",
+  "category": "australia",
+  "level": 3,
+  "associations": [
+   "instrument",
+   "drone",
+   "Aboriginal",
+   "wooden",
+   "breathing"
+  ]
+ },
+ {
+  "id": "enormous_language",
+  "word": "enormous",
+  "category": "language",
+  "level": 2,
+  "associations": [
+   "huge",
+   "giant",
+   "vast",
+   "immense",
+   "colossal"
+  ]
+ },
+ {
+  "id": "synonym_language",
+  "word": "synonym",
+  "category": "language",
+  "level": 3,
+  "associations": [
+   "same",
+   "meaning",
+   "thesaurus",
+   "word",
+   "similar"
+  ]
+ },
+ {
+  "id": "antonym_language",
+  "word": "antonym",
+  "category": "language",
+  "level": 3,
+  "associations": [
+   "opposite",
+   "contrast",
+   "hot",
+   "cold",
+   "meaning"
+  ]
+ },
+ {
+  "id": "idiom_language",
+  "word": "idiom",
+  "category": "language",
+  "level": 3,
+  "associations": [
+   "expression",
+   "figurative",
+   "cat",
+   "raining",
+   "phrase"
+  ]
+ },
+ {
+  "id": "metaphor_language",
+  "word": "metaphor",
+  "category": "language",
+  "level": 3,
+  "associations": [
+   "comparison",
+   "figurative",
+   "simile",
+   "poetry",
+   "imagery"
+  ]
+ },
+ {
+  "id": "simile_language",
+  "word": "simile",
+  "category": "language",
+  "level": 3,
+  "associations": [
+   "like",
+   "as",
+   "comparison",
+   "figurative",
+   "metaphor"
+  ]
+ },
+ {
+  "id": "prefix_language",
+  "word": "prefix",
+  "category": "language",
+  "level": 3,
+  "associations": [
+   "beginning",
+   "affix",
+   "attached",
+   "unhappy",
+   "word"
+  ]
+ },
+ {
+  "id": "alliteration_language",
+  "word": "alliteration",
+  "category": "language",
+  "level": 3,
+  "associations": [
+   "repeated",
+   "sounds",
+   "tongue",
+   "twister",
+   "letters"
+  ]
+ },
+ {
+  "id": "onomatopoeia_language",
+  "word": "onomatopoeia",
+  "category": "language",
+  "level": 3,
+  "associations": [
+   "sound",
+   "buzz",
+   "bang",
+   "splash",
+   "words"
+  ]
+ },
+ {
+  "id": "homophone_language",
+  "word": "homophone",
+  "category": "language",
+  "level": 3,
+  "associations": [
+   "sound",
+   "there",
+   "their",
+   "spelling",
+   "same"
+  ]
+ },
+ {
+  "id": "perimeter_maths",
+  "word": "perimeter",
+  "category": "maths",
+  "level": 2,
+  "associations": [
+   "around",
+   "edge",
+   "fence",
+   "length",
+   "distance"
+  ]
+ },
+ {
+  "id": "area_maths",
+  "word": "area",
+  "category": "maths",
+  "level": 2,
+  "associations": [
+   "square",
+   "covering",
+   "surface",
+   "units",
+   "space"
+  ]
+ },
+ {
+  "id": "fraction_maths",
+  "word": "fraction",
+  "category": "maths",
+  "level": 2,
+  "associations": [
+   "part",
+   "half",
+   "numerator",
+   "pizza",
+   "whole"
+  ]
+ },
+ {
+  "id": "symmetry_maths",
+  "word": "symmetry",
+  "category": "maths",
+  "level": 2,
+  "associations": [
+   "mirror",
+   "fold",
+   "butterfly",
+   "reflection",
+   "identical"
+  ]
+ },
+ {
+  "id": "angle_maths",
+  "word": "angle",
+  "category": "maths",
+  "level": 2,
+  "associations": [
+   "degrees",
+   "corner",
+   "protractor",
+   "right",
+   "turn"
+  ]
+ },
+ {
+  "id": "multiply_maths",
+  "word": "multiply",
+  "category": "maths",
+  "level": 2,
+  "associations": [
+   "times",
+   "product",
+   "groups",
+   "tables",
+   "repeated"
+  ]
+ },
+ {
+  "id": "factor_maths",
+  "word": "factor",
+  "category": "maths",
+  "level": 3,
+  "associations": [
+   "divides",
+   "multiply",
+   "product",
+   "prime",
+   "number"
+  ]
+ },
+ {
+  "id": "parallel_maths",
+  "word": "parallel",
+  "category": "maths",
+  "level": 2,
+  "associations": [
+   "lines",
+   "railway",
+   "distance",
+   "never",
+   "meet"
+  ]
+ },
+ {
+  "id": "average_maths",
+  "word": "average",
+  "category": "maths",
+  "level": 3,
+  "associations": [
+   "mean",
+   "typical",
+   "middle",
+   "total",
+   "divide"
+  ]
+ },
+ {
+  "id": "probability_maths",
+  "word": "probability",
+  "category": "maths",
+  "level": 3,
+  "associations": [
+   "chance",
+   "likely",
+   "dice",
+   "coin",
+   "odds"
+  ]
+ },
+ {
+  "id": "pattern_thinking",
+  "word": "pattern",
+  "category": "thinking",
+  "level": 1,
+  "associations": [
+   "repeat",
+   "sequence",
+   "design",
+   "stripes",
+   "predict"
+  ]
+ },
+ {
+  "id": "sequence_thinking",
+  "word": "sequence",
+  "category": "thinking",
+  "level": 2,
+  "associations": [
+   "order",
+   "series",
+   "next",
+   "steps",
+   "chain"
+  ]
+ },
+ {
+  "id": "analogy_thinking",
+  "word": "analogy",
+  "category": "thinking",
+  "level": 3,
+  "associations": [
+   "comparison",
+   "relationship",
+   "similar",
+   "puzzle",
+   "like"
+  ]
+ },
+ {
+  "id": "inference_thinking",
+  "word": "inference",
+  "category": "thinking",
+  "level": 3,
+  "associations": [
+   "clues",
+   "conclude",
+   "hint",
+   "reading",
+   "evidence"
+  ]
+ },
+ {
+  "id": "evidence_thinking",
+  "word": "evidence",
+  "category": "thinking",
+  "level": 3,
+  "associations": [
+   "proof",
+   "detective",
+   "facts",
+   "support",
+   "clue"
+  ]
+ },
+ {
+  "id": "cause_and_effect_thinking",
+  "word": "cause and effect",
+  "category": "thinking",
+  "level": 3,
+  "associations": [
+   "because",
+   "result",
+   "reason",
+   "consequence",
+   "why"
+  ]
+ },
+ {
+  "id": "main_idea_thinking",
+  "word": "main idea",
+  "category": "thinking",
+  "level": 3,
+  "associations": [
+   "topic",
+   "point",
+   "summary",
+   "paragraph",
+   "central"
+  ]
+ },
+ {
+  "id": "odd_one_out_thinking",
+  "word": "odd one out",
+  "category": "thinking",
+  "level": 2,
+  "associations": [
+   "different",
+   "belong",
+   "group",
+   "spot",
+   "mismatch"
+  ]
+ }
+]

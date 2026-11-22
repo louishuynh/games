@@ -5,7 +5,9 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>Wordwise</title>
 <meta name="description" content="Read five clues aloud and guess the word.">
-<meta name="theme-color" content="#f5f5f7">
+<meta name="color-scheme" content="light dark">
+<meta name="theme-color" content="#f5f5f7" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#000000" media="(prefers-color-scheme: dark)">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-title" content="Wordwise">
@@ -96,11 +98,28 @@
 
   /* ---------- Play view ---------- */
   #play {
-    height: 100vh; height: 100dvh; display: flex; flex-direction: column; overflow-x: clip;
+    position: fixed; inset: 0; display: flex; flex-direction: column; overflow: hidden; background: var(--bg);
     padding: env(safe-area-inset-top) env(safe-area-inset-right) env(safe-area-inset-bottom) env(safe-area-inset-left);
   }
-  .topbar { display: flex; align-items: center; justify-content: space-between; gap: 8px; padding: 12px 16px; }
-  .topbar .right { display: flex; align-items: center; gap: 2px; }
+  .sheet .pill svg { width: 22px; height: 22px; fill: none; stroke: currentColor; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
+
+  /* Menu sheet (opened from the cog) */
+  .sheet-backdrop { position: fixed; inset: 0; background: rgba(0,0,0,.45); z-index: 10; }
+  .sheet {
+    position: fixed; left: 0; right: 0; bottom: 0; z-index: 11; margin: 0 auto; max-width: 520px;
+    background: var(--surface); border-radius: 24px 24px 0 0; box-shadow: var(--shadow);
+    padding: 20px 16px calc(20px + env(safe-area-inset-bottom)); display: grid; gap: 12px;
+  }
+  .sheet-row { display: grid; gap: 6px; }
+  .sheet-row.two { grid-template-columns: 1fr 1fr; gap: 10px; }
+  .sheet-label { font-size: 15px; font-weight: 600; color: var(--muted); }
+  .sheet .select-wrap { display: block; max-width: none; }
+  .sheet .select-wrap select { width: 100%; min-height: 52px; font-size: 19px; }
+  .sheet .pill { padding: 0 14px; }
+  @media (prefers-reduced-motion: no-preference) {
+    .sheet:not([hidden]) { animation: sheet-up .2s ease-out; }
+    @keyframes sheet-up { from { transform: translateY(40px); opacity: 0; } to { transform: none; opacity: 1; } }
+  }
 
   .select-wrap { position: relative; display: inline-block; max-width: 60vw; }
   .select-wrap::after {
@@ -116,7 +135,7 @@
 
   .stage {
     flex: 1; min-height: 0; display: flex; flex-direction: column; align-items: center;
-    gap: 14px; padding: 4px 16px 20px; touch-action: pan-y; user-select: none; -webkit-user-select: none;
+    gap: 14px; padding: 4px 8px 20px; touch-action: pan-y; user-select: none; -webkit-user-select: none;
   }
   /* The card takes all the room left over and keeps its 5:7 shape inside it. */
   .card-area {
@@ -128,10 +147,10 @@
     --cat: #8e8e93;
     --cat-text: var(--cat);
     container-type: inline-size;
-    width: min(100cqw, calc(100cqh * 5 / 7), 460px);
+    width: min(100cqw, calc(100cqh * 5 / 7), 520px);
     aspect-ratio: 5 / 7;
     background: var(--surface); border-radius: 22px; box-shadow: var(--shadow);
-    display: flex; flex-direction: column; padding: 8cqi 7cqi 7cqi; text-align: center;
+    display: flex; flex-direction: column; padding: 7cqi 5cqi 6cqi; text-align: center;
   }
   :root[data-theme="dark"] .card { --cat-text: color-mix(in srgb, var(--cat) 70%, #fff); }
   .card { position: relative; touch-action: none; cursor: grab; will-change: transform; }
@@ -147,7 +166,7 @@
     font-size: 4.4cqi; font-weight: 600; letter-spacing: .14em; text-transform: uppercase; color: var(--cat-text);
   }
   .card ul { flex: 1; list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; justify-content: center; gap: 2.2cqi; }
-  .card li, .card .answer { font-size: clamp(20px, 9.4cqi, 40px); font-weight: 600; line-height: 1.2; overflow-wrap: anywhere; }
+  .card li, .card .answer { font-size: clamp(22px, 10.4cqi, 48px); font-weight: 600; line-height: 1.2; overflow-wrap: anywhere; }
   .card .rule { height: 1px; background: var(--line); margin-bottom: 4.5cqi; }
   .card .answer { color: var(--cat-text); min-height: 2.5em; display: flex; align-items: center; justify-content: center; }
   .card.done { justify-content: center; align-items: center; gap: 24px; --cat-text: var(--text); }
@@ -237,21 +256,6 @@
 
 <!-- ======================= PLAY ======================= -->
 <main id="play">
-  <div class="topbar">
-    <span class="select-wrap">
-      <select id="catSelect" aria-label="Category"></select>
-    </span>
-    <div class="right">
-      <button class="icon-btn" id="shuffleBtn" type="button" aria-label="Shuffle" title="Shuffle">
-        <svg viewBox="0 0 24 24"><path d="M16 3h5v5M4 20 21 3M21 16v5h-5M15 15l6 6M4 4l5 5"/></svg>
-      </button>
-      <button class="icon-btn" id="themeBtn" type="button" aria-label="Toggle light or dark theme" title="Light / dark"></button>
-      <a class="icon-btn cog" href="#table" aria-label="Settings" title="Settings">
-        <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M12.22 2h-.44a2 2 0 0 0-2 2v.18a2 2 0 0 1-1 1.73l-.43.25a2 2 0 0 1-2 0l-.15-.08a2 2 0 0 0-2.73.73l-.22.38a2 2 0 0 0 .73 2.73l.15.1a2 2 0 0 1 1 1.72v.51a2 2 0 0 1-1 1.74l-.15.09a2 2 0 0 0-.73 2.73l.22.38a2 2 0 0 0 2.73.73l.15-.08a2 2 0 0 1 2 0l.43.25a2 2 0 0 1 1 1.73V20a2 2 0 0 0 2 2h.44a2 2 0 0 0 2-2v-.18a2 2 0 0 1 1-1.73l.43-.25a2 2 0 0 1 2 0l.15.08a2 2 0 0 0 2.73-.73l.22-.39a2 2 0 0 0-.73-2.73l-.15-.08a2 2 0 0 1-1-1.74v-.5a2 2 0 0 1 1-1.74l.15-.09a2 2 0 0 0 .73-2.73l-.22-.38a2 2 0 0 0-2.73-.73l-.15.08a2 2 0 0 1-2 0l-.43-.25a2 2 0 0 1-1-1.73V4a2 2 0 0 0-2-2z"/></svg>
-      </a>
-    </div>
-  </div>
-
   <div class="stage" id="stage">
     <div class="card-area"><article class="card" id="card" aria-live="polite"></article></div>
     <div class="controls">
@@ -260,7 +264,29 @@
       <button class="pill big primary" id="gotBtn" type="button">Got it</button>
       <button class="pill round" id="nextBtn" type="button" aria-label="Next card"><svg viewBox="0 0 24 24"><path d="M9 18l6-6-6-6"/></svg></button>
     </div>
-    <div class="counter" id="counter"></div>
+    <button class="icon-btn cog" id="menuBtn" type="button" aria-label="Menu" title="Menu" aria-haspopup="dialog">
+      <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M12.22 2h-.44a2 2 0 0 0-2 2v.18a2 2 0 0 1-1 1.73l-.43.25a2 2 0 0 1-2 0l-.15-.08a2 2 0 0 0-2.73.73l-.22.38a2 2 0 0 0 .73 2.73l.15.1a2 2 0 0 1 1 1.72v.51a2 2 0 0 1-1 1.74l-.15.09a2 2 0 0 0-.73 2.73l.22.38a2 2 0 0 0 2.73.73l.15-.08a2 2 0 0 1 2 0l.43.25a2 2 0 0 1 1 1.73V20a2 2 0 0 0 2 2h.44a2 2 0 0 0 2-2v-.18a2 2 0 0 1 1-1.73l.43-.25a2 2 0 0 1 2 0l.15.08a2 2 0 0 0 2.73-.73l.22-.39a2 2 0 0 0-.73-2.73l-.15-.08a2 2 0 0 1-1-1.74v-.5a2 2 0 0 1 1-1.74l.15-.09a2 2 0 0 0 .73-2.73l-.22-.38a2 2 0 0 0-2.73-.73l-.15.08a2 2 0 0 1-2 0l-.43-.25a2 2 0 0 1-1-1.73V4a2 2 0 0 0-2-2z"/></svg>
+    </button>
+  </div>
+
+  <!-- Menu: opened by the cog at the bottom -->
+  <div class="sheet-backdrop" id="menuBackdrop" hidden></div>
+  <div class="sheet" id="menu" role="dialog" aria-modal="true" aria-label="Menu" hidden>
+    <label class="sheet-row">
+      <span class="sheet-label">Category</span>
+      <span class="select-wrap"><select id="catSelect" aria-label="Category"></select></span>
+    </label>
+    <div class="sheet-row two">
+      <button class="pill" id="shuffleBtn" type="button">
+        <svg viewBox="0 0 24 24"><path d="M16 3h5v5M4 20 21 3M21 16v5h-5M15 15l6 6M4 4l5 5"/></svg>Shuffle
+      </button>
+      <button class="pill" id="themeBtn" type="button" aria-label="Toggle light or dark theme"></button>
+    </div>
+    <div class="sheet-row two">
+      <a class="pill" href="#table">Edit cards</a>
+      <a class="pill" href="#export">Export / import</a>
+    </div>
+    <button class="pill primary" id="menuDone" type="button">Done</button>
   </div>
 </main>
 
@@ -540,9 +566,11 @@
   var moonSvg = '<svg viewBox="0 0 24 24"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"/></svg>';
   function applyTheme(t) {
     document.documentElement.dataset.theme = t;
-    $("themeBtn").innerHTML = t === "dark" ? sunSvg : moonSvg;
-    var m = document.querySelector('meta[name="theme-color"]');
-    if (m) m.setAttribute("content", t === "dark" ? "#000000" : "#f5f5f7");
+    $("themeBtn").innerHTML = (t === "dark" ? sunSvg : moonSvg) + (t === "dark" ? "Light mode" : "Dark mode");
+    // One explicit theme-color (no media query) so the toggle wins over the system setting.
+    var metas = document.querySelectorAll('meta[name="theme-color"]');
+    for (var i = metas.length - 1; i > 0; i--) metas[i].parentNode.removeChild(metas[i]);
+    if (metas[0]) { metas[0].removeAttribute("media"); metas[0].setAttribute("content", t === "dark" ? "#000000" : "#f5f5f7"); }
   }
   $("themeBtn").addEventListener("click", function () {
     var t = document.documentElement.dataset.theme === "dark" ? "light" : "dark";
@@ -626,8 +654,6 @@
     }
     card.style.transform = ""; card.style.transition = "";
 
-    $("counter").textContent = n === 0 ? "" : done ? "Done · " + gotCount + " got"
-      : (pos + 1) + " of " + n + " · " + gotCount + " got";
     $("backBtn").disabled = n === 0 || pos === 0;
     $("nextBtn").disabled = n === 0 || done;
     $("skipBtn").disabled = n === 0 || done;
@@ -661,9 +687,22 @@
   $("gotBtn").addEventListener("click", function () { score(true); });
   $("backBtn").addEventListener("click", function () { go(-1); });
   $("nextBtn").addEventListener("click", function () { go(1); });
-  $("shuffleBtn").addEventListener("click", rebuildQueue);
+  // Menu sheet: category, shuffle, light/dark and the editor links live behind the cog.
+  function menuOpen() { return !$("menu").hidden; }
+  function openMenu() {
+    $("menu").hidden = false; $("menuBackdrop").hidden = false; $("catSelect").focus();
+  }
+  function closeMenu(refocus) {
+    if (!menuOpen()) return;
+    $("menu").hidden = true; $("menuBackdrop").hidden = true;
+    if (refocus) $("menuBtn").focus();
+  }
+  $("menuBtn").addEventListener("click", openMenu);
+  $("menuBackdrop").addEventListener("click", function () { closeMenu(true); });
+  $("menuDone").addEventListener("click", function () { closeMenu(true); });
+  $("shuffleBtn").addEventListener("click", function () { rebuildQueue(); closeMenu(true); });
   $("catSelect").addEventListener("change", function (e) {
-    catFilter = e.target.value; save(KEY.cat, catFilter); rebuildQueue();
+    catFilter = e.target.value; save(KEY.cat, catFilter); rebuildQueue(); closeMenu(true);
   });
 
   // Tinder-style swipe: drag the card right = Got it, left = Skip.
@@ -711,8 +750,9 @@
   $("card").addEventListener("pointercancel", endDrag);
 
   document.addEventListener("keydown", function (e) {
+    if (e.key === "Escape" && menuOpen()) { closeMenu(true); return; }
     if (e.key === "Escape" && !$("settings").hidden) { location.hash = "#play"; return; }
-    if ($("play").hidden) return;
+    if ($("play").hidden || menuOpen()) return;
     if (e.target.closest && e.target.closest("input, textarea, select")) return;
     if (e.key === "ArrowRight") go(1);
     else if (e.key === "ArrowLeft") go(-1);
@@ -961,6 +1001,7 @@
   function route() {
     var h = location.hash.replace("#", "");
     var inSettings = h === "table" || h === "export";
+    closeMenu(false);
     $("play").hidden = inSettings;
     $("settings").hidden = !inSettings;
     if (inSettings) {

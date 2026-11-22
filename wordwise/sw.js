@@ -1,6 +1,6 @@
 // Wordwise service worker: precache everything, then serve from cache
 // (stale-while-revalidate). Bump CACHE when shipping new assets or words.json.
-const CACHE = "wordwise-v7";
+const CACHE = "wordwise-v8";
 const ASSETS = [
   "./",
   "index.html",

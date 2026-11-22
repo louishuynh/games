@@ -173,15 +173,11 @@
   .card.done h2 { margin: 0; font-size: clamp(26px, 10cqi, 44px); line-height: 1.2; }
   .card.empty p { margin: auto 0; color: var(--muted); font-size: 20px; }
 
-  .controls { display: flex; align-items: center; gap: 10px; }
-  .controls .round { width: 56px; height: 56px; min-height: 56px; padding: 0; border-radius: 50%; }
-  .controls .big { min-width: 104px; min-height: 56px; }
-  .counter { font-size: 17px; color: var(--muted); font-variant-numeric: tabular-nums; min-height: 1.4em; }
-
-  @media (max-width: 380px) {
-    .controls { gap: 6px; }
-    .controls .big { min-width: 92px; padding: 0 16px; }
-  }
+  /* Full-width row: the arrows are big circles, Skip and Got it share the rest. */
+  .controls { display: grid; grid-template-columns: 72px 1fr 1fr 72px; align-items: center; gap: 8px; width: 100%; max-width: 520px; }
+  .controls .round { width: 72px; height: 72px; min-height: 72px; padding: 0; border-radius: 50%; }
+  .controls .round svg { width: 34px; height: 34px; stroke-width: 2.4; }
+  .controls .big { min-height: 72px; min-width: 0; padding: 0 8px; font-size: 24px; }
 
   /* ---------- Settings view ---------- */
   #settings {
